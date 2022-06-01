@@ -1,0 +1,93 @@
+* My Doom Emacs configuration.
+
+Like all standard Doom Emacs configurations, this consists of three files.
+
+1. init.el
+2. config.el
+3. packages.el
+
+Here is the key configuration in init.el
+
+** Listing stuff that I want to remember.
+
+*** Snippets
+
+Support is provided by yasnippets. Need to still figure out how it works in Doom
+Emacs.
+
+*** Dired
+
+I should learn to use Dired well. This is a fantastic way to use emacs and also
+get what I need.
+
+*** vterm
+
+This is fabulous. I can quickly open or close a terminal using the keyboard
+shortcut ~C-c o t~.
+
+*** syntax
+
+This is to enable a syntax checker in Emacs. The main key bindings are listed
+below.
+
+| Keybind | Description                 |
+| C-c ! ? | Describe Checker ]          |
+| C-c ! c | Check syntax in buffer      |
+| C-c ! l | List errors                 |
+| C-c ! n | Next Error                  |
+| C-c ! p | Previous error              |
+| C-c ! C | Clear all errors in buffer  |
+| C-c ! e | Explain error at point      |
+| C-c ! h | Display all errors at point |
+
+*** Eval
+
+A REPL can always be opened specific to the mode that is being used using the
+keyboard shortcut ~C-c o r~. In addition, the region can be sent to REPL using
+the keyboard shortcut ~C-c c s~.
+
+*** Lookup
+
+| Keybind | Description                          |
+| C-c c d | Lookup definition                    |
+| C-c c R | Lookup References.                   |
+| C-c c k | Lookup documentation.                |
+| C-c s k | Lookup Documentation in Dash docsets |
+|         |                                      |
+
+*** LSP
+
+LSP can be used to jump to definitions etc. Because of the lookup function, you
+can use =C-c c d= to jump to the definition.
+
+| Keybinding  | Description                  |
+| C-c c l g g | Jump to definition using LSP |
+| C-c c l G g | Peek definition              |
+|             |                              |
+
+*** Magit
+
+The one keyboard shortcut we need to remember for Magit is =C-x g=. With this
+one most of the features of magit will be available.
+
+The user manual for magit is available at [[info:magit#Top][Magit User Manual]]. A pretty good
+tutorial to help get started is at [[https://www.masteringemacs.org/article/introduction-magit-emacs-mode-git][Introduction to Magit]]. A further introduction
+to Magit 2.x is at [[https://www.masteringemacs.org/article/what-new-in-magit-2x][Magit 2.0]] .
+
+*** Treemacs
+
+Opening a Treemacs buffer on the side can be done using the keyboard shortcut
+=C-c o p=.
+
+** My custom packages
+
+*** Ctrlf
+More details at [[https://github.com/raxod502/ctrlf][CTRLF Home Page]]. Standard keybindings that we should be familiar
+with are
+
+| Keybinding | Description                                   |
+| C-s        | Forward default search                        |
+| C-r        | Backward default search                       |
+| C-M-s      | Forward search alternate - defaults to regexp |
+| C-M-r      | Backward search alternate - regexp            |
+| M-S _      | Forward search symbol                         |
