@@ -319,6 +319,18 @@
       deft-strip-summary-regexp ":PROPERTIES:\n\\(.+\n\\)+:END:\n"
       deft-use-filter-string-for-filename t)
 
+;; Consult notes for org-roam
+
+(use-package! consult-notes
+  :commands (
+  consult-notes-search-all
+  consult-notes-org-roam-find-node
+  consult-notes-org-roam-find-node-relation)
+:config
+;; set org-roam integration
+(consult-notes-org-roam-mode))
+
+
 ;; My Helper functions
 ;; Open an Eshell in the current directory.
 (defun eshell-here ()

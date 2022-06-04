@@ -67,3 +67,7 @@
 
 ;; W3m
 (package! w3m)
+
+;; Consult notes
+(package! consult-notes
+  :recipe (:host github :repo "mclear-tools/consult-notes"))
