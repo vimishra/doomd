@@ -467,3 +467,17 @@ Uses `current-date-time-format' for the formatting the date/time."
 
 ;; Winner mode
 (winner-mode +1)
+
+;; Make some keys equivalent to the evil mode.
+;; C-c SPC to open file in project
+(map! :leader
+      :desc "Switch buffer"                     "<"     #'switch-to-buffer
+      :desc "Search project"                    "/"     #'+default/search-project
+      :desc "Search for Symbol in project"      "*"     #'+default/search-project-for-symbol-at-point
+      :desc "Find File"                         "."     #'find-file
+      :desc "Org Capture"                       "x"     #'org-capture
+      :desc "Jump to Bookmark"                  "RET"   #'bookmark-jump
+      :desc "Pop up scratch buffer"             "X"     #'doom/open-scratch-buffer
+      :desc "Find file in project"              "SPC"   #'projectile-find-file
+      :desc "Resume last search"                "'"     #'vertico-repeat
+      )
