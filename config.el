@@ -205,9 +205,12 @@
 ;; Configuration for org mode and other allied modes
 ;; =================================================
 (after! org
-  (setq org-image-actual-width 800)
+  (setq org-image-actual-width 1500)
   ;; I want to open org link in other windows - not the same window.
   (setf (alist-get 'file org-link-frame-setup) #'find-file-other-window)
+
+  ;; I want to log when I mark a task as done
+  (setq org-log-done 'time)
 
   ;; Set my sequence of todo things
   (setq org-todo-keywords
@@ -323,13 +326,14 @@
 
 (use-package! consult-notes
   :commands (
-  consult-notes-search-all
+  consult-notes-search-in-all-notes
   consult-notes-org-roam-find-node
   consult-notes-org-roam-find-node-relation)
 :config
+(setq consult-notes-sources
+      '(("Org"             ?o "~/Documents/OrgNotes")))
 ;; set org-roam integration
 (consult-notes-org-roam-mode))
-
 
 ;; My Helper functions
 ;; Open an Eshell in the current directory.
@@ -471,6 +475,7 @@ Uses `current-date-time-format' for the formatting the date/time."
 ;; Make some keys equivalent to the evil mode.
 ;; C-c SPC to open file in project
 (map! :leader
+      :desc "Switch buffer within project"      ","     #'persp-switch-to-buffer
       :desc "Switch buffer"                     "<"     #'switch-to-buffer
       :desc "Search project"                    "/"     #'+default/search-project
       :desc "Search for Symbol in project"      "*"     #'+default/search-project-for-symbol-at-point
@@ -480,4 +485,11 @@ Uses `current-date-time-format' for the formatting the date/time."
       :desc "Pop up scratch buffer"             "X"     #'doom/open-scratch-buffer
       :desc "Find file in project"              "SPC"   #'projectile-find-file
       :desc "Resume last search"                "'"     #'vertico-repeat
-      )
+      ;; Create ID for the current entry
+      :desc "Create ID for current entry"       "n r o" #'org-id-get-create
+      ;; Add a tag
+      :desc "Add tags to the Node"              "n r A" #'org-roam-tag-add
+)
+
+(map! "s-t" 'org-roam-dailies-goto-today)
+(map! "s-u" 'consult-notes-search-in-all-notes)
