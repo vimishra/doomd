@@ -71,3 +71,14 @@
 ;; Consult notes
 (package! consult-notes
   :recipe (:host github :repo "mclear-tools/consult-notes"))
+
+(package! consult-org-roam)
+
+; Use org-modern package to make the Org mode look a little modern
+(package! org-modern)
+
+;; all-the-icons
+(package! all-the-icons)
+
+;; Org-ql
+(package! org-ql)

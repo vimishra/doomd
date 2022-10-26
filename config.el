@@ -9,7 +9,6 @@
 (setq user-full-name "Vikas Mishra"
       user-mail-address "vikas.mishra@hey.com"
       doom-scratch-initial-major-mode 'lisp-interaction-mode
-      org-ellipsis " ▼ "
       )
 
 
@@ -50,7 +49,10 @@
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-one)
 (custom-theme-set-faces! 'doom-one
-  '(default :background "#101114"))
+  '(default :background "#101114" :foreground "#bbc2cf"))
+
+(custom-set-faces!
+  `(org-modern-tag :foreground "#c678dd"))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -61,7 +63,8 @@
 (setq org-directory "~/Documents/OrgNotes/")
 
 ;; Auto enable auto-fill mode in org mode
-(add-hook 'org-mode-hook 'turn-on-auto-fill)
+(setq fill-column 150)
+                                        ; (add-hook 'org-mode-hook 'turn-on-auto-fill)
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -94,9 +97,6 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
-
-
-
 (custom-set-faces
  '(org-level-1 ((t (:inherit outline-1 :height 1.15))))
  '(org-level-2 ((t (:inherit outline-2 :height 1.1))))
@@ -108,8 +108,7 @@
 
 ;; Use debugpy for python debugging
 (after! dap-mode
-  (setq dap-python-debugger 'debugpy))
-
+   (setq dap-python-debugger 'debugpy))
 
 (after! lsp-mode
   (lsp-treemacs-sync-mode 1)
@@ -136,15 +135,12 @@
   ;; Don't show hidden files in treemacs.
   (setq treemacs-show-hidden-files nil))
 
-
 ;; Enable tabnine for company
 (after! company
   (setq +lsp-company-backends '(company-tabnine :separate company-capf company-yasnippet))
   (setq company-show-numbers t)
   (setq company-idle-delay 0)
   )
-
-
 
 ;; Enable windmove for quickly moving across windows
 (when (fboundp 'windmove-default-keybindings)
@@ -217,12 +213,9 @@
         '((sequence
            "NEXT(N)"  ; Task that's ready to be next. No dependencies
            "TODO(t)"  ; A task that needs doing & is ready to do
-           "PROJ(p)"  ; A project, which usually contains other tasks
-           "LOOP(r)"  ; A recurring task
-           "STRT(s)"  ; A task that is in progress
+           "INPROGRESS(i)"  ; A project, which usually contains other tasks
            "WAIT(w)"  ; Something external is holding up this task
            "HOLD(h)"  ; This task is paused/on hold because of me
-           "IDEA(i)"  ; An unconfirmed and unapproved task or notion
            "|"
            "DONE(d)"  ; Task successfully completed
            "KILL(k)") ; Task was cancelled, aborted or is no longer applicable
@@ -236,9 +229,97 @@
            "|"
            "OKAY(o)"
            "YES(y)"
-           "NO(n)"))
-        ))
+           "NO(n)")))
 
+  ;; Org Tags
+  (setq org-tag-alist '(
+                        ;; Meeting tags
+                        ("Team" . ?t)
+                        ("Laguna" . ?l)
+                        ("Redondo" . ?r)
+                        ("Newport" . ?n)
+                        ("Meeting". ?m)
+                        ("Planning" . ?p)
+
+                        ;; Work Log Tags
+                        ("accomplishment" . ?a)
+                        ))
+
+  ;; Tag colors
+  (setq org-tag-faces
+      '(
+        ("Team"  . (:foreground "mediumPurple1" :weight bold))
+        ("Laguna"   . (:foreground "royalblue1"    :weight bold))
+        ("Redondo"  . (:foreground "forest green"  :weight bold))
+        ("Newport"        . (:foreground "sienna"        :weight bold))
+        ("Meeting"   . (:foreground "yellow1"       :weight bold))
+        ("Planning" . (:foreground "Orange" :weight bold))
+        ("CRITICAL"  . (:foreground "red1"          :weight bold))
+        )
+      )
+  ;; My org-capture templates
+  (setq org-capture-templates
+        '(("t" "Personal todo" entry
+           (file+headline +org-capture-todo-file "Inbox")
+           "* TODO %?\n%i\n%a" :prepend t)
+          ("l" "Laguna Todos" entry
+           (file+headline "~/Documents/OrgNotes/Laguna_TODO.org" "Laguna TODOs")
+           "* TODO %?\n%i\n%a" :prepend t)
+          ("r" "Redondo Todos" entry
+           (file+headline "~/Documents/OrgNotes/Redondo_TODO.org" "Redondo TODOs")
+           "* TODO %?\n%i\n%a" :prepend t)
+          ("n" "Newport Todos" entry
+           (file+headline "~/Documents/OrgNotes/Newport_TODO.org" "Newport TODOs")
+           "* TODO %?\n%i\n%a" :prepend t)
+          ("i" "IP Team Todos" entry
+           (file+headline "~/Documents/OrgNotes/Team_TODO.org" "Team TODOs")
+           "* TODO %?\n%i\n%a" :prepend t)
+          ("m" "Meeting"
+           entry (file+datetree "~/Documents/OrgNotes/Meetings.org")
+           "* %? :meeting:%^g \n:Created: %T\n** Attendees\n+ \n** Notes\n+ \n** Action Items\n*** TODO [#A] "
+           :tree-type week
+           :clock-in t
+           :clock-resume t
+           :empty-lines 0)
+          ("j" "Journal" entry
+           (file+olp+datetree +org-capture-journal-file)
+           "* %U %?\n%i\n%a" :prepend t)))
+
+  ;; Enable global org-modern-mode
+  (setq
+   ;; Edit settings
+   org-auto-align-tags nil
+   org-tags-column 0
+   ;; org-modern-tag nil
+   org-catch-invisible-edits 'show-and-error
+   org-special-ctrl-a/e t
+   org-insert-heading-respect-content t
+
+   ;; Org styling, hide markup etc.
+   org-hide-emphasis-markers t
+   org-pretty-entities t
+   org-ellipsis " ▼ "
+   org-modern-star '("◉" "○" "◈" "◇" "◇" "◇" "*")
+   org-modern-priority nil
+
+   ;; Agenda styling
+   org-agenda-tags-column 0
+   org-agenda-block-separator ?─
+   org-agenda-time-grid
+   '((daily today require-timed)
+     (800 1000 1200 1400 1600 1800 2000)
+     " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
+   org-agenda-current-time-string
+   "⭠ now ─────────────────────────────────────────────────")
+  (global-org-modern-mode)
+  )
+
+;; Set some registers for critical files
+(set-register ?t (cons 'file "~/Documents/OrgNotes/todo.org"))
+(set-register ?l (cons 'file "~/Documents/OrgNotes/Laguna_TODO.org"))
+(set-register ?r (cons 'file "~/Documents/OrgNotes/Redondo_TODO.org"))
+(set-register ?n (cons 'file "~/Documents/OrgNotes/Newport_TODO.org"))
+(set-register ?i (cons 'file "~/Documents/OrgNotes/Team_TODO.org"))
 
 ;; Org Roam Custom Setup
 (after! org-roam
@@ -311,9 +392,31 @@
         org-roam-ui-update-on-save t
         org-roam-ui-open-on-start t))
 
+
+(use-package! consult-org-roam
+  :after org-roam
+  :ensure t
+  :init
+  ;; Require consult-org-roam
+  (require 'consult-org-roam)
+  ;; Activate the minor mode.
+  (consult-org-roam-mode 1)
+  :custom
+  (consult-org-roam-grep-func #'consult-ripgrep)
+  ;; Eventually suppress previewing for certain functions
+  (consult-customize
+   consult-org-roam-forward-links
+   :preview-key (kbd "M-."))
+  :bind
+  ("C-c n e" . consult-org-roam-file-find)
+  ("C-c n b" . consult-org-roam-backlinks)
+  ("C-c n g" . consult-org-roam-search))
+
+
 ;; Location for my custom emacs files.
-(use-package vm-agenda
-  :load-path "lisp")
+(use-package! vm-agenda
+  :load-path "/Users/vikmishra/.doom.d/lisp")
+
 
 
 ;; Deft for org mode
@@ -326,14 +429,14 @@
 
 (use-package! consult-notes
   :commands (
-  consult-notes-search-in-all-notes
-  consult-notes-org-roam-find-node
-  consult-notes-org-roam-find-node-relation)
-:config
-(setq consult-notes-sources
-      '(("Org"             ?o "~/Documents/OrgNotes")))
-;; set org-roam integration
-(consult-notes-org-roam-mode))
+             consult-notes-search-in-all-notes
+             consult-notes-org-roam-find-node
+             consult-notes-org-roam-find-node-relation)
+  :config
+  (setq consult-notes-sources
+        '(("Org"             ?o "~/Documents/OrgNotes")))
+  ;; set org-roam integration
+  (consult-notes-org-roam-mode))
 
 ;; My Helper functions
 ;; Open an Eshell in the current directory.
@@ -448,14 +551,18 @@ Uses `current-date-time-format' for the formatting the date/time."
 (defun insert-current-time ()
   "insert the current time (1-week scope) into the current buffer."
   (interactive)
+  (insert "*")
   (insert (format-time-string current-time-format (current-time)))
+  (insert "*")
   (insert " - ")
   )
 
 (defun insert-current-time-for-journal ()
   "insert the current time (1-week scope) into the current buffer."
   (interactive)
+  (insert "*")
   (insert (format-time-string current-time-format-journal (current-time)))
+  (insert "*")
   (insert " - ")
   )
 
@@ -489,7 +596,7 @@ Uses `current-date-time-format' for the formatting the date/time."
       :desc "Create ID for current entry"       "n r o" #'org-id-get-create
       ;; Add a tag
       :desc "Add tags to the Node"              "n r A" #'org-roam-tag-add
-)
+      )
 
 (map! "s-t" 'org-roam-dailies-goto-today)
 (map! "s-u" 'consult-notes-search-in-all-notes)
