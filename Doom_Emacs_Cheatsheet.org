@@ -5,7 +5,7 @@
 - Learn to use [[https://www.emacswiki.org/emacs/EmacsClient][emacsclient]] and set up a daemon, your Emacs experience will improve *a lot* and you'll save a lot of time.
 - Learn to use Emacs's inner file manager.
 - Try to avoid terminal version of emacs when possible.
-- =SPC h w= helps you find keyboard shortcuts for different commands, and =SPC h k= tells you how key combinations translate to emacs commands. 
+- =C-h w= helps you find keyboard shortcuts for different commands, and =C-h k= tells you how key combinations translate to emacs commands.
 - Github doesn't render org files very well. It's best that you [[https://raw.githubusercontent.com/niyumard/Doom-Emacs-Cheat-Sheet/main/README.org][download this file]] and open it in Emacs. If not possible, use the [[https://naghdbishi.ir/Doom-Emacs-Cheat-Sheet/README.html][html version]] made with [[https://github.com/fniessen/org-html-themes][org-html-themes]]
 * Command Abbreviations
 - =C= - "Control" key
@@ -13,18 +13,17 @@
 - =S= - "Super" or "Command" key
 - =SPC= - "Space" key
 * General
-- =SPC f s= for saving the current file
-- =SPC := for entering a command
-- =SPC q q= to close Emacs
-- =SPC f D= to delete this file
+- =C-x C-s= for saving the current file
+- =C-c q q= to close Emacs
+- =C-c f D= to delete this file
 * Projects with Projectile
-- =SPC p p= to open a project
-- =SPC SPC= to open a file in a project
-- =SPC o p= to open the file explorer
-- =SPC o E= to open the shell (eshell) in fullscreen
-- =SPC o e= to open the shell (eshell) in a popup window
-- =SPC f r= recently visited files
-- =SPC f R= recently visited files in a project
+- =C-c p p= to open a project
+- =C-c p f= to open a file in a project
+- =C-c o p= to open the file explorer
+- =C-c o E= to open the shell (eshell) in fullscreen
+- =C-c o e= to open the shell (eshell) in a popup window
+- =C-c f r= recently visited files
+- =C-c f R= recently visited files in a project
 - =M-x projectile-discover-projects-in-directory= to find projects
   within given folder using Projectile
 - =M-x projectile-discover-projects-in-search-path= to find projects in
