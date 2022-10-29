@@ -82,3 +82,7 @@
 
 ;; Org-ql
 (package! org-ql)
+
+;; Tomorrow Bright Color them
+(package! color-theme-sanityinc-tomorrow)
+

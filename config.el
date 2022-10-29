@@ -16,14 +16,14 @@
        ;; Linux - Especially Manjaro KDE
        ;; On Manjaro for some reason I need to setup a stupidly large font
        ;; Only then it is readable.
-       (setq doom-font (font-spec :family "Cascadia Code " :size 30))
+       (setq doom-font (font-spec :family "Cascadia Code " :size 40))
        (setq doom-variable-pitch-font (font-spec :family "Calibri" :size 30))
        )
       ((eq system-type 'darwin)
        ;; MacOS specific stuff
-       (setq doom-font (font-spec :family "CaskaydiaCove Nerd Font" :size 17))
+       (setq doom-font (font-spec :family "CaskaydiaCove Nerd Font" :size 18))
        (setq doom-variable-pitch-font (font-spec :family "Helvetica" :size 24))
-       (setq line-spacing 3)
+       (setq line-spacing 4)
        ))
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
@@ -47,9 +47,10 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
-(custom-theme-set-faces! 'doom-one
-  '(default :background "#101114" :foreground "#bbc2cf"))
+; (setq doom-theme 'doom-tomorrow-night)
+; (custom-theme-set-faces! 'doom-tomorrow-night
+;   '(default :background "#101114" :foreground "#eaeaea"))
+(load-theme 'sanityinc-tomorrow-bright t)
 
 (custom-set-faces!
   `(org-modern-tag :foreground "#c678dd"))
