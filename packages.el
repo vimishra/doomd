@@ -9,6 +9,10 @@
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)
 
+
+;; Beacon mode - this is really neat to make sure that you don't lose your cursor.
+(package! beacon)
+
 (package! applescript-mode)
 
 ;; Enable tabnine

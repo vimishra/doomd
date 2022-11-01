@@ -65,7 +65,7 @@
 
 ;; Auto enable auto-fill mode in org mode
 (setq fill-column 150)
-                                        ; (add-hook 'org-mode-hook 'turn-on-auto-fill)
+; (add-hook 'org-mode-hook 'turn-on-auto-fill)
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -98,14 +98,17 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
-(custom-set-faces
- '(org-level-1 ((t (:inherit outline-1 :height 1.15))))
- '(org-level-2 ((t (:inherit outline-2 :height 1.1))))
- '(org-level-3 ((t (:inherit outline-3 :height 1.0))))
- '(org-level-4 ((t (:inherit outline-4 :height 1.0)))))
+;; (custom-set-faces
+;;  '(org-level-1 ((t (:inherit outline-1 :height 1.15))))
+;;  '(org-level-2 ((t (:inherit outline-2 :height 1.1))))
+;;  '(org-level-3 ((t (:inherit outline-3 :height 1.0))))
+;;  '(org-level-4 ((t (:inherit outline-4 :height 1.0)))))
 
 ;; Use C-x C-m as M-x command
 (map! "C-x C-m" #'execute-extended-command)
+
+;; I like to use beacon mode to make sure I don't lose my cursor
+(beacon-mode 1)
 
 ;; Use debugpy for python debugging
 (after! dap-mode
@@ -289,9 +292,9 @@
   ;; Enable global org-modern-mode
   (setq
    ;; Edit settings
-   org-auto-align-tags nil
+   org-auto-align-tags t
    org-tags-column 0
-   ;; org-modern-tag nil
+   org-modern-tag nil
    org-catch-invisible-edits 'show-and-error
    org-special-ctrl-a/e t
    org-insert-heading-respect-content t
@@ -304,7 +307,7 @@
    org-modern-priority nil
 
    ;; Agenda styling
-   org-agenda-tags-column 0
+   ; org-agenda-tags-column auto
    org-agenda-block-separator ?─
    org-agenda-time-grid
    '((daily today require-timed)
@@ -422,8 +425,10 @@
 
 ;; Deft for org mode
 (setq deft-directory org-directory)
-(setq deft-recursive t
+(setq deft-recursive nil
+      deft-default-extension "org"
       deft-strip-summary-regexp ":PROPERTIES:\n\\(.+\n\\)+:END:\n"
+      deft-recursive-ignore-dir-regexp "\\(?:\\.\\|\\.\\.|daily\\)$"
       deft-use-filter-string-for-filename t)
 
 ;; Consult notes for org-roam
@@ -601,3 +606,9 @@ Uses `current-date-time-format' for the formatting the date/time."
 
 (map! "s-t" 'org-roam-dailies-goto-today)
 (map! "s-u" 'consult-notes-search-in-all-notes)
+
+;; Add icon to doom modeline
+(use-package! doom-modeline
+  :config
+  (setq doom-modeline-major-mode-icon t)
+  )
