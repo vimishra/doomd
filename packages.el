@@ -9,15 +9,6 @@
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)
 
-
-;; Beacon mode - this is really neat to make sure that you don't lose your cursor.
-(package! beacon)
-
-(package! applescript-mode)
-
-;; Enable tabnine
-(package! company-tabnine)
-
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
 ;; https://github.com/raxod502/straight.el#the-recipe-format
@@ -49,7 +40,6 @@
 ;; Use `:pin' to specify a particular commit to install.
 ;(package! builtin-package :pin "1a2b3c4d5e")
 
-
 ;; Doom's packages are pinned to a specific commit and updated from release to
 ;; release. The `unpin!' macro allows you to unpin single packages...
 ;(unpin! pinned-package)
@@ -57,13 +47,29 @@
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
+;
 
-;; Enable org roam UI
+;; ---------------------------------
+;; Vikas's custom packager additions
+;; ---------------------------------
+;; Beacon mode to highlight the line
+(package! beacon)
+;; Tabnine based AI completion backend for company
+(package! company-tabnine)
+
+;; Org and Org related packages to make org mode more effective.
+;; Enable org-roam-ui, this needs the latest version of org-roam and so we need to unpin the version
+;; that doom has chosen
 (unpin! org-roam)
 (package! org-roam-ui)
-
-;; Other packages based on recommmendations
-;(package! ctrlf)
+;; Consult notes
+(package! consult-notes
+  :recipe (:host github :repo "mclear-tools/consult-notes"))
+(package! consult-org-roam)
+; Use org-modern package to make the Org mode look a little modern
+(package! org-modern)
+;; Org-ql
+(package! org-ql)
 
 ;; I like tree-sitter
 (package! tree-sitter)
@@ -72,21 +78,9 @@
 ;; W3m
 (package! w3m)
 
-;; Consult notes
-(package! consult-notes
-  :recipe (:host github :repo "mclear-tools/consult-notes"))
-
-(package! consult-org-roam)
-
-; Use org-modern package to make the Org mode look a little modern
-(package! org-modern)
-
 ;; all-the-icons
 (package! all-the-icons)
 
-;; Org-ql
-(package! org-ql)
-
-;; Tomorrow Bright Color them
+;; Tomorrow Bright Color them - my favorite color theme
 (package! color-theme-sanityinc-tomorrow)
 
