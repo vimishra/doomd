@@ -11,6 +11,22 @@
       doom-scratch-initial-major-mode 'lisp-interaction-mode
       )
 
+;; Doom exposes five (optional) variables for controlling fonts in Doom:
+;;
+;; - `doom-font' -- the primary font to use
+;; - `doom-variable-pitch-font' -- a non-monospace font (where applicable)
+;; - `doom-big-font' -- used for `doom-big-font-mode'; use this for
+;;   presentations or streaming.
+;; - `doom-unicode-font' -- for unicode glyphs
+;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
+;;
+;; See 'C-h v doom-font' for documentation and more examples of what they
+;; accept. For example:
+;;
+;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
+;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
+;; refresh your font settings. If Emacs still can't find your font, it likely
+;; wasn't installed correctly. Font issues are rarely Doom issues!
 
 (cond ((eq system-type 'gnu/linux)
        ;; Linux - Especially Manjaro KDE
@@ -26,34 +42,11 @@
        (setq line-spacing 4)
        ))
 
-;; Doom exposes five (optional) variables for controlling fonts in Doom:
-;;
-;; - `doom-font' -- the primary font to use
-;; - `doom-variable-pitch-font' -- a non-monospace font (where applicable)
-;; - `doom-big-font' -- used for `doom-big-font-mode'; use this for
-;;   presentations or streaming.
-;; - `doom-unicode-font' -- for unicode glyphs
-;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
-;;
-;; See 'C-h v doom-font' for documentation and more examples of what they
-;; accept. For example:
-
-
-;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
-;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
-;; refresh your font settings. If Emacs still can't find your font, it likely
-;; wasn't installed correctly. Font issues are rarely Doom issues!
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-; (setq doom-theme 'doom-tomorrow-night)
-; (custom-theme-set-faces! 'doom-tomorrow-night
-;   '(default :background "#101114" :foreground "#eaeaea"))
 (load-theme 'sanityinc-tomorrow-bright t)
-
-(custom-set-faces!
-  `(org-modern-tag :foreground "#c678dd"))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -66,6 +59,7 @@
 ;; Auto enable auto-fill mode in org mode
 (setq fill-column 150)
 ; (add-hook 'org-mode-hook 'turn-on-auto-fill)
+
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -98,11 +92,6 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
-;; (custom-set-faces
-;;  '(org-level-1 ((t (:inherit outline-1 :height 1.15))))
-;;  '(org-level-2 ((t (:inherit outline-2 :height 1.1))))
-;;  '(org-level-3 ((t (:inherit outline-3 :height 1.0))))
-;;  '(org-level-4 ((t (:inherit outline-4 :height 1.0)))))
 
 ;; Use C-x C-m as M-x command
 (map! "C-x C-m" #'execute-extended-command)
@@ -188,11 +177,6 @@
   (require 'tree-sitter-hl)
   (add-hook 'python-mode-hook #'tree-sitter-hl-mode)
   )
-
-;; A better search interface
-;; (use-package! ctrlf
-;;   :hook
-;;   (after-init . ctrlf-mode))
 
 ;; Enable tree-sitter
 (use-package! tree-sitter
@@ -543,7 +527,6 @@ Note the weekly scope of the command's precision.")
   "Format of date to insert with `insert-current-time' func. This
 is specifically for adding the time stamp in the interstitial
 journal. Note the weekly scope of the command's precision.")
-
 
 (defun insert-current-date-time ()
   "insert the current date and time into current buffer.
