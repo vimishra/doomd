@@ -84,3 +84,9 @@
 ;; Tomorrow Bright Color them - my favorite color theme
 (package! color-theme-sanityinc-tomorrow)
 
+(package! org-super-agenda)
+
+(package! pretty-hydra)
+
+
+(package! info-colors)

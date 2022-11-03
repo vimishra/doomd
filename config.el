@@ -58,7 +58,7 @@
 
 ;; Auto enable auto-fill mode in org mode
 (setq fill-column 150)
-; (add-hook 'org-mode-hook 'turn-on-auto-fill)
+                                        ; (add-hook 'org-mode-hook 'turn-on-auto-fill)
 
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
@@ -101,7 +101,7 @@
 
 ;; Use debugpy for python debugging
 (after! dap-mode
-   (setq dap-python-debugger 'debugpy))
+  (setq dap-python-debugger 'debugpy))
 
 (after! lsp-mode
   (lsp-treemacs-sync-mode 1)
@@ -235,16 +235,16 @@
 
   ;; Tag colors
   (setq org-tag-faces
-      '(
-        ("Team"  . (:foreground "mediumPurple1" :weight bold))
-        ("Laguna"   . (:foreground "royalblue1"    :weight bold))
-        ("Redondo"  . (:foreground "forest green"  :weight bold))
-        ("Newport"        . (:foreground "sienna"        :weight bold))
-        ("Meeting"   . (:foreground "yellow1"       :weight bold))
-        ("Planning" . (:foreground "Orange" :weight bold))
-        ("CRITICAL"  . (:foreground "red1"          :weight bold))
+        '(
+          ("Team"  . (:foreground "mediumPurple1" :weight bold))
+          ("Laguna"   . (:foreground "royalblue1"    :weight bold))
+          ("Redondo"  . (:foreground "forest green"  :weight bold))
+          ("Newport"        . (:foreground "sienna"        :weight bold))
+          ("Meeting"   . (:foreground "yellow1"       :weight bold))
+          ("Planning" . (:foreground "Orange" :weight bold))
+          ("CRITICAL"  . (:foreground "red1"          :weight bold))
+          )
         )
-      )
   ;; My org-capture templates
   (setq org-capture-templates
         '(("t" "Personal todo" entry
@@ -291,7 +291,7 @@
    org-modern-priority nil
 
    ;; Agenda styling
-   ; org-agenda-tags-column auto
+   org-agenda-tags-column "auto"
    org-agenda-block-separator ?─
    org-agenda-time-grid
    '((daily today require-timed)
@@ -585,6 +585,7 @@ Uses `current-date-time-format' for the formatting the date/time."
       :desc "Create ID for current entry"       "n r o" #'org-id-get-create
       ;; Add a tag
       :desc "Add tags to the Node"              "n r A" #'org-roam-tag-add
+      :desc "Use avy-goto-char to jump"         ";"     #'avy-goto-char
       )
 
 (map! "s-t" 'org-roam-dailies-goto-today)
@@ -595,3 +596,68 @@ Uses `current-date-time-format' for the formatting the date/time."
   :config
   (setq doom-modeline-major-mode-icon t)
   )
+
+;; Super agenda - this looks neat.
+;; Can be optimized further. But we will live with this for the moment.
+(use-package! org-super-agenda
+  :after org-agenda
+  :init
+  (setq org-agenda-skip-scheduled-if-done t
+      org-agenda-skip-deadline-if-done t
+      org-agenda-include-deadlines t
+      ;; org-agenda-span week
+      org-agenda-start-on-weekday 1)
+  (setq org-agenda-custom-commands
+        '(("c" "Super view"
+           ((agenda "" ((org-agenda-overriding-header "")
+                        (org-super-agenda-groups
+                         '((:name "Today"
+                                  :time-grid t
+                                  :date today
+                                  :order 1)))))
+            (alltodo "" ((org-agenda-overriding-header "")
+                         (org-super-agenda-groups
+                          '((:log t)
+                            (:name "To refile"
+                                   :file-path "refile\\.org")
+                            (:name "Next to do"
+                                   :todo "NEXT"
+                                   :order 1)
+                            (:name "Due Today"
+                                   :deadline today
+                                   :order 2)
+                            (:name "Important"
+                                   :priority "A"
+                                   :order 3)
+                            (:name "Overdue"
+                                   :deadline past
+                                   :order 4)
+                            (:name "Due Soon"
+                                   :deadline future
+                                   :order 5)
+                            (:name "Scheduled Soon"
+                                   :scheduled future
+                                   :order 6)
+                            (:name "Laguna"
+                                 :tag "Laguna"
+                                 :order 7)
+                            (:name "Newport"
+                                   :tag "Newport"
+                                   :order 8)
+                            (:name "Meeting"
+                                   :tag "Meeting"
+                                   :order 9)
+                            (:name "Redondo"
+                                 :tag "Redondo"
+                                 :order 10)
+                            (:name "IP Team"
+                                   :tag "Team"
+                                   :order 11)
+                            (:name "Meetings"
+                                   :and (:todo "MEET" :scheduled future)
+                                   :order 15)
+                            (:discard (:not (:todo "TODO")))))))))))
+  :config
+  (org-super-agenda-mode))
+
+
