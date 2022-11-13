@@ -88,5 +88,10 @@
 
 (package! pretty-hydra)
 
+;; Enable visual-fill mode
+(package! visual-fill-column)
 
-(package! info-colors)
+(package! company-org-block)
+
+;; I want smooth scrolling
+(package! good-scroll)
