@@ -46,7 +46,10 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(load-theme 'sanityinc-tomorrow-bright t)
+;; (setq doom-theme 'doom-tommorrow-night)
+                                        ; (load-theme 'sanityinc-tomorrow-bright t)
+                                        ; (setq doom-theme doom-ir-black)
+(setq doom-theme 'doom-ir-black)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -311,8 +314,8 @@
      " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
    org-agenda-current-time-string
    "⭠ now ─────────────────────────────────────────────────")
-  (global-org-modern-mode)
-  )
+  (global-org-modern-mode))
+
 
 ;; Set some registers for critical files
 (set-register ?t (cons 'file "~/Documents/OrgNotes/todo.org"))
@@ -418,7 +421,6 @@
   :load-path "/Users/vikmishra/.doom.d/lisp")
 
 
-
 ;; Deft for org mode
 (setq deft-directory org-directory)
 (setq deft-recursive nil
@@ -440,12 +442,26 @@
   ;; set org-roam integration
   (consult-notes-org-roam-mode))
 
-(use-package! company-org-block
-  :custom
-  (company-org-block-edit-style 'auto) ;; 'auto, 'prompt, or 'inline
-  :hook ((org-mode . (lambda ()
-                       (setq-local company-backends '(company-org-block))
-                       (company-mode +1)))))
+(use-package! org-appear
+  :after org
+  :hook (org-mode . org-appear-mode)
+  :config (setq
+           org-appear-autolinks t
+           org-appear-autoentities t
+           org-appear-autosubmarkers t ))
+
+;; Show the TOC on the side.
+(use-package! org-ol-tree
+  :after org
+  :commands org-ol-tree
+  :hook (org-ol-tree-mode . visual-line-mode)
+  :config
+  (setq org-ol-tree-ui-window-auto-resize nil
+        org-ol-tree-ui-window-max-width 0.3))
+(map! :map org-mode-map
+      :after org
+      :localleader
+      :desc "Outline" "O" #'org-ol-tree)
 
 ;; My Helper functions
 ;; Open an Eshell in the current directory.
@@ -724,3 +740,14 @@ Uses `current-date-time-format' for the formatting the date/time."
 ;; Configure good-scroll
 (use-package! good-scroll
   :init (good-scroll-mode 1))
+(global-set-key (kbd "M-v") 'good-scroll-down-full-screen)
+(global-set-key (kbd "C-v") 'good-scroll-up-full-screen)
+
+
+;; Enable ctrlf
+(use-package! ctrlf
+  :config
+  (ctrlf-mode +1))
+
+;; Goto line preview
+(global-set-key [remap goto-line] 'goto-line-preview)

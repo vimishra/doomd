@@ -91,7 +91,22 @@
 ;; Enable visual-fill mode
 (package! visual-fill-column)
 
-(package! company-org-block)
 
 ;; I want smooth scrolling
 (package! good-scroll)
+
+;; I need org-appear
+(package! org-appear)
+
+;; Org sidebar
+(package! org-ol-tree
+  :recipe (
+           :host github
+           :repo "Townk/org-ol-tree"
+           ))
+
+;; Improved Search
+(package! ctrlf)
+
+;; Show a preview of line to move to
+(package! goto-line-preview)
