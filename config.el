@@ -38,7 +38,7 @@
       ((eq system-type 'darwin)
        ;; MacOS specific stuff
        (setq doom-font (font-spec :family "CaskaydiaCove Nerd Font" :size 18))
-       (setq doom-variable-pitch-font (font-spec :family "Helvetica" :size 24))
+       (setq doom-variable-pitch-font (font-spec :family "Helvetica" :size 18))
        (setq line-spacing 4)
        ))
 
@@ -50,6 +50,9 @@
                                         ; (load-theme 'sanityinc-tomorrow-bright t)
                                         ; (setq doom-theme doom-ir-black)
 (setq doom-theme 'doom-ir-black)
+;(setq doom-theme 'doom-tomorrow-black)
+;(custom-theme-set-faces! 'doom-tomorrow-night
+;  '(default :background "#000000" :foreground "#eaeaea"))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -113,7 +116,6 @@
 (map! "s-l" nil)
 
 (use-package lsp-mode
-  :ensure t
   :defer t
   :hook (lsp-mode . (lambda ()
                       (let ((lsp-keymap-prefix "s-l"))
@@ -306,12 +308,12 @@
    org-modern-priority nil
 
    ;; Agenda styling
-   org-agenda-tags-column "auto"
    org-agenda-block-separator ?─
    org-agenda-time-grid
    '((daily today require-timed)
      (800 1000 1200 1400 1600 1800 2000)
      " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
+   org-agenda-sorting-strategy '(deadline-up)
    org-agenda-current-time-string
    "⭠ now ─────────────────────────────────────────────────")
   (global-org-modern-mode))
@@ -398,7 +400,6 @@
 
 (use-package! consult-org-roam
   :after org-roam
-  :ensure t
   :init
   ;; Require consult-org-roam
   (require 'consult-org-roam)
@@ -419,6 +420,112 @@
 ;; Location for my custom emacs files.
 (use-package! vm-agenda
   :load-path "/Users/vikmishra/.doom.d/lisp")
+
+;; Super agenda - this looks neat.
+;; Can be optimized further. But we will live with this for the moment.
+(use-package! org-super-agenda
+  :after org-agenda
+  :init
+  (setq org-agenda-skip-scheduled-if-done t
+        org-agenda-skip-deadline-if-done t
+        org-agenda-include-deadlines t
+        ;; org-agenda-span week
+        org-agenda-start-on-weekday 1)
+  (setq org-agenda-custom-commands
+        '(("n" "Agenda / INTR / PROG / NEXT /TODO /SOMEDAY"
+           ((agenda "" nil)
+            (todo "INTR" nil)
+            (todo "PROG" nil)
+            (todo "NEXT" nil)
+            (todo "TODO" nil)
+            (todo "SOMEDAY" nil)
+            )
+           nil)
+          ("c" "Super view"
+           ((agenda "" ((org-agenda-overriding-header "")
+                        (org-super-agenda-groups
+                         '((:name "Today"
+                            :time-grid t
+                            :date today
+                            :order 1)))))
+            (alltodo "" ((org-agenda-overriding-header "")
+                         (org-super-agenda-groups
+                          '((:log t)
+                            (:name "To refile"
+                             :file-path "refile\\.org")
+                            (:name "Next to do"
+                             :todo "NEXT"
+                             :order 1)
+                            (:name "Due Today"
+                             :deadline today
+                             :order 2)
+                            (:name "Important"
+                             :priority "A"
+                             :order 3)
+                            (:name "Overdue"
+                             :deadline past
+                             :order 4)
+                            (:name "Due Soon"
+                             :deadline future
+                             :order 5)
+                            (:name "Scheduled Soon"
+                             :scheduled future
+                             :order 6)
+                            (:name "Laguna"
+                             :tag "Laguna"
+                             :order 7)
+                            (:name "Newport"
+                             :tag "Newport"
+                             :order 8)
+                            (:name "Meeting"
+                             :tag "Meeting"
+                             :order 9)
+                            (:name "Redondo"
+                             :tag "Redondo"
+                             :order 10)
+                            (:name "IP Team"
+                             :tag "Team"
+                             :order 11)
+                            (:name "Meetings"
+                             :and (:todo "MEET" :scheduled future)
+                             :order 15)
+                            (:discard (:not (:todo "TODO")))))))))
+          ("w" "My Workday"
+	   ((agenda "" ((org-agenda-overriding-header "")
+                        (org-super-agenda-groups
+                         '((:name "Today"
+                            :time-grid t
+                            :date today
+                            :order 1)))))
+            (todo "" ((org-agenda-overriding-header "Overview")
+                         (org-super-agenda-groups
+                          '((:log t)
+                            (:name "NEXT ___"
+                                   :todo "NEXT"
+				   :face (:background "chocolate3")
+                                   :order 1)
+    			    (:name "Due Today ___"
+                                   :deadline today
+                                   :order 2)
+			    (:name "Due this week ___"
+                                   :deadline 7
+			           :order 3)
+			    (:name "Ongoing ___"
+                                   :scheduled t
+                                   :order 4)
+                            (:name "Overdue ___"
+                                   :deadline past
+                                   :order 5)
+			    (:name "Tasks with Due Dates ___"
+                                   :deadline future
+                                   :order 6)
+			    (:name "Tasks without Due Dates ___"
+                                   :deadline nil
+				   :order 7)
+			    (:discard (:anything t))))))))))
+  :config
+  (org-super-agenda-mode))
+
 
 
 ;; Deft for org mode
@@ -631,111 +738,6 @@ Uses `current-date-time-format' for the formatting the date/time."
   :config
   (setq doom-modeline-major-mode-icon t)
   )
-
-;; Super agenda - this looks neat.
-;; Can be optimized further. But we will live with this for the moment.
-(use-package! org-super-agenda
-  :after org-agenda
-  :init
-  (setq org-agenda-skip-scheduled-if-done t
-        org-agenda-skip-deadline-if-done t
-        org-agenda-include-deadlines t
-        ;; org-agenda-span week
-        org-agenda-start-on-weekday 1)
-  (setq org-agenda-custom-commands
-        '(("n" "Agenda / INTR / PROG / NEXT /TODO /SOMEDAY"
-           ((agenda "" nil)
-            (todo "INTR" nil)
-            (todo "PROG" nil)
-            (todo "NEXT" nil)
-            (todo "TODO" nil)
-            (todo "SOMEDAY" nil)
-            )
-           nil)
-          ("c" "Super view"
-           ((agenda "" ((org-agenda-overriding-header "")
-                        (org-super-agenda-groups
-                         '((:name "Today"
-                            :time-grid t
-                            :date today
-                            :order 1)))))
-            (alltodo "" ((org-agenda-overriding-header "")
-                         (org-super-agenda-groups
-                          '((:log t)
-                            (:name "To refile"
-                             :file-path "refile\\.org")
-                            (:name "Next to do"
-                             :todo "NEXT"
-                             :order 1)
-                            (:name "Due Today"
-                             :deadline today
-                             :order 2)
-                            (:name "Important"
-                             :priority "A"
-                             :order 3)
-                            (:name "Overdue"
-                             :deadline past
-                             :order 4)
-                            (:name "Due Soon"
-                             :deadline future
-                             :order 5)
-                            (:name "Scheduled Soon"
-                             :scheduled future
-                             :order 6)
-                            (:name "Laguna"
-                             :tag "Laguna"
-                             :order 7)
-                            (:name "Newport"
-                             :tag "Newport"
-                             :order 8)
-                            (:name "Meeting"
-                             :tag "Meeting"
-                             :order 9)
-                            (:name "Redondo"
-                             :tag "Redondo"
-                             :order 10)
-                            (:name "IP Team"
-                             :tag "Team"
-                             :order 11)
-                            (:name "Meetings"
-                             :and (:todo "MEET" :scheduled future)
-                             :order 15)
-                            (:discard (:not (:todo "TODO")))))))))
-
-          ("d" "ToDos without any deadline"
-           ((alltodo "" ((org-agenda-overriding-header "")
-                         (org-super-agenda-groups
-                          '(
-                            (:name "Redondo"
-                             :tag "Redondo"
-                             :deadline nil
-                             :order 1)
-                            (:name "Laguna"
-                             :tag "Laguna"
-                             :deadline nil
-                             :order 7)
-                            (:name "Newport"
-                             :tag "Newport"
-                             :deadline nil
-                             :order 8)
-                            (:name "Meeting"
-                             :tag "Meeting"
-                             :deadline nil
-                             :order 9)
-                            (:name "Redondo"
-                             :tag "Redondo"
-                             :deadline nil
-                             :order 10)
-                            (:name "IP Team"
-                             :tag "Team"
-                             :deadline nil
-                             :order 11)
-                            (:name "Meetings"
-                             :and (:todo "MEET" :scheduled future)
-                             :deadline nil
-                             :order 15)))))))))
-  :config
-  (org-super-agenda-mode))
 
 ;; Configure good-scroll
 (use-package! good-scroll

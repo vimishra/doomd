@@ -60,7 +60,6 @@
 ;; Org and Org related packages to make org mode more effective.
 ;; Enable org-roam-ui, this needs the latest version of org-roam and so we need to unpin the version
 ;; that doom has chosen
-(unpin! org-roam)
 (package! org-roam-ui)
 ;; Consult notes
 (package! consult-notes
