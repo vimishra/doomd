@@ -48,3 +48,48 @@
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
+
+                                        ;
+;;; Tabnine based AI completion backend for company
+(package! company-tabnine)
+
+;; I like tree-sitter
+(package! tree-sitter)
+(package! tree-sitter-langs)
+
+;; Org and Org related packages to make org mode more effective.
+;; Enable org-roam-ui, this needs the latest version of org-roam and so we need to unpin the version
+;; that doom has chosen
+(package! org-roam-ui)
+;; Consult notes
+(package! consult-notes
+  :recipe (:host github :repo "mclear-tools/consult-notes"))
+(package! consult-org-roam)
+; Use org-modern package to make the Org mode look a little modern
+(package! org-modern)
+;; I need org-appear
+(package! org-appear)
+;; Enable visual-fill mode
+;; Better agenda
+(package! org-super-agenda)
+(package! visual-fill-column)
+
+;; I want smooth scrolling
+(package! good-scroll)
+
+;; all-the-icons
+(package! all-the-icons)
+
+;; Tomorrow Bright Color them - my favorite color theme
+(package! color-theme-sanityinc-tomorrow)
+
+;; Show a preview of line to move to
+(package! goto-line-preview)
+
+;; zzz-to-char
+(package! zop-to-char)
+
+
+(package! org-contrib
+  :recipe (:host nil :repo "https://git.sr.ht/~bzg/org-contrib"
+           :files ("lisp/*.el")))
