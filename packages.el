@@ -93,3 +93,6 @@
 (package! org-contrib
   :recipe (:host nil :repo "https://git.sr.ht/~bzg/org-contrib"
            :files ("lisp/*.el")))
+
+;; Enable dirvish
+(package! dirvish)

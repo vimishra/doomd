@@ -361,7 +361,7 @@
 
 ;; Org Roam Dailies
 (after! org-roam-dailies
-  (setq org-roam-dailies-directory "daily/")
+  (setq org-roam-dailies-directory "")
 
   (setq org-roam-dailies-capture-templates
         '(("d" "default" entry "* %<%I:%M %p>: %?"
@@ -601,3 +601,15 @@
   '(aw-leading-char-face
     :foreground "white" :background "red"
     :weight bold :height 2.0 :box (:line-width 10 :color "red")))
+
+;; Setup dirvish
+(use-package! dirvish
+  :config
+  (setq dirvish-hide-details nil)
+  (dirvish-override-dired-mode)
+  )
+
+(add-hook 'org-mode-hook (lambda ()
+                           (company-mode -1)
+                           (setq fill-column 150)
+                           (visual-fill-column-mode)))
