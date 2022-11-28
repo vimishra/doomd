@@ -612,4 +612,5 @@
 (add-hook 'org-mode-hook (lambda ()
                            (company-mode -1)
                            (setq fill-column 150)
-                           (visual-fill-column-mode)))
+                           (visual-fill-column-mode)
+                           (setq display-line-numbers nil)))
