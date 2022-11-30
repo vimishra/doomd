@@ -48,6 +48,9 @@
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
+;
+(unpin! org)
+(unpin! org-contrib)
 
                                         ;
 ;;; Tabnine based AI completion backend for company

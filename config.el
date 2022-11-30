@@ -600,7 +600,10 @@
 (custom-set-faces!
   '(aw-leading-char-face
     :foreground "white" :background "red"
-    :weight bold :height 2.0 :box (:line-width 10 :color "red")))
+    :weight bold :height 2.0 :box (:line-width 10 :color "red"))
+  '(org-link
+    :foreground "#96CBFE" :weight bold :underline nil)
+  )
 
 ;; Setup dirvish
 (use-package! dirvish
