@@ -99,3 +99,7 @@
 
 ;; Enable dirvish
 (package! dirvish)
+
+;; consult-lsp
+(package! consult-lsp)
+
