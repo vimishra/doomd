@@ -361,12 +361,13 @@
 
 ;; Org Roam Dailies
 (after! org-roam-dailies
-  (setq org-roam-dailies-directory "")
-
+  (setq org-roam-dailies-directory "daily")
   (setq org-roam-dailies-capture-templates
-        '(("d" "default" entry "* %<%I:%M %p>: %?"
-           :if-new (file+head "%<%Y-%m-%d>.org"
-                              "#+TITLE: %<%Y-%m-%d>\n#+FILETAGS: daily")))))
+        '(("d" "default" entry "** %<%I:%M %p>: %?"
+           :target (file+head+olp "%<%Y-%m-%d>.org"
+                                  "#+TITLE: %<%Y-%m-%d>\n#+FILETAGS: daily\n\n* Focus\n\n* Tasks\n\n* Journal"
+                                  ("Journal"))
+           :unnarrowed t))))
 
 ;;
 ;; Enable org-roam-ui
@@ -420,7 +421,14 @@
         ;; org-agenda-span week
         org-agenda-start-on-weekday 1)
   (setq org-agenda-custom-commands
-        '(("n" "Agenda / INTR / PROG / NEXT /TODO /SOMEDAY"
+        '(("h" "Daily habits"
+         ((agenda ""))
+         ((org-agenda-show-log t)
+          (org-agenda-ndays 7)
+          (org-agenda-log-mode-items '(state))
+          (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":DAILY:"))))
+        ;; other commands here
+          ("n" "Agenda / INTR / PROG / NEXT /TODO /SOMEDAY"
            ((agenda "" nil)
             (todo "INTR" nil)
             (todo "PROG" nil)
@@ -533,6 +541,11 @@
            org-appear-autoentities t
            org-appear-autosubmarkers t ))
 
+
+(use-package! ox-pandoc
+  :config
+  (setq org-pandoc-options-for-html5 '((template . "Github.html5"))))
+
 ;; Show the TOC on the side.
 (use-package! org-ol-tree
   :after org
@@ -571,7 +584,7 @@
       :desc "Create ID for current entry"       "n r o" #'org-id-get-create
       ;; Add a tag
       :desc "Add tags to the Node"              "n r A" #'org-roam-tag-add
-      :desc "Use avy-goto-char to jump"         ";"     #'avy-goto-char
+      :desc "Use avy-goto-char-2 to jump"       ";"     #'avy-goto-char-2
       )
 
 (map! "s-t" 'org-roam-dailies-goto-today)
