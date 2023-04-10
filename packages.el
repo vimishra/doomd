@@ -51,8 +51,8 @@
 ;
 (unpin! org)
 (unpin! org-contrib)
+(unpin! org-roam company-org-roam)
 
-                                        ;
 ;;; Tabnine based AI completion backend for company
 (package! company-tabnine)
 
@@ -92,7 +92,7 @@
 ;; zzz-to-char
 (package! zop-to-char)
 
-
+;; Org Contrib package
 (package! org-contrib
   :recipe (:host nil :repo "https://git.sr.ht/~bzg/org-contrib"
            :files ("lisp/*.el")))
@@ -103,3 +103,16 @@
 ;; consult-lsp
 (package! consult-lsp)
 
+;; Treemacs - all icons
+(package! treemacs-all-the-icons)
+
+;; Vdiff package
+(package! vdiff)
+
+;; Exec path from shell
+(package! exec-path-from-shell)
+
+(package! mixed-pitch)
+
+(package! org-sidebar)
+(package! vertico-posframe)

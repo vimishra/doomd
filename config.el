@@ -30,14 +30,15 @@
 ;; wasn't installed correctly. Font issues are rarely Doom issues!
 (setq doom-font (font-spec :family "CaskaydiaCove Nerd Font" :size 18)
       doom-big-font (font-spec :family "CaskaydiaCove Nerd Font" :size 24)
-      doom-variable-pitch-font (font-spec :family "Overpass" :size 18)
-      doom-unicode-font (font-spec :family "JuliaMono")
-      doom-serif-font (font-spec :family "IBM Plex Mono" :size 22 ))
+      ;doom-variable-pitch-font (font-spec :family "Iosevka Aile" :size 18)
+      doom-variable-pitch-font (font-spec :family "Noto Sans" :size 18)
+      doom-unicode-font (font-spec :family "CaskaydiaCove Nerd Font" :size 18)
+      doom-serif-font (font-spec :family "Iosevka Aile" :size 22 ))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-ir-black)
+(setq doom-theme 'doom-tomorrow-day)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -89,7 +90,7 @@
 (setq truncate-string-ellipsis "…"                      ; Unicode ellipsis looks better
       auto-save-default t                               ; Save files by default
       scroll-margin  2                                  ; Save some margin while scrolling up/down.
-)
+      )
 
 (display-time-mode 1)                                   ; Show time in the modeline
 (add-to-list 'default-frame-alist '(height . 48))
@@ -191,7 +192,7 @@
 ;; Configuration for org mode and other allied modes
 ;; =================================================
 (after! org
-  (setq org-image-actual-width 1500)
+  (setq org-image-actual-width nil)
   ;; I want to open org link in other windows - not the same window.
   (setf (alist-get 'file org-link-frame-setup) #'find-file-other-window)
 
@@ -202,10 +203,8 @@
   (setq org-todo-keywords
         '((sequence
            "TODO(t)"  ; Task that's ready to be next. No dependencies
-           "NEXT(n)"  ; A task that needs doing & is ready to do
-           "PROG(p)"  ; A project, which usually contains other tasks
            "WAIT(w)"  ; Something external is holding up this task
-           "INTR(i)"  ; Interrupt
+           "PROG(p)"  ; Work in progress.
            "SOMEDAY(s)" ; Someday
            "|"
            "DONE(d)"  ; Task successfully completed
@@ -267,7 +266,7 @@
            "* TODO %?\n%i\n%a" :prepend t)
           ("m" "Meeting"
            entry (file+datetree "~/Documents/OrgNotes/Meetings.org")
-           "* %? :meeting:%^g \n:Created: %T\n** Attendees\n+ \n** Notes\n+ \n** Action Items\n*** TODO [#A] "
+           "* %? :meeting:%^g \n:Created: %T\n** Attendees\n+ \n** Notes\n+ \n** Action Items\n*** TODO "
            :tree-type week
            :clock-in t
            :clock-resume t
@@ -281,10 +280,12 @@
    ;; Edit settings
    org-auto-align-tags t
    org-tags-column 0
+   org-modern-table nil
    org-modern-tag nil
    org-catch-invisible-edits 'show-and-error
    org-special-ctrl-a/e t
    org-insert-heading-respect-content t
+   org-attach-auto-tag nil
 
    ;; Org styling, hide markup etc.
    org-hide-emphasis-markers t
@@ -301,7 +302,7 @@
    '((daily today require-timed)
      (800 1000 1200 1400 1600 1800 2000)
      " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
-   org-agenda-sorting-strategy '(deadline-up)
+                                        ; org-agenda-sorting-strategy '(deadline-up)
    org-agenda-current-time-string
    "⭠ now ─────────────────────────────────────────────────")
   (global-org-modern-mode))
@@ -361,9 +362,9 @@
 
 ;; Org Roam Dailies
 (after! org-roam-dailies
-  (setq org-roam-dailies-directory "daily")
+  (setq org-roam-dailies-directory "")
   (setq org-roam-dailies-capture-templates
-        '(("d" "default" entry "** %<%I:%M %p>: %?"
+        '(("d" "default" entry "\n** %<%I:%M %p> - %?"
            :target (file+head+olp "%<%Y-%m-%d>.org"
                                   "#+TITLE: %<%Y-%m-%d>\n#+FILETAGS: daily\n\n* Focus\n\n* Tasks\n\n* Journal"
                                   ("Journal"))
@@ -422,12 +423,12 @@
         org-agenda-start-on-weekday 1)
   (setq org-agenda-custom-commands
         '(("h" "Daily habits"
-         ((agenda ""))
-         ((org-agenda-show-log t)
-          (org-agenda-ndays 7)
-          (org-agenda-log-mode-items '(state))
-          (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":DAILY:"))))
-        ;; other commands here
+           ((agenda ""))
+           ((org-agenda-show-log t)
+            (org-agenda-ndays 7)
+            (org-agenda-log-mode-items '(state))
+            (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":DAILY:"))))
+          ;; other commands here
           ("n" "Agenda / INTR / PROG / NEXT /TODO /SOMEDAY"
            ((agenda "" nil)
             (todo "INTR" nil)
@@ -494,31 +495,31 @@
                             :date today
                             :order 1)))))
             (todo "" ((org-agenda-overriding-header "Overview")
-                         (org-super-agenda-groups
-                          '((:log t)
-                            (:name "NEXT ___"
-                                   :todo "NEXT"
-				   :face (:background "chocolate3")
-                                   :order 1)
-    			    (:name "Due Today ___"
-                                   :deadline today
-                                   :order 2)
-			    (:name "Due this week ___"
-                                   :deadline 7
-			           :order 3)
-			    (:name "Ongoing ___"
-                                   :scheduled t
-                                   :order 4)
-                            (:name "Overdue ___"
-                                   :deadline past
-                                   :order 5)
-			    (:name "Tasks with Due Dates ___"
-                                   :deadline future
-                                   :order 6)
-			    (:name "Tasks without Due Dates ___"
-                                   :deadline nil
-				   :order 7)
-			    (:discard (:anything t))))))))))
+                      (org-super-agenda-groups
+                       '((:log t)
+                         (:name "NEXT ___"
+                          :todo "NEXT"
+			  :face (:background "chocolate3")
+                          :order 1)
+    			 (:name "Due Today ___"
+                          :deadline today
+                          :order 2)
+			 (:name "Due this week ___"
+                          :deadline 7
+			  :order 3)
+			 (:name "Ongoing ___"
+                          :scheduled t
+                          :order 4)
+                         (:name "Overdue ___"
+                          :deadline past
+                          :order 5)
+			 (:name "Tasks with Due Dates ___"
+                          :deadline future
+                          :order 6)
+			 (:name "Tasks without Due Dates ___"
+                          :deadline nil
+			  :order 7)
+			 (:discard (:anything t))))))))))
   :config
   (org-super-agenda-mode))
 
@@ -614,7 +615,7 @@
   '(aw-leading-char-face
     :foreground "white" :background "red"
     :weight bold :height 2.0 :box (:line-width 10 :color "red"))
-    )
+  )
 
 ;; Setup dirvish
 (use-package! dirvish
@@ -625,9 +626,119 @@
 
 (add-hook 'org-mode-hook (lambda ()
                            (company-mode -1)
-                           (setq fill-column 150)
+                           (setq fill-column 200)
                            (visual-fill-column-mode)
+                           (mixed-pitch-mode)
+                           (setq line-spacing 8)
                            (setq display-line-numbers nil)))
 
 
-(setq line-spacing 10)
+(setq-default line-spacing 5)
+
+(setq doom-themes-treemacs-theme "doom-colors")
+(map! :after treemacs "C-c -" :desc "Switch to Treemacs" 'treemacs-select-window)
+                                        ;(setq doom-themes-treemacs-enable-variable-pitch nil)
+
+(setq org-latex-classes
+      '(("article"
+         "\\RequirePackage{fix-cm}
+\\PassOptionsToPackage{svgnames}{xcolor}
+\\documentclass[11pt]{article}
+\\usepackage{fontspec}
+\\setmainfont{ETBembo RomanOSF}
+\\setsansfont[Scale=MatchLowercase]{Raleway}
+\\setmonofont[Scale=MatchLowercase]{Operator Mono}
+\\usepackage{sectsty}
+\\allsectionsfont{\\sffamily}
+\\usepackage{enumitem}
+\\setlist[description]{style=unboxed,font=\\sffamily\\bfseries}
+\\usepackage{listings}
+\\lstset{frame=single,aboveskip=1em,
+	framesep=.5em,backgroundcolor=\\color{AliceBlue},
+	rulecolor=\\color{LightSteelBlue},framerule=1pt}
+\\usepackage{xcolor}
+\\newcommand\\basicdefault[1]{\\scriptsize\\color{Black}\\ttfamily#1}
+\\lstset{basicstyle=\\basicdefault{\\spaceskip1em}}
+\\lstset{literate=
+	    {§}{{\\S}}1
+	    {©}{{\\raisebox{.125ex}{\\copyright}\\enspace}}1
+	    {«}{{\\guillemotleft}}1
+	    {»}{{\\guillemotright}}1
+	    {Á}{{\\'A}}1
+	    {Ä}{{\\\"A}}1
+	    {É}{{\\'E}}1
+	    {Í}{{\\'I}}1
+	    {Ó}{{\\'O}}1
+	    {Ö}{{\\\"O}}1
+	    {Ú}{{\\'U}}1
+	    {Ü}{{\\\"U}}1
+	    {ß}{{\\ss}}2
+	    {à}{{\\`a}}1
+	    {á}{{\\'a}}1
+	    {ä}{{\\\"a}}1
+	    {é}{{\\'e}}1
+	    {í}{{\\'i}}1
+	    {ó}{{\\'o}}1
+	    {ö}{{\\\"o}}1
+	    {ú}{{\\'u}}1
+	    {ü}{{\\\"u}}1
+	    {¹}{{\\textsuperscript1}}1
+            {²}{{\\textsuperscript2}}1
+            {³}{{\\textsuperscript3}}1
+	    {ı}{{\\i}}1
+	    {—}{{---}}1
+	    {’}{{'}}1
+	    {…}{{\\dots}}1
+            {⮠}{{$\\hookleftarrow$}}1
+	    {␣}{{\\textvisiblespace}}1,
+	    keywordstyle=\\color{DarkGreen}\\bfseries,
+	    identifierstyle=\\color{DarkRed},
+	    commentstyle=\\color{Gray}\\upshape,
+	    stringstyle=\\color{DarkBlue}\\upshape,
+	    emphstyle=\\color{Chocolate}\\upshape,
+	    showstringspaces=false,
+	    columns=fullflexible,
+	    keepspaces=true}
+\\usepackage[a4paper,margin=1in,left=1.5in]{geometry}
+\\usepackage{parskip}
+\\makeatletter
+\\renewcommand{\\maketitle}{%
+  \\begingroup\\parindent0pt
+  \\sffamily
+  \\Huge{\\bfseries\\@title}\\par\\bigskip
+  \\LARGE{\\bfseries\\@author}\\par\\medskip
+  \\normalsize\\@date\\par\\bigskip
+  \\endgroup\\@afterindentfalse\\@afterheading}
+\\makeatother
+[DEFAULT-PACKAGES]
+\\hypersetup{linkcolor=Blue,urlcolor=DarkBlue,
+  citecolor=DarkRed,colorlinks=true}
+\\AtBeginDocument{\\renewcommand{\\UrlFont}{\\ttfamily}}
+[PACKAGES]
+[EXTRA]"
+         ("\\section{%s}" . "\\section*{%s}")
+         ("\\subsection{%s}" . "\\subsection*{%s}")
+         ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+         ("\\paragraph{%s}" . "\\paragraph*{%s}")
+         ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+
+        ("report" "\\documentclass[11pt]{report}"
+         ("\\part{%s}" . "\\part*{%s}")
+         ("\\chapter{%s}" . "\\chapter*{%s}")
+         ("\\section{%s}" . "\\section*{%s}")
+         ("\\subsection{%s}" . "\\subsection*{%s}")
+         ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+
+        ("book" "\\documentclass[11pt]{book}"
+         ("\\part{%s}" . "\\part*{%s}")
+         ("\\chapter{%s}" . "\\chapter*{%s}")
+         ("\\section{%s}" . "\\section*{%s}")
+         ("\\subsection{%s}" . "\\subsection*{%s}")
+         ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
+
+(setq org-latex-compiler "xelatex")
+(setq org-format-latex-options (plist-put org-format-latex-options :scale 1.75))
+
+(use-package! mixed-pitch)
+(use-package! org-sidebar)
+(use-package! vertico-posframe)

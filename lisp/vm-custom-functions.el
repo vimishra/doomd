@@ -94,7 +94,7 @@ See help of `format-time-string' for possible replacements")
   "Format of date to insert with `insert-current-time' func.
 Note the weekly scope of the command's precision.")
 
-(defvar current-time-format-journal "%H:%M"
+(defvar current-time-format-journal "%I:%M %p"
   "Format of date to insert with `insert-current-time' func. This
 is specifically for adding the time stamp in the interstitial
 journal. Note the weekly scope of the command's precision.")
