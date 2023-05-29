@@ -116,3 +116,5 @@
 
 (package! org-sidebar)
 (package! vertico-posframe)
+
+(package! per-buffer-theme)

@@ -30,8 +30,8 @@
 ;; wasn't installed correctly. Font issues are rarely Doom issues!
 (setq doom-font (font-spec :family "CaskaydiaCove Nerd Font" :size 18)
       doom-big-font (font-spec :family "CaskaydiaCove Nerd Font" :size 24)
-      ;doom-variable-pitch-font (font-spec :family "Iosevka Aile" :size 18)
-      doom-variable-pitch-font (font-spec :family "Noto Sans" :size 18)
+                                        ;doom-variable-pitch-font (font-spec :family "Iosevka Aile" :size 18)
+      doom-variable-pitch-font (font-spec :family "Bear Sans UI" :size 15)
       doom-unicode-font (font-spec :family "CaskaydiaCove Nerd Font" :size 18)
       doom-serif-font (font-spec :family "Iosevka Aile" :size 22 ))
 
@@ -202,32 +202,22 @@
   ;; Set my sequence of todo things
   (setq org-todo-keywords
         '((sequence
-           "TODO(t)"  ; Task that's ready to be next. No dependencies
+           "TODO(t)"  ; Input todo
+           "NEXT(n)"  ; Task that I can start on next. No dependencies
            "WAIT(w)"  ; Something external is holding up this task
            "PROG(p)"  ; Work in progress.
            "SOMEDAY(s)" ; Someday
            "|"
            "DONE(d)"  ; Task successfully completed
            "KILL(k)") ; Task was cancelled, aborted or is no longer applicable
-          (sequence
-           "[ ](T)"   ; A task that needs doing
-           "[-](S)"   ; Task is in progress
-           "[?](W)"   ; Task is being held up or paused
-           "|"
-           "[X](D)")  ; Task was completed
-          (sequence
-           "|"
-           "OKAY(o)"
-           "YES(y)"
-           "NO(n)")))
+          ))
 
   ;; Org Tags
   (setq org-tag-alist '(
                         ;; Meeting tags
                         ("Team" . ?t)
                         ("Laguna" . ?l)
-                        ("Redondo" . ?r)
-                        ("Newport" . ?n)
+                        ("Malibu" . ?n)
                         ("Meeting". ?m)
                         ("Planning" . ?p)
 
@@ -240,8 +230,8 @@
         '(
           ("Team"  . (:foreground "mediumPurple1" :weight bold))
           ("Laguna"   . (:foreground "royalblue1"    :weight bold))
-          ("Redondo"  . (:foreground "light green"  :weight bold))
-          ("Newport"        . (:foreground "lightSalmon1"        :weight bold))
+          ("Redondo"  . (:foreground "Dark green"  :weight bold))
+          ("Malibu"        . (:foreground "lightSalmon1"        :weight bold))
           ("Meeting"   . (:foreground "yellow1"       :weight bold))
           ("Planning" . (:foreground "Orange" :weight bold))
           ("CRITICAL"  . (:foreground "red1"          :weight bold))
@@ -258,8 +248,8 @@
           ("r" "Redondo Todos" entry
            (file+headline "~/Documents/OrgNotes/Redondo_TODO.org" "Redondo TODOs")
            "* TODO %?\n%i\n%a" :prepend t)
-          ("n" "Newport Todos" entry
-           (file+headline "~/Documents/OrgNotes/Newport_TODO.org" "Newport TODOs")
+          ("n" "Malibu Todos" entry
+           (file+headline "~/Documents/OrgNotes/Malibu_TODO.org" "Malibu TODOs")
            "* TODO %?\n%i\n%a" :prepend t)
           ("i" "IP Team Todos" entry
            (file+headline "~/Documents/OrgNotes/Team_TODO.org" "Team TODOs")
@@ -312,7 +302,7 @@
 (set-register ?t (cons 'file "~/Documents/OrgNotes/todo.org"))
 (set-register ?l (cons 'file "~/Documents/OrgNotes/Laguna_TODO.org"))
 (set-register ?r (cons 'file "~/Documents/OrgNotes/Redondo_TODO.org"))
-(set-register ?n (cons 'file "~/Documents/OrgNotes/Newport_TODO.org"))
+(set-register ?m (cons 'file "~/Documents/OrgNotes/Malibu_TODO.org"))
 (set-register ?i (cons 'file "~/Documents/OrgNotes/Team_TODO.org"))
 
 ;; Org Roam Custom Setup
@@ -429,23 +419,15 @@
             (org-agenda-log-mode-items '(state))
             (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":DAILY:"))))
           ;; other commands here
-          ("n" "Agenda / INTR / PROG / NEXT /TODO /SOMEDAY"
-           ((agenda "" nil)
-            (todo "INTR" nil)
-            (todo "PROG" nil)
-            (todo "NEXT" nil)
+          ("n" "PROG / TODO / WAIT /SOMEDAY"
+           ((todo "PROG" nil)
             (todo "TODO" nil)
+            (todo "WAIT" nil)
             (todo "SOMEDAY" nil)
             )
            nil)
           ("c" "Super view"
-           ((agenda "" ((org-agenda-overriding-header "")
-                        (org-super-agenda-groups
-                         '((:name "Today"
-                            :time-grid t
-                            :date today
-                            :order 1)))))
-            (alltodo "" ((org-agenda-overriding-header "")
+           ((alltodo "" ((org-agenda-overriding-header "")
                          (org-super-agenda-groups
                           '((:log t)
                             (:name "To refile"
@@ -471,8 +453,8 @@
                             (:name "Laguna"
                              :tag "Laguna"
                              :order 7)
-                            (:name "Newport"
-                             :tag "Newport"
+                            (:name "Malibu"
+                             :tag "Malibu"
                              :order 8)
                             (:name "Meeting"
                              :tag "Meeting"
@@ -626,10 +608,11 @@
 
 (add-hook 'org-mode-hook (lambda ()
                            (company-mode -1)
-                           (setq fill-column 200)
+                           (setq fill-column 150)
                            (visual-fill-column-mode)
                            (mixed-pitch-mode)
-                           (setq line-spacing 8)
+                           (setq line-spacing 5)
+                                        ; (setq-default visual-fill-column-center-text t)
                            (setq display-line-numbers nil)))
 
 
@@ -742,3 +725,47 @@
 (use-package! mixed-pitch)
 (use-package! org-sidebar)
 (use-package! vertico-posframe)
+
+(custom-set-faces
+ '(org-level-1 ((t (:inherit outline-1 :height 1.5 :weight bold))))
+ '(org-level-2 ((t (:inherit outline-2 :height 1.4 :weight bold))))
+ '(org-level-3 ((t (:inherit outline-3 :height 1.3 :weidht bold))))
+ '(org-level-4 ((t (:inherit outline-4 :height 1.25 :weight bold))))
+ '(org-level-5 ((t (:inherit outline-5 :height 1.2 :weight bold))))
+ )
+
+(use-package! per-buffer-theme
+  :config
+  (setq per-buffer-theme-use-timer t)
+  (setq per-buffer-theme-timer-idle-delay 0.1)
+  (setq per-buffer-theme-default-theme 'sanityinc-tomorrow-bright)
+  (setq per-buffer-theme-themes-alist
+        '(((:theme . doom-tomorrow-day)
+           (:buffernames nil)
+           (:modes org-mode
+                   org-roam-mode))))) ; Is this the mode the Haskell REPL in Emacs uses? I'm not sure.
+
+
+(use-package! deft
+  :config
+  (setq deft-directory "/Users/vikmishra/Documents/OrgNotes/")
+  (setq deft-recursive t)
+
+  (defun vm/deft-parse-title (file contents)
+    "Parse the given FILE and CONTENTS and determine the title.
+If `deft-use-filename-as-title' is nil, the title is taken to
+be the first non-empty line of the FILE.  Else the base name of the FILE is
+used as title."
+    (let ((begin (string-match "^#\\+[tT][iI][tT][lL][eE]: .*$" contents)))
+      (if begin
+          (string-trim (substring contents begin (match-end 0)) "#\\+[tT][iI][tT][lL][eE]: *" "[\n\t ]+")
+        (deft-base-filename file))))
+
+  (advice-add 'deft-parse-title :override #'vm/deft-parse-title)
+
+  (setq deft-strip-summary-regexp
+        (concat "\\("
+                "[\n\t]" ;; blank
+                "\\|^#\\+[[:alpha:]_]+:.*$" ;; org-mode metadata
+                "\\|^:PROPERTIES:\n\\(.+\n\\)+:END:\n"
+                "\\)")))

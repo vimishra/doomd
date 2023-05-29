@@ -90,6 +90,11 @@ Works with exactly 2 windows."
   "Format of date to insert with `insert-current-date-time' func
 See help of `format-time-string' for possible replacements")
 
+(defvar current-date-format "%a %b %d, %Y"
+  "Format of date to insert with `insert-current-date' func
+See help of `format-time-string' for possible replacements")
+
+
 (defvar current-time-format "%a %H:%M:%S"
   "Format of date to insert with `insert-current-time' func.
 Note the weekly scope of the command's precision.")
@@ -107,6 +112,16 @@ Uses `current-date-time-format' for the formatting the date/time."
   (insert (format-time-string current-date-time-format (current-time)))
   (insert "\n")
   )
+
+(defun insert-current-date ()
+  "insert the current date into current buffer.
+Uses `current-date-time-format' for the formatting the date/time."
+  (interactive)
+                                        ;       (insert (let () (comment-start)))
+  (insert (format-time-string current-date-format (current-time)))
+  (insert "\n")
+  )
+
 
 (defun insert-current-time ()
   "insert the current time (1-week scope) into the current buffer."
