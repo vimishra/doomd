@@ -30,7 +30,6 @@
 ;; wasn't installed correctly. Font issues are rarely Doom issues!
 (setq doom-font (font-spec :family "CaskaydiaCove Nerd Font" :size 18)
       doom-big-font (font-spec :family "CaskaydiaCove Nerd Font" :size 24)
-                                        ;doom-variable-pitch-font (font-spec :family "Iosevka Aile" :size 18)
       doom-variable-pitch-font (font-spec :family "Bear Sans UI" :size 15)
       doom-unicode-font (font-spec :family "CaskaydiaCove Nerd Font" :size 18)
       doom-serif-font (font-spec :family "Iosevka Aile" :size 22 ))
@@ -170,16 +169,6 @@
   )
 
 ;; Treesitter makes the packages look much better
-(use-package tree-sitter
-  :after python-mode
-  :defer t
-  :config
-  (require 'tree-sitter)
-  (require 'tree-sitter-langs)
-  (require 'tree-sitter-hl)
-  (add-hook 'python-mode-hook #'tree-sitter-hl-mode)
-  )
-
 ;; Enable tree-sitter
 (use-package! tree-sitter
   :hook
@@ -723,8 +712,6 @@
 (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.75))
 
 (use-package! mixed-pitch)
-(use-package! org-sidebar)
-(use-package! vertico-posframe)
 
 (custom-set-faces
  '(org-level-1 ((t (:inherit outline-1 :height 1.5 :weight bold))))
@@ -733,18 +720,6 @@
  '(org-level-4 ((t (:inherit outline-4 :height 1.25 :weight bold))))
  '(org-level-5 ((t (:inherit outline-5 :height 1.2 :weight bold))))
  )
-
-(use-package! per-buffer-theme
-  :config
-  (setq per-buffer-theme-use-timer t)
-  (setq per-buffer-theme-timer-idle-delay 0.1)
-  (setq per-buffer-theme-default-theme 'sanityinc-tomorrow-bright)
-  (setq per-buffer-theme-themes-alist
-        '(((:theme . doom-tomorrow-day)
-           (:buffernames nil)
-           (:modes org-mode
-                   org-roam-mode))))) ; Is this the mode the Haskell REPL in Emacs uses? I'm not sure.
-
 
 (use-package! deft
   :config
@@ -769,3 +744,8 @@ used as title."
                 "\\|^#\\+[[:alpha:]_]+:.*$" ;; org-mode metadata
                 "\\|^:PROPERTIES:\n\\(.+\n\\)+:END:\n"
                 "\\)")))
+
+; Use ctrlf
+(use-package! ctrlf
+  :hook
+  (after-init . ctrlf-mode))

@@ -55,11 +55,9 @@
 
 ;;; Tabnine based AI completion backend for company
 (package! company-tabnine)
-
 ;; I like tree-sitter
 (package! tree-sitter)
 (package! tree-sitter-langs)
-
 ;; Org and Org related packages to make org mode more effective.
 ;; Enable org-roam-ui, this needs the latest version of org-roam and so we need to unpin the version
 ;; that doom has chosen
@@ -79,42 +77,26 @@
 
 ;; I want smooth scrolling
 (package! good-scroll)
-
 ;; all-the-icons
 (package! all-the-icons)
-
-;; Tomorrow Bright Color them - my favorite color theme
-(package! color-theme-sanityinc-tomorrow)
-
 ;; Show a preview of line to move to
 (package! goto-line-preview)
-
 ;; zzz-to-char
 (package! zop-to-char)
-
 ;; Org Contrib package
 (package! org-contrib
   :recipe (:host nil :repo "https://git.sr.ht/~bzg/org-contrib"
            :files ("lisp/*.el")))
-
 ;; Enable dirvish
 (package! dirvish)
-
 ;; consult-lsp
 (package! consult-lsp)
-
 ;; Treemacs - all icons
 (package! treemacs-all-the-icons)
-
 ;; Vdiff package
 (package! vdiff)
-
 ;; Exec path from shell
 (package! exec-path-from-shell)
-
 (package! mixed-pitch)
-
-(package! org-sidebar)
-(package! vertico-posframe)
-
-(package! per-buffer-theme)
+(package! ctrlf)
+(package! deadgrep)

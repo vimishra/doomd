@@ -22,7 +22,7 @@
        ;;ido                                    ; the other *other* search engine...
        ;;ivy                                    ; a search engine for love and life
        ;(corfu +orderless +icons +minibuffer)    ; Corfu completion framework.
-       (vertico +icons)             	        ; the search engine of the future
+       (vertico +orderless +icons)              ; the search engine of the future
 
        :ui
        deft                                     ; notational velocity for Emacs
@@ -64,7 +64,7 @@
        :emacs
        (dired +icons)                           ; making dired pretty [functional]
        electric                                 ; smarter, keyword-based electric-indent
-       ;;ibuffer                                ; interactive buffer management
+       ibuffer                                  ; interactive buffer management
        undo                                     ; persistent, smarter undo for your inevitable mistakes
        vc                                       ; version-control and Emacs, sitting in a tree
 
@@ -76,7 +76,7 @@
 
        :checkers
        syntax                                   ; tasing you for every semicolon you forget
-       ;;(spell +flyspell)                      ; tasing you for misspelling mispelling
+       (spell +childframe)                      ; tasing you for misspelling mispelling
        ;;grammar                                ; tasing grammar mistake every you make
 
        :tools
@@ -112,7 +112,7 @@
        ;;beancount                              ; mind the GAAP
        ;;(cc +lsp)                              ; C > C++ == 1
        ;;clojure                                ; java with a lisp
-       common-lisp                              ; if you've seen one lisp, you've seen them all
+       ;;common-lisp                              ; if you've seen one lisp, you've seen them all
        ;;coq                                    ; proofs-as-programs
        ;;crystal                                ; ruby at the speed of c
        ;;csharp                                 ; unity, .NET, and mono shenanigans
@@ -148,7 +148,7 @@
        ;;nim                                    ; python + lisp at the speed of c
        ;;nix                                    ; I hereby declare "nix geht mehr!"
        ;;ocaml                                  ; an objective camel
-       (org +journal +dragndrop +roam2 +pandoc +pretty +present +pomodoro + hugo)
+       (org +journal +dragndrop +roam2 +pandoc +pretty)
                                                 ; organize your plain life in plain text
        ;;php                                    ; perl's insecure younger brother
        ;;plantuml                               ; diagrams for confusing people more
@@ -188,3 +188,4 @@
        :config
        ;;literate
        (default +bindings +smartparens))
+
