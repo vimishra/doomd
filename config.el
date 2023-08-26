@@ -28,16 +28,16 @@
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
 ;; refresh your font settings. If Emacs still can't find your font, it likely
 ;; wasn't installed correctly. Font issues are rarely Doom issues!
-(setq doom-font (font-spec :family "CaskaydiaCove Nerd Font" :size 18)
+(setq doom-font (font-spec :family "CaskaydiaCove Nerd Font" :size 19)
       doom-big-font (font-spec :family "CaskaydiaCove Nerd Font" :size 24)
       doom-variable-pitch-font (font-spec :family "Bear Sans UI" :size 15)
-      doom-unicode-font (font-spec :family "CaskaydiaCove Nerd Font" :size 18)
+      doom-unicode-font (font-spec :family "CaskaydiaCove Nerd Font" :size 19)
       doom-serif-font (font-spec :family "Iosevka Aile" :size 22 ))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-tomorrow-day)
+(setq doom-theme 'doom-tomorrow-night)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -89,6 +89,7 @@
 (setq truncate-string-ellipsis "…"                      ; Unicode ellipsis looks better
       auto-save-default t                               ; Save files by default
       scroll-margin  2                                  ; Save some margin while scrolling up/down.
+      line-spacing 7                                    ; Setting a line spacing
       )
 
 (display-time-mode 1)                                   ; Show time in the modeline
@@ -599,27 +600,45 @@
                            (company-mode -1)
                            (setq fill-column 150)
                            (visual-fill-column-mode)
-                           (mixed-pitch-mode)
-                           (setq line-spacing 5)
+                           ;(mixed-pitch-mode)
+                           (setq line-spacing 7)
                                         ; (setq-default visual-fill-column-center-text t)
                            (setq display-line-numbers nil)))
-
-
-(setq-default line-spacing 5)
 
 (setq doom-themes-treemacs-theme "doom-colors")
 (map! :after treemacs "C-c -" :desc "Switch to Treemacs" 'treemacs-select-window)
                                         ;(setq doom-themes-treemacs-enable-variable-pitch nil)
 
+;; Org LaTeX export template
+;; Material and configuration shamelessly copied from - https://so.nwalsh.com/2020/01/05-latex
+(setq org-latex-compiler "xelatex")
+(setq org-latex-pdf-process
+      (list (concat "latexmk -"
+                    org-latex-compiler
+                    " -recorder -synctex=1 -bibtex-cond %b")))
+(setq org-latex-listings t)
+(setq org-latex-default-packages-alist
+      '(("" "graphicx" t)
+        ("" "grffile" t)
+        ("" "longtable" nil)
+        ("" "wrapfig" nil)
+        ("" "rotating" nil)
+        ("normalem" "ulem" t)
+        ("" "amsmath" t)
+        ("" "textcomp" t)
+        ("" "amssymb" t)
+        ("" "capt-of" nil)
+        ("" "hyperref" nil)))
+
 (setq org-latex-classes
-      '(("article"
-         "\\RequirePackage{fix-cm}
+'(("article"
+"\\RequirePackage{fix-cm}
 \\PassOptionsToPackage{svgnames}{xcolor}
 \\documentclass[11pt]{article}
 \\usepackage{fontspec}
 \\setmainfont{ETBembo RomanOSF}
 \\setsansfont[Scale=MatchLowercase]{Raleway}
-\\setmonofont[Scale=MatchLowercase]{Operator Mono}
+\\setmonofont[Scale=MatchLowercase]{OperatorMonoSSm Nerd Font}
 \\usepackage{sectsty}
 \\allsectionsfont{\\sffamily}
 \\usepackage{enumitem}
@@ -688,37 +707,34 @@
 \\AtBeginDocument{\\renewcommand{\\UrlFont}{\\ttfamily}}
 [PACKAGES]
 [EXTRA]"
-         ("\\section{%s}" . "\\section*{%s}")
-         ("\\subsection{%s}" . "\\subsection*{%s}")
-         ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-         ("\\paragraph{%s}" . "\\paragraph*{%s}")
-         ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+("\\section{%s}" . "\\section*{%s}")
+("\\subsection{%s}" . "\\subsection*{%s}")
+("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+("\\paragraph{%s}" . "\\paragraph*{%s}")
+("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
 
-        ("report" "\\documentclass[11pt]{report}"
-         ("\\part{%s}" . "\\part*{%s}")
-         ("\\chapter{%s}" . "\\chapter*{%s}")
-         ("\\section{%s}" . "\\section*{%s}")
-         ("\\subsection{%s}" . "\\subsection*{%s}")
-         ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+("report" "\\documentclass[11pt]{report}"
+("\\part{%s}" . "\\part*{%s}")
+("\\chapter{%s}" . "\\chapter*{%s}")
+("\\section{%s}" . "\\section*{%s}")
+("\\subsection{%s}" . "\\subsection*{%s}")
+("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
 
-        ("book" "\\documentclass[11pt]{book}"
-         ("\\part{%s}" . "\\part*{%s}")
-         ("\\chapter{%s}" . "\\chapter*{%s}")
-         ("\\section{%s}" . "\\section*{%s}")
-         ("\\subsection{%s}" . "\\subsection*{%s}")
-         ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
+("book" "\\documentclass[11pt]{book}"
+("\\part{%s}" . "\\part*{%s}")
+("\\chapter{%s}" . "\\chapter*{%s}")
+("\\section{%s}" . "\\section*{%s}")
+("\\subsection{%s}" . "\\subsection*{%s}")
+("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
 
-(setq org-latex-compiler "xelatex")
-(setq org-format-latex-options (plist-put org-format-latex-options :scale 1.75))
-
-(use-package! mixed-pitch)
+;(use-package! mixed-pitch)
 
 (custom-set-faces
- '(org-level-1 ((t (:inherit outline-1 :height 1.5 :weight bold))))
- '(org-level-2 ((t (:inherit outline-2 :height 1.4 :weight bold))))
- '(org-level-3 ((t (:inherit outline-3 :height 1.3 :weidht bold))))
- '(org-level-4 ((t (:inherit outline-4 :height 1.25 :weight bold))))
- '(org-level-5 ((t (:inherit outline-5 :height 1.2 :weight bold))))
+ '(org-level-1 ((t (:inherit outline-1 :height 1.2 :weight bold))))
+ '(org-level-2 ((t (:inherit outline-2 :height 1.15 :weight bold))))
+ '(org-level-3 ((t (:inherit outline-3 :height 1.1 :weidht bold))))
+ '(org-level-4 ((t (:inherit outline-4 :height 1.0 :weight bold))))
+ '(org-level-5 ((t (:inherit outline-5 :height 1.0 :weight bold))))
  )
 
 (use-package! deft
