@@ -209,7 +209,7 @@
                         ("Laguna" . ?l)
                         ("Malibu" . ?n)
                         ("Meeting". ?m)
-                        ("Planning" . ?p)
+                        ("Personal" . ?p)
 
                         ;; Work Log Tags
                         ("accomplishment" . ?a)
@@ -223,7 +223,7 @@
           ("Redondo"  . (:foreground "Dark green"  :weight bold))
           ("Malibu"        . (:foreground "lightSalmon1"        :weight bold))
           ("Meeting"   . (:foreground "yellow1"       :weight bold))
-          ("Planning" . (:foreground "Orange" :weight bold))
+          ("Personal" . (:foreground "Orange" :weight bold))
           ("CRITICAL"  . (:foreground "red1"          :weight bold))
           )
         )
@@ -414,13 +414,7 @@
         ;; org-agenda-span week
         org-agenda-start-on-weekday 1)
   (setq org-agenda-custom-commands
-        '(("h" "Daily habits"
-           ((agenda ""))
-           ((org-agenda-show-log t)
-            (org-agenda-ndays 7)
-            (org-agenda-log-mode-items '(state))
-            (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":DAILY:"))))
-          ;; other commands here
+        '(;; other commands here
           ("n" "PROG / TODO / WAIT /SOMEDAY"
            ((todo "PROG" nil)
             (todo "TODO" nil)
@@ -503,6 +497,41 @@
 			 (:name "Tasks without Due Dates ___"
                           :deadline nil
 			  :order 7)
+                         (:name "Laguna"
+                          :tag "Laguna"
+                          :order 8)
+                         (:name "Malibu"
+                          :tag "Malibu"
+                          :order 9)
+                         (:name "SSWRP and IP Team"
+                          :tag "Team"
+                          :order 10)
+                         (:name "My ToDos"
+                          :tag "Personal"
+                          :order 11)
+			 (:discard (:anything t))))))))
+          ("k" "Kategories"
+	   ((agenda "" ((org-agenda-overriding-header "")
+                        (org-super-agenda-groups
+                         '((:name "Today"
+                            :time-grid t
+                            :date today
+                            :order 1)))))
+            (todo "" ((org-agenda-overriding-header "Overview")
+                      (org-super-agenda-groups
+                       '((:log t)
+                         (:name "Laguna"
+                          :tag "Laguna"
+                          :order 1)
+                         (:name "Malibu"
+                          :tag "Malibu"
+                          :order 2)
+                         (:name "SSWRP and IP Team"
+                          :tag "Team"
+                          :order 3)
+                         (:name "My ToDos"
+                          :tag "Personal"
+                          :order 4)
 			 (:discard (:anything t))))))))))
   :config
   (org-super-agenda-mode))
@@ -612,7 +641,7 @@
                            (company-mode -1)
                            (setq fill-column 150)
                            (visual-fill-column-mode)
-                           ;(mixed-pitch-mode)
+                                        ;(mixed-pitch-mode)
                            (setq line-spacing 7)
                                         ; (setq-default visual-fill-column-center-text t)
                            (setq display-line-numbers nil)))
@@ -643,8 +672,8 @@
         ("" "hyperref" nil)))
 
 (setq org-latex-classes
-'(("article"
-"\\RequirePackage{fix-cm}
+      '(("article"
+         "\\RequirePackage{fix-cm}
 \\PassOptionsToPackage{svgnames}{xcolor}
 \\documentclass[11pt]{article}
 \\usepackage{fontspec}
@@ -719,27 +748,27 @@
 \\AtBeginDocument{\\renewcommand{\\UrlFont}{\\ttfamily}}
 [PACKAGES]
 [EXTRA]"
-("\\section{%s}" . "\\section*{%s}")
-("\\subsection{%s}" . "\\subsection*{%s}")
-("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-("\\paragraph{%s}" . "\\paragraph*{%s}")
-("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+         ("\\section{%s}" . "\\section*{%s}")
+         ("\\subsection{%s}" . "\\subsection*{%s}")
+         ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+         ("\\paragraph{%s}" . "\\paragraph*{%s}")
+         ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
 
-("report" "\\documentclass[11pt]{report}"
-("\\part{%s}" . "\\part*{%s}")
-("\\chapter{%s}" . "\\chapter*{%s}")
-("\\section{%s}" . "\\section*{%s}")
-("\\subsection{%s}" . "\\subsection*{%s}")
-("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+        ("report" "\\documentclass[11pt]{report}"
+         ("\\part{%s}" . "\\part*{%s}")
+         ("\\chapter{%s}" . "\\chapter*{%s}")
+         ("\\section{%s}" . "\\section*{%s}")
+         ("\\subsection{%s}" . "\\subsection*{%s}")
+         ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
 
-("book" "\\documentclass[11pt]{book}"
-("\\part{%s}" . "\\part*{%s}")
-("\\chapter{%s}" . "\\chapter*{%s}")
-("\\section{%s}" . "\\section*{%s}")
-("\\subsection{%s}" . "\\subsection*{%s}")
-("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
+        ("book" "\\documentclass[11pt]{book}"
+         ("\\part{%s}" . "\\part*{%s}")
+         ("\\chapter{%s}" . "\\chapter*{%s}")
+         ("\\section{%s}" . "\\section*{%s}")
+         ("\\subsection{%s}" . "\\subsection*{%s}")
+         ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
 
-;(use-package! mixed-pitch)
+                                        ;(use-package! mixed-pitch)
 
 (custom-set-faces
  '(org-level-1 ((t (:inherit outline-1 :height 1.2 :weight bold))))
@@ -773,11 +802,20 @@
 ;;                 "\\|^:PROPERTIES:\n\\(.+\n\\)+:END:\n"
 ;;                 "\\)")))
 
-; Use ctrlf
+                                        ; Use ctrlf
 (use-package! ctrlf
   :hook
   (after-init . ctrlf-mode))
 
 
+;; Create google link for what I need.
 (defalias 'linkify
-   (kmacro "C-w [ [ h t t p : C-y C-/ / / C-y C-f [ C-y C-e SPC"))
+  (kmacro "C-w [ [ h t t p : C-y C-/ / / C-y C-f [ C-y C-e SPC"))
+
+;; My custom keyboard shortcuts
+(map! :leader
+      (:prefix-map ("m" . "My Custom Shortcuts")
+       :desc "Add to personal directory" "a" #'+spell/add-word
+       :desc "Google Linkify" "l" #'linkify))
+
+(setq ispell-personal-dictionary "~/.doom.d/vikas.pws")
