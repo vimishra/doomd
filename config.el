@@ -7,7 +7,8 @@
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
 (setq user-full-name "Vikas Mishra"
-      user-mail-address "vikas.mishra@hey.com")
+        user-mail-address "vikas.mishra@hey.com")
+
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
@@ -21,18 +22,13 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
+(setq doom-font (font-spec :family "CaskaydiaCove Nerd Font" :size 18 ))
 ;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
 ;; refresh your font settings. If Emacs still can't find your font, it likely
 ;; wasn't installed correctly. Font issues are rarely Doom issues!
-(setq doom-font (font-spec :family "CaskaydiaCove Nerd Font" :size 19)
-      doom-big-font (font-spec :family "CaskaydiaCove Nerd Font" :size 24)
-      doom-variable-pitch-font (font-spec :family "Bear Sans UI" :size 15)
-      doom-unicode-font (font-spec :family "CaskaydiaCove Nerd Font" :size 19)
-      doom-serif-font (font-spec :family "Iosevka Aile" :size 22 ))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -41,7 +37,7 @@
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type 'relative)
+(setq display-line-numbers-type t)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -80,8 +76,6 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
-
-
 ;; Some basic configurations
 (setq-default delete-by-moving-to-trash t               ; Delete files to trash
               window-combination-resize t)              ; take new window space from all other windows (not just current)
@@ -89,9 +83,8 @@
 (setq truncate-string-ellipsis "…"                      ; Unicode ellipsis looks better
       auto-save-default t                               ; Save files by default
       scroll-margin  2                                  ; Save some margin while scrolling up/down.
-      line-spacing 7                                    ; Setting a line spacing
-      )
-
+            )
+(setq-default line-spacing 5)
 (display-time-mode 1)                                   ; Show time in the modeline
 (add-to-list 'default-frame-alist '(height . 48))
 (add-to-list 'default-frame-alist '(width . 160))
@@ -137,17 +130,6 @@
   :config
   (define-key lsp-mode-map (kbd "s-l") lsp-command-map))
 
-(after! lsp-ui
-  (setq lsp-ui-doc-enable t))
-
-;; I want to add tabnine to the company backend.
-;; Enable tabnine for company
-(after! company
-  (setq +lsp-company-backends '(company-tabnine :separate company-capf company-yasnippet))
-  (setq company-show-numbers t)
-  (setq company-idle-delay 0)
-  )
-
 ;; Set which-key-idle-delay
 (setq which-key-idle-delay 0.4)
 (setq which-key-idle-secondary-delay 0.01)
@@ -177,16 +159,88 @@
   :config
   (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 
+;; Make some keys equivalent to the evil mode.
+;; C-c SPC to open file in project
+(map! :leader
+      :desc "Switch buffer within project"      ","     #'persp-switch-to-buffer
+      :desc "Switch buffer"                     "<"     #'switch-to-buffer
+      :desc "Search project"                    "/"     #'+default/search-project
+      :desc "Search for Symbol in project"      "*"     #'+default/search-project-for-symbol-at-point
+      :desc "Find File"                         "."     #'find-file
+      :desc "Org Capture"                       "x"     #'org-capture
+      :desc "Jump to Bookmark"                  "RET"   #'bookmark-jump
+      :desc "Pop up scratch buffer"             "X"     #'doom/open-scratch-buffer
+      :desc "Find file in project"              "SPC"   #'projectile-find-file
+      :desc "Resume last search"                "'"     #'vertico-repeat
+      ;; Create ID for the current entry
+      :desc "Create ID for current entry"       "n r o" #'org-id-get-create
+      ;; Add a tag
+      :desc "Add tags to the Node"              "n r A" #'org-roam-tag-add
+      :desc "Use avy-goto-char-2 to jump"       ";"     #'avy-goto-char-2
+      )
+
+(map! "s-t" 'org-roam-dailies-goto-today)
+(map! "s-d" 'org-roam-dailies-find-date)
+(map! "s-u" 'consult-notes-search-in-all-notes)
+
+;; Add icon to doom modeline
+(use-package! doom-modeline
+  :config
+  (setq doom-modeline-major-mode-icon t)
+  )
+
+;; Goto line preview
+(global-set-key [remap goto-line] 'goto-line-preview)
+
+;; Configure zop-to-char
+(global-set-key [remap zap-to-char] 'zop-to-char)
+
+;;; Scrolling.
+;; Good speed and allow scrolling through large images (pixel-scroll).
+;; Note: Scroll lags when point must be moved but increasing the number
+;;       of lines that point moves in pixel-scroll.el ruins large image
+;;       scrolling. So unfortunately I think we'll just have to live with
+;;       this.
+(pixel-scroll-precision-mode)
+(setq pixel-dead-time 0) ; Never go back to the old scrolling behaviour.
+(setq pixel-resolution-fine-flag t) ; Scroll by number of pixels instead of lines (t = frame-char-height pixels).
+(setq mouse-wheel-scroll-amount '(1)) ; Distance in pixel-resolution to scroll each mouse wheel event.
+(setq mouse-wheel-progressive-speed nil) ; Progressive speed is too fast for me.
+
+
+;; Try a better search package
+(use-package! ctrlf
+  :hook
+  (after-init . ctrlf-mode))
+
+;; Create google link for what I need.
+(defalias 'linkify
+  (kmacro "C-w [ [ h t t p : C-y C-/ / / C-y C-f [ C-y C-e SPC"))
+
+;; My custom keyboard shortcuts
+(map! :leader
+      (:prefix-map ("m" . "My Custom Shortcuts")
+       :desc "Add to personal directory" "a" #'+spell/add-word
+       :desc "Google Linkify" "l" #'linkify))
+
+
 
 ;; =================================================
 ;; Configuration for org mode and other allied modes
 ;; =================================================
+(setq ispell-personal-dictionary "~/.doom.d/vikas.pws")
+
+(add-hook 'org-mode-hook (lambda ()
+                           (company-mode -1)
+                           (setq fill-column 120)
+                           (visual-fill-column-mode)
+                           (setq display-line-numbers nil)))
+
 (after! org
-  (setq org-image-actual-width nil)
   ;; I want to open org link in other windows - not the same window.
   (setf (alist-get 'file org-link-frame-setup) #'find-file-other-window)
 
-  ;; I want to log when I mark a task as done
+    ;; I want to log when I mark a task as done
   (setq org-log-done 'time)
 
   ;; Set my sequence of todo things
@@ -253,54 +307,9 @@
            :empty-lines 0)
           ("j" "Journal" entry
            (file+olp+datetree +org-capture-journal-file)
-           "* %U %?\n%i\n%a" :prepend t)))
+           "* %U %?\n%i\n%a" :prepend t))))
 
-  ;; Enable global org-modern-mode
-  (setq
-   ;; Edit settings
-   org-auto-align-tags t
-   org-tags-column 0
-   org-modern-table nil
-   org-modern-tag nil
-   org-catch-invisible-edits 'show-and-error
-   org-special-ctrl-a/e t
-   org-insert-heading-respect-content t
-   org-attach-auto-tag nil
-
-   ;; Org styling, hide markup etc.
-   org-hide-emphasis-markers t
-   org-pretty-entities t
-   org-ellipsis " ▼ "
-   org-modern-star '("◉" "○" "◈" "◇" "◇" "◇" "*")
-   org-modern-priority nil
-   org-modern-todo nil
-   org-modern-timestamp nil
-
-   ;; Agenda styling
-   org-agenda-block-separator ?─
-   org-agenda-time-grid
-   '((daily today require-timed)
-     (800 1000 1200 1400 1600 1800 2000)
-     " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
-                                        ; org-agenda-sorting-strategy '(deadline-up)
-   org-agenda-current-time-string
-   "⭠ now ─────────────────────────────────────────────────")
-  (global-org-modern-mode))
-
-;;; Scrolling.
-;; Good speed and allow scrolling through large images (pixel-scroll).
-;; Note: Scroll lags when point must be moved but increasing the number
-;;       of lines that point moves in pixel-scroll.el ruins large image
-;;       scrolling. So unfortunately I think we'll just have to live with
-;;       this.
-(pixel-scroll-precision-mode)
-(setq pixel-dead-time 0) ; Never go back to the old scrolling behaviour.
-(setq pixel-resolution-fine-flag t) ; Scroll by number of pixels instead of lines (t = frame-char-height pixels).
-(setq mouse-wheel-scroll-amount '(1)) ; Distance in pixel-resolution to scroll each mouse wheel event.
-(setq mouse-wheel-progressive-speed nil) ; Progressive speed is too fast for me.
-
-
-;; Set some registers for critical files
+  ;; Set some registers for critical files
 (set-register ?t (cons 'file "~/Documents/OrgNotes/todo.org"))
 (set-register ?l (cons 'file "~/Documents/OrgNotes/Laguna_TODO.org"))
 (set-register ?r (cons 'file "~/Documents/OrgNotes/Redondo_TODO.org"))
@@ -379,7 +388,6 @@
         org-roam-ui-update-on-save t
         org-roam-ui-open-on-start t))
 
-
 (use-package! consult-org-roam
   :after org-roam
   :init
@@ -398,10 +406,10 @@
   ("C-c n b" . consult-org-roam-backlinks)
   ("C-c n g" . consult-org-roam-search))
 
-
 ;; Location for my custom emacs files.
 (use-package! vm-agenda
   :load-path "/Users/vikmishra/.doom.d/lisp")
+
 
 ;; Super agenda - this looks neat.
 ;; Can be optimized further. But we will live with this for the moment.
@@ -415,56 +423,13 @@
         org-agenda-start-on-weekday 1)
   (setq org-agenda-custom-commands
         '(;; other commands here
-          ("n" "PROG / TODO / WAIT /SOMEDAY"
+          ("l" "PROG / TODO / WAIT /SOMEDAY"
            ((todo "PROG" nil)
             (todo "TODO" nil)
             (todo "WAIT" nil)
             (todo "SOMEDAY" nil)
             )
            nil)
-          ("c" "Super view"
-           ((alltodo "" ((org-agenda-overriding-header "")
-                         (org-super-agenda-groups
-                          '((:log t)
-                            (:name "To refile"
-                             :file-path "refile\\.org")
-                            (:name "Next to do"
-                             :todo "NEXT"
-                             :order 1)
-                            (:name "Due Today"
-                             :deadline today
-                             :order 2)
-                            (:name "Important"
-                             :priority "A"
-                             :order 3)
-                            (:name "Overdue"
-                             :deadline past
-                             :order 4)
-                            (:name "Due Soon"
-                             :deadline future
-                             :order 5)
-                            (:name "Scheduled Soon"
-                             :scheduled future
-                             :order 6)
-                            (:name "Laguna"
-                             :tag "Laguna"
-                             :order 7)
-                            (:name "Malibu"
-                             :tag "Malibu"
-                             :order 8)
-                            (:name "Meeting"
-                             :tag "Meeting"
-                             :order 9)
-                            (:name "Redondo"
-                             :tag "Redondo"
-                             :order 10)
-                            (:name "IP Team"
-                             :tag "Team"
-                             :order 11)
-                            (:name "Meetings"
-                             :and (:todo "MEET" :scheduled future)
-                             :order 15)
-                            (:discard (:not (:todo "TODO")))))))))
           ("w" "My Workday"
 	   ((agenda "" ((org-agenda-overriding-header "")
                         (org-super-agenda-groups
@@ -536,15 +501,14 @@
   :config
   (org-super-agenda-mode))
 
-(use-package! consult-notes
-  :commands (
+(use-package consult-notes
+  :commands (consult-notes
              consult-notes-search-in-all-notes
+             ;; if using org-roam
              consult-notes-org-roam-find-node
              consult-notes-org-roam-find-node-relation)
   :config
-  (setq consult-notes-sources
-        '(("Org"             ?o "~/Documents/OrgNotes")))
-  ;; set org-roam integration
+  (setq consult-notes-file-dir-sources '(("Org"  ?o  "~/Documents/OrgNotes"))) ;; Set notes dir(s), see below
   (consult-notes-org-roam-mode))
 
 (use-package! org-appear
@@ -555,100 +519,9 @@
            org-appear-autoentities t
            org-appear-autosubmarkers t ))
 
-
 (use-package! ox-pandoc
   :config
   (setq org-pandoc-options-for-html5 '((template . "Github.html5"))))
-
-;; Show the TOC on the side.
-(use-package! org-ol-tree
-  :after org
-  :commands org-ol-tree
-  :hook (org-ol-tree-mode . visual-line-mode)
-  :config
-  (setq org-ol-tree-ui-window-auto-resize nil
-        org-ol-tree-ui-window-max-width 0.3))
-(map! :map org-mode-map
-      :after org
-      :localleader
-      :desc "Outline" "O" #'org-ol-tree)
-
-
-(use-package! vm-custom-functions
-  :load-path "/Users/vikmishra/.doom.d/lisp")
-
-(map! "C-c n C-d" 'insert-current-date-time)
-(map! "C-c n C-t" 'insert-current-time-for-journal)
-
-
-;; Make some keys equivalent to the evil mode.
-;; C-c SPC to open file in project
-(map! :leader
-      :desc "Switch buffer within project"      ","     #'persp-switch-to-buffer
-      :desc "Switch buffer"                     "<"     #'switch-to-buffer
-      :desc "Search project"                    "/"     #'+default/search-project
-      :desc "Search for Symbol in project"      "*"     #'+default/search-project-for-symbol-at-point
-      :desc "Find File"                         "."     #'find-file
-      :desc "Org Capture"                       "x"     #'org-capture
-      :desc "Jump to Bookmark"                  "RET"   #'bookmark-jump
-      :desc "Pop up scratch buffer"             "X"     #'doom/open-scratch-buffer
-      :desc "Find file in project"              "SPC"   #'projectile-find-file
-      :desc "Resume last search"                "'"     #'vertico-repeat
-      ;; Create ID for the current entry
-      :desc "Create ID for current entry"       "n r o" #'org-id-get-create
-      ;; Add a tag
-      :desc "Add tags to the Node"              "n r A" #'org-roam-tag-add
-      :desc "Use avy-goto-char-2 to jump"       ";"     #'avy-goto-char-2
-      )
-
-(map! "s-t" 'org-roam-dailies-goto-today)
-(map! "s-d" 'org-roam-dailies-find-date)
-(map! "s-u" 'consult-notes-search-in-all-notes)
-
-;; Add icon to doom modeline
-(use-package! doom-modeline
-  :config
-  (setq doom-modeline-major-mode-icon t)
-  )
-
-;; Configure good-scroll
-(use-package! good-scroll
-  :init (good-scroll-mode 1))
-(global-set-key (kbd "M-v") 'good-scroll-down-full-screen)
-(global-set-key (kbd "C-v") 'good-scroll-up-full-screen)
-
-
-;; Goto line preview
-(global-set-key [remap goto-line] 'goto-line-preview)
-
-;; Configure zop-to-char
-(global-set-key [remap zap-to-char] 'zop-to-char)
-
-(custom-set-faces!
-  '(aw-leading-char-face
-    :foreground "white" :background "red"
-    :weight bold :height 2.0 :box (:line-width 10 :color "red"))
-  )
-
-;; Setup dirvish
-(use-package! dirvish
-  :config
-  (setq dirvish-hide-details nil)
-  (dirvish-override-dired-mode)
-  )
-
-(add-hook 'org-mode-hook (lambda ()
-                           (company-mode -1)
-                           (setq fill-column 150)
-                           (visual-fill-column-mode)
-                                        ;(mixed-pitch-mode)
-                           (setq line-spacing 7)
-                                        ; (setq-default visual-fill-column-center-text t)
-                           (setq display-line-numbers nil)))
-
-(setq doom-themes-treemacs-theme "doom-colors")
-(map! :after treemacs "C-c -" :desc "Switch to Treemacs" 'treemacs-select-window)
-                                        ;(setq doom-themes-treemacs-enable-variable-pitch nil)
 
 ;; Org LaTeX export template
 ;; Material and configuration shamelessly copied from - https://so.nwalsh.com/2020/01/05-latex
@@ -768,54 +641,8 @@
          ("\\subsection{%s}" . "\\subsection*{%s}")
          ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
 
-                                        ;(use-package! mixed-pitch)
+(use-package! vm-custom-functions
+  :load-path "/Users/vikmishra/.doom.d/lisp")
 
-(custom-set-faces
- '(org-level-1 ((t (:inherit outline-1 :height 1.2 :weight bold))))
- '(org-level-2 ((t (:inherit outline-2 :height 1.15 :weight bold))))
- '(org-level-3 ((t (:inherit outline-3 :height 1.1 :weidht bold))))
- '(org-level-4 ((t (:inherit outline-4 :height 1.0 :weight bold))))
- '(org-level-5 ((t (:inherit outline-5 :height 1.0 :weight bold))))
- )
-
-;; (use-package! deft
-;;   :config
-;;   (setq deft-directory "/Users/vikmishra/Documents/OrgNotes/")
-;;   (setq deft-recursive t)
-
-;;   (defun vm/deft-parse-title (file contents)
-;;     "Parse the given FILE and CONTENTS and determine the title.
-;; If `deft-use-filename-as-title' is nil, the title is taken to
-;; be the first non-empty line of the FILE.  Else the base name of the FILE is
-;; used as title."
-;;     (let ((begin (string-match "^#\\+[tT][iI][tT][lL][eE]: .*$" contents)))
-;;       (if begin
-;;           (string-trim (substring contents begin (match-end 0)) "#\\+[tT][iI][tT][lL][eE]: *" "[\n\t ]+")
-;;         (deft-base-filename file))))
-
-;;   (advice-add 'deft-parse-title :override #'vm/deft-parse-title)
-
-;;   (setq deft-strip-summary-regexp
-;;         (concat "\\("
-;;                 "[\n\t]" ;; blank
-;;                 "\\|^#\\+[[:alpha:]_]+:.*$" ;; org-mode metadata
-;;                 "\\|^:PROPERTIES:\n\\(.+\n\\)+:END:\n"
-;;                 "\\)")))
-
-                                        ; Use ctrlf
-(use-package! ctrlf
-  :hook
-  (after-init . ctrlf-mode))
-
-
-;; Create google link for what I need.
-(defalias 'linkify
-  (kmacro "C-w [ [ h t t p : C-y C-/ / / C-y C-f [ C-y C-e SPC"))
-
-;; My custom keyboard shortcuts
-(map! :leader
-      (:prefix-map ("m" . "My Custom Shortcuts")
-       :desc "Add to personal directory" "a" #'+spell/add-word
-       :desc "Google Linkify" "l" #'linkify))
-
-(setq ispell-personal-dictionary "~/.doom.d/vikas.pws")
+(map! "C-c n C-d" 'insert-current-date-time)
+(map! "C-c n C-t" 'insert-current-time-for-journal)

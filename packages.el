@@ -48,37 +48,19 @@
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
-;
-(unpin! org)
-(unpin! org-contrib)
-(unpin! org-roam company-org-roam)
 
-;;; Tabnine based AI completion backend for company
-(package! company-tabnine)
-;; I like tree-sitter
-(package! tree-sitter)
-(package! tree-sitter-langs)
-;; Org and Org related packages to make org mode more effective.
-;; Enable org-roam-ui, this needs the latest version of org-roam and so we need to unpin the version
-;; that doom has chosen
-(package! org-roam-ui)
-;; Consult notes
-(package! consult-notes
-  :recipe (:host github :repo "mclear-tools/consult-notes"))
+;; My packages that I like.
+;; Consult org roam to search through notes quickly
 (package! consult-org-roam)
-; Use org-modern package to make the Org mode look a little modern
-(package! org-modern)
-;; I need org-appear
+(package! org-roam-ui)
+;; Hide markup in org mode
 (package! org-appear)
-;; Enable visual-fill mode
-;; Better agenda
+;; Super agenda
 (package! org-super-agenda)
-(package! visual-fill-column)
-
-;; I want smooth scrolling
-(package! good-scroll)
-;; all-the-icons
-(package! all-the-icons)
+(package! consult-notes)
+(package! org-contrib
+  :recipe (:host nil :repo "https://git.sr.ht/~bzg/org-contrib"
+           :files ("lisp/*.el")))
 ;; Show a preview of line to move to
 (package! goto-line-preview)
 ;; zzz-to-char
@@ -87,16 +69,11 @@
 (package! org-contrib
   :recipe (:host nil :repo "https://git.sr.ht/~bzg/org-contrib"
            :files ("lisp/*.el")))
-;; Enable dirvish
-(package! dirvish)
-;; consult-lsp
-(package! consult-lsp)
-;; Treemacs - all icons
-(package! treemacs-all-the-icons)
 ;; Vdiff package
 (package! vdiff)
 ;; Exec path from shell
 (package! exec-path-from-shell)
-(package! mixed-pitch)
 (package! ctrlf)
 (package! deadgrep)
+;; Visuall fill column looks good.
+(package! visual-fill-column)
