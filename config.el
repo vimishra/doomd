@@ -287,6 +287,18 @@
    "⭠ now ─────────────────────────────────────────────────")
   (global-org-modern-mode))
 
+;;; Scrolling.
+;; Good speed and allow scrolling through large images (pixel-scroll).
+;; Note: Scroll lags when point must be moved but increasing the number
+;;       of lines that point moves in pixel-scroll.el ruins large image
+;;       scrolling. So unfortunately I think we'll just have to live with
+;;       this.
+(pixel-scroll-precision-mode)
+(setq pixel-dead-time 0) ; Never go back to the old scrolling behaviour.
+(setq pixel-resolution-fine-flag t) ; Scroll by number of pixels instead of lines (t = frame-char-height pixels).
+(setq mouse-wheel-scroll-amount '(1)) ; Distance in pixel-resolution to scroll each mouse wheel event.
+(setq mouse-wheel-progressive-speed nil) ; Progressive speed is too fast for me.
+
 
 ;; Set some registers for critical files
 (set-register ?t (cons 'file "~/Documents/OrgNotes/todo.org"))
@@ -737,31 +749,35 @@
  '(org-level-5 ((t (:inherit outline-5 :height 1.0 :weight bold))))
  )
 
-(use-package! deft
-  :config
-  (setq deft-directory "/Users/vikmishra/Documents/OrgNotes/")
-  (setq deft-recursive t)
+;; (use-package! deft
+;;   :config
+;;   (setq deft-directory "/Users/vikmishra/Documents/OrgNotes/")
+;;   (setq deft-recursive t)
 
-  (defun vm/deft-parse-title (file contents)
-    "Parse the given FILE and CONTENTS and determine the title.
-If `deft-use-filename-as-title' is nil, the title is taken to
-be the first non-empty line of the FILE.  Else the base name of the FILE is
-used as title."
-    (let ((begin (string-match "^#\\+[tT][iI][tT][lL][eE]: .*$" contents)))
-      (if begin
-          (string-trim (substring contents begin (match-end 0)) "#\\+[tT][iI][tT][lL][eE]: *" "[\n\t ]+")
-        (deft-base-filename file))))
+;;   (defun vm/deft-parse-title (file contents)
+;;     "Parse the given FILE and CONTENTS and determine the title.
+;; If `deft-use-filename-as-title' is nil, the title is taken to
+;; be the first non-empty line of the FILE.  Else the base name of the FILE is
+;; used as title."
+;;     (let ((begin (string-match "^#\\+[tT][iI][tT][lL][eE]: .*$" contents)))
+;;       (if begin
+;;           (string-trim (substring contents begin (match-end 0)) "#\\+[tT][iI][tT][lL][eE]: *" "[\n\t ]+")
+;;         (deft-base-filename file))))
 
-  (advice-add 'deft-parse-title :override #'vm/deft-parse-title)
+;;   (advice-add 'deft-parse-title :override #'vm/deft-parse-title)
 
-  (setq deft-strip-summary-regexp
-        (concat "\\("
-                "[\n\t]" ;; blank
-                "\\|^#\\+[[:alpha:]_]+:.*$" ;; org-mode metadata
-                "\\|^:PROPERTIES:\n\\(.+\n\\)+:END:\n"
-                "\\)")))
+;;   (setq deft-strip-summary-regexp
+;;         (concat "\\("
+;;                 "[\n\t]" ;; blank
+;;                 "\\|^#\\+[[:alpha:]_]+:.*$" ;; org-mode metadata
+;;                 "\\|^:PROPERTIES:\n\\(.+\n\\)+:END:\n"
+;;                 "\\)")))
 
 ; Use ctrlf
 (use-package! ctrlf
   :hook
   (after-init . ctrlf-mode))
+
+
+(defalias 'linkify
+   (kmacro "C-w [ [ h t t p : C-y C-/ / / C-y C-f [ C-y C-e SPC"))
