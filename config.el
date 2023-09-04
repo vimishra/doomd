@@ -440,38 +440,38 @@
             (todo "" ((org-agenda-overriding-header "Overview")
                       (org-super-agenda-groups
                        '((:log t)
-                         (:name "NEXT ___"
+                         (:name "NEXT \n ===="
                           :todo "NEXT"
 			  :face (:background "chocolate3")
                           :order 1)
-    			 (:name "Due Today ___"
+    			 (:name "Due Today \n ========="
                           :deadline today
                           :order 2)
-			 (:name "Due this week ___"
+			 (:name "Due this week \n ============="
                           :deadline 7
 			  :order 3)
-			 (:name "Ongoing ___"
+			 (:name "Ongoing \n ======="
                           :scheduled t
                           :order 4)
-                         (:name "Overdue ___"
+                         (:name "Overdue \n ======="
                           :deadline past
                           :order 5)
-			 (:name "Tasks with Due Dates ___"
+			 (:name "Tasks with Due Dates \n ===================="
                           :deadline future
                           :order 6)
-			 (:name "Tasks without Due Dates ___"
+			 (:name "Tasks without Due Dates \n ========================"
                           :deadline nil
 			  :order 7)
-                         (:name "Laguna"
+                         (:name "Laguna \n ======"
                           :tag "Laguna"
                           :order 8)
-                         (:name "Malibu"
+                         (:name "Malibu \n ======"
                           :tag "Malibu"
                           :order 9)
-                         (:name "SSWRP and IP Team"
+                         (:name "SSWRP and IP Team \n ================="
                           :tag "Team"
                           :order 10)
-                         (:name "My ToDos"
+                         (:name "My ToDos \n ========"
                           :tag "Personal"
                           :order 11)
 			 (:discard (:anything t))))))))
@@ -485,16 +485,16 @@
             (todo "" ((org-agenda-overriding-header "Overview")
                       (org-super-agenda-groups
                        '((:log t)
-                         (:name "Laguna"
+                         (:name "Laguna \n ======"
                           :tag "Laguna"
                           :order 1)
-                         (:name "Malibu"
+                         (:name "Malibu \n ======"
                           :tag "Malibu"
                           :order 2)
-                         (:name "SSWRP and IP Team"
+                         (:name "SSWRP and IP Team \n ================="
                           :tag "Team"
                           :order 3)
-                         (:name "My ToDos"
+                         (:name "My ToDos \n ========"
                           :tag "Personal"
                           :order 4)
 			 (:discard (:anything t))))))))))
