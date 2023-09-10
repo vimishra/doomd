@@ -57,7 +57,7 @@
 (package! org-appear)
 ;; Super agenda
 (package! org-super-agenda)
-(package! consult-notes)
+; (package! consult-notes)
 (package! org-contrib
   :recipe (:host nil :repo "https://git.sr.ht/~bzg/org-contrib"
            :files ("lisp/*.el")))
@@ -77,3 +77,4 @@
 (package! deadgrep)
 ;; Visuall fill column looks good.
 (package! visual-fill-column)
+

@@ -7,7 +7,7 @@
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
 (setq user-full-name "Vikas Mishra"
-        user-mail-address "vikas.mishra@hey.com")
+      user-mail-address "vikas.mishra@hey.com")
 
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
@@ -22,8 +22,8 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "CaskaydiaCove Nerd Font" :size 18 ))
-;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
+(setq doom-font (font-spec :family "CaskaydiaCove Nerd Font" :size 19 )
+      doom-variable-pitch-font (font-spec :family "Bear Sans UI" :size 18))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -33,7 +33,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-tomorrow-night)
+(setq doom-theme 'doom-tomorrow-day)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -83,7 +83,7 @@
 (setq truncate-string-ellipsis "…"                      ; Unicode ellipsis looks better
       auto-save-default t                               ; Save files by default
       scroll-margin  2                                  ; Save some margin while scrolling up/down.
-            )
+      )
 (setq-default line-spacing 5)
 (display-time-mode 1)                                   ; Show time in the modeline
 (add-to-list 'default-frame-alist '(height . 48))
@@ -181,7 +181,7 @@
 
 (map! "s-t" 'org-roam-dailies-goto-today)
 (map! "s-d" 'org-roam-dailies-find-date)
-(map! "s-u" 'consult-notes-search-in-all-notes)
+(map! "s-u" 'consult-org-roam-search)
 
 ;; Add icon to doom modeline
 (use-package! doom-modeline
@@ -236,11 +236,13 @@
                            (visual-fill-column-mode)
                            (setq display-line-numbers nil)))
 
+(defvar +org-roam-open-buffer-on-find-file t)
+
 (after! org
   ;; I want to open org link in other windows - not the same window.
   (setf (alist-get 'file org-link-frame-setup) #'find-file-other-window)
 
-    ;; I want to log when I mark a task as done
+  ;; I want to log when I mark a task as done
   (setq org-log-done 'time)
 
   ;; Set my sequence of todo things
@@ -309,7 +311,7 @@
            (file+olp+datetree +org-capture-journal-file)
            "* %U %?\n%i\n%a" :prepend t))))
 
-  ;; Set some registers for critical files
+;; Set some registers for critical files
 (set-register ?t (cons 'file "~/Documents/OrgNotes/todo.org"))
 (set-register ?l (cons 'file "~/Documents/OrgNotes/Laguna_TODO.org"))
 (set-register ?r (cons 'file "~/Documents/OrgNotes/Redondo_TODO.org"))
@@ -353,6 +355,16 @@
       (unless (equal (file-truename today-file)
                      (file-truename (buffer-file-name)))
         (org-refile nil nil (list "Tasks" today-file nil pos)))))
+
+  (defun my/preview-fetcher ()
+    (let* ((elem (org-element-context))
+           (parent (org-element-property :parent elem)))
+      ;; TODO: alt handling for non-paragraph elements
+      (string-trim-right (buffer-substring-no-properties
+                          (org-element-property :begin parent)
+                          (org-element-property :end parent)))))
+
+  (setq org-roam-preview-function #'my/preview-fetcher)
 
   (add-to-list 'org-after-todo-state-change-hook
                (lambda ()
@@ -500,16 +512,6 @@
 			 (:discard (:anything t))))))))))
   :config
   (org-super-agenda-mode))
-
-(use-package consult-notes
-  :commands (consult-notes
-             consult-notes-search-in-all-notes
-             ;; if using org-roam
-             consult-notes-org-roam-find-node
-             consult-notes-org-roam-find-node-relation)
-  :config
-  (setq consult-notes-file-dir-sources '(("Org"  ?o  "~/Documents/OrgNotes"))) ;; Set notes dir(s), see below
-  (consult-notes-org-roam-mode))
 
 (use-package! org-appear
   :after org
