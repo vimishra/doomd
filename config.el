@@ -443,7 +443,7 @@
             )
            nil)
           ("w" "My Workday"
-	   ((agenda "" ((org-agenda-overriding-header "")
+           ((agenda "" ((org-agenda-overriding-header "")
                         (org-super-agenda-groups
                          '((:name "Today"
                             :time-grid t
@@ -454,26 +454,26 @@
                        '((:log t)
                          (:name "NEXT \n ===="
                           :todo "NEXT"
-			  :face (:background "chocolate3")
+                          :face (:background "chocolate3")
                           :order 1)
-    			 (:name "Due Today \n ========="
+                         (:name "Due Today \n ========="
                           :deadline today
                           :order 2)
-			 (:name "Due this week \n ============="
+                         (:name "Due this week \n ============="
                           :deadline 7
-			  :order 3)
-			 (:name "Ongoing \n ======="
+                          :order 3)
+                         (:name "Ongoing \n ======="
                           :scheduled t
                           :order 4)
                          (:name "Overdue \n ======="
                           :deadline past
                           :order 5)
-			 (:name "Tasks with Due Dates \n ===================="
+                         (:name "Tasks with Due Dates \n ===================="
                           :deadline future
                           :order 6)
-			 (:name "Tasks without Due Dates \n ========================"
+                         (:name "Tasks without Due Dates \n ========================"
                           :deadline nil
-			  :order 7)
+                          :order 7)
                          (:name "Laguna \n ======"
                           :tag "Laguna"
                           :order 8)
@@ -486,9 +486,9 @@
                          (:name "My ToDos \n ========"
                           :tag "Personal"
                           :order 11)
-			 (:discard (:anything t))))))))
+                         (:discard (:anything t))))))))
           ("k" "Kategories"
-	   ((agenda "" ((org-agenda-overriding-header "")
+           ((agenda "" ((org-agenda-overriding-header "")
                         (org-super-agenda-groups
                          '((:name "Today"
                             :time-grid t
@@ -509,7 +509,7 @@
                          (:name "My ToDos \n ========"
                           :tag "Personal"
                           :order 4)
-			 (:discard (:anything t))))))))))
+                         (:discard (:anything t))))))))))
   :config
   (org-super-agenda-mode))
 
@@ -561,51 +561,51 @@
 \\setlist[description]{style=unboxed,font=\\sffamily\\bfseries}
 \\usepackage{listings}
 \\lstset{frame=single,aboveskip=1em,
-	framesep=.5em,backgroundcolor=\\color{AliceBlue},
-	rulecolor=\\color{LightSteelBlue},framerule=1pt}
+        framesep=.5em,backgroundcolor=\\color{AliceBlue},
+        rulecolor=\\color{LightSteelBlue},framerule=1pt}
 \\usepackage{xcolor}
 \\newcommand\\basicdefault[1]{\\scriptsize\\color{Black}\\ttfamily#1}
 \\lstset{basicstyle=\\basicdefault{\\spaceskip1em}}
 \\lstset{literate=
-	    {§}{{\\S}}1
-	    {©}{{\\raisebox{.125ex}{\\copyright}\\enspace}}1
-	    {«}{{\\guillemotleft}}1
-	    {»}{{\\guillemotright}}1
-	    {Á}{{\\'A}}1
-	    {Ä}{{\\\"A}}1
-	    {É}{{\\'E}}1
-	    {Í}{{\\'I}}1
-	    {Ó}{{\\'O}}1
-	    {Ö}{{\\\"O}}1
-	    {Ú}{{\\'U}}1
-	    {Ü}{{\\\"U}}1
-	    {ß}{{\\ss}}2
-	    {à}{{\\`a}}1
-	    {á}{{\\'a}}1
-	    {ä}{{\\\"a}}1
-	    {é}{{\\'e}}1
-	    {í}{{\\'i}}1
-	    {ó}{{\\'o}}1
-	    {ö}{{\\\"o}}1
-	    {ú}{{\\'u}}1
-	    {ü}{{\\\"u}}1
-	    {¹}{{\\textsuperscript1}}1
+            {§}{{\\S}}1
+            {©}{{\\raisebox{.125ex}{\\copyright}\\enspace}}1
+            {«}{{\\guillemotleft}}1
+            {»}{{\\guillemotright}}1
+            {Á}{{\\'A}}1
+            {Ä}{{\\\"A}}1
+            {É}{{\\'E}}1
+            {Í}{{\\'I}}1
+            {Ó}{{\\'O}}1
+            {Ö}{{\\\"O}}1
+            {Ú}{{\\'U}}1
+            {Ü}{{\\\"U}}1
+            {ß}{{\\ss}}2
+            {à}{{\\`a}}1
+            {á}{{\\'a}}1
+            {ä}{{\\\"a}}1
+            {é}{{\\'e}}1
+            {í}{{\\'i}}1
+            {ó}{{\\'o}}1
+            {ö}{{\\\"o}}1
+            {ú}{{\\'u}}1
+            {ü}{{\\\"u}}1
+            {¹}{{\\textsuperscript1}}1
             {²}{{\\textsuperscript2}}1
             {³}{{\\textsuperscript3}}1
-	    {ı}{{\\i}}1
-	    {—}{{---}}1
-	    {’}{{'}}1
-	    {…}{{\\dots}}1
+            {ı}{{\\i}}1
+            {—}{{---}}1
+            {’}{{'}}1
+            {…}{{\\dots}}1
             {⮠}{{$\\hookleftarrow$}}1
-	    {␣}{{\\textvisiblespace}}1,
-	    keywordstyle=\\color{DarkGreen}\\bfseries,
-	    identifierstyle=\\color{DarkRed},
-	    commentstyle=\\color{Gray}\\upshape,
-	    stringstyle=\\color{DarkBlue}\\upshape,
-	    emphstyle=\\color{Chocolate}\\upshape,
-	    showstringspaces=false,
-	    columns=fullflexible,
-	    keepspaces=true}
+            {␣}{{\\textvisiblespace}}1,
+            keywordstyle=\\color{DarkGreen}\\bfseries,
+            identifierstyle=\\color{DarkRed},
+            commentstyle=\\color{Gray}\\upshape,
+            stringstyle=\\color{DarkBlue}\\upshape,
+            emphstyle=\\color{Chocolate}\\upshape,
+            showstringspaces=false,
+            columns=fullflexible,
+            keepspaces=true}
 \\usepackage[a4paper,margin=1in,left=1.5in]{geometry}
 \\usepackage{parskip}
 \\makeatletter
