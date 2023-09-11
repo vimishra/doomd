@@ -39,6 +39,10 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
 
+;; Doom's scratch buffer mode
+(setq-default doom-scratch-initial-major-mode 'lisp-interaction-mode)
+
+
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/Documents/OrgNotes/")
@@ -225,9 +229,9 @@
 
 
 
-;; =================================================
+;; ===================================================
 ;; Configuration for org mode and other allied modes
-;; =================================================
+;; ===================================================
 (setq ispell-personal-dictionary "~/.doom.d/vikas.pws")
 
 (add-hook 'org-mode-hook (lambda ()
@@ -648,3 +652,40 @@
 
 (map! "C-c n C-d" 'insert-current-date-time)
 (map! "C-c n C-t" 'insert-current-time-for-journal)
+
+;; Dired Dotfiles hide
+(defun my-dired-mode-hook ()
+  "My `dired' mode hook."
+  ;; To hide dot-files by default
+  (dired-hide-dotfiles-mode))
+
+;; To toggle hiding
+(add-hook 'dired-mode-hook #'my-dired-mode-hook)
+
+
+;; Open files in dired mode using 'open'
+;; (defun embark-open-externally (file)
+;;   "Open FILE externally using the default application of the system."
+;;   (interactive "fOpen externally: ")
+;;   (if (and (eq system-type 'windows-nt)
+;;            (fboundp 'w32-shell-execute))
+;;       (w32-shell-execute "open" file)
+;;     (call-process (pcase system-type
+;;                     ('darwin "open")
+;;                     ('cygwin "cygstart")
+;;                     (_ "xdg-open"))
+;;                   nil 0 nil
+;;                   (expand-file-name file))))
+
+
+(use-package! embark)
+(after! embark
+  (defun dired-open-externally (&optional arg)
+    "Open marked or current file in operating system's default application."
+    (interactive "P")
+    (dired-map-over-marks
+     (embark-open-externally (dired-get-filename)) arg)))
+
+(map! (:after dired
+              (:map dired-mode-map
+               :desc "Open File Externally" "E" #'dired-open-externally)))

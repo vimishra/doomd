@@ -78,3 +78,5 @@
 ;; Visuall fill column looks good.
 (package! visual-fill-column)
 
+;; Enable dired hide dotfiles
+(package! dired-hide-dotfiles)
