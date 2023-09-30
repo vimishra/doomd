@@ -426,6 +426,8 @@
 ;; Add journal to agenda
 (use-package! vm-agenda
   :load-path "/Users/vikmishra/.doom.d/lisp")
+(use-package! gogolink
+  :load-path "/Users/vikmishra/.doom.d/lisp")
 ; (setq org-agenda-files (append (directory-files-recursively "~/Documents/OrgNotes/journal/" "\\.org$") org-agenda-files))
 
 ;; Super agenda - this looks neat.
