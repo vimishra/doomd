@@ -80,3 +80,7 @@
 
 ;; Enable dired hide dotfiles
 (package! dired-hide-dotfiles)
+(package! org-drill)
+
+;; Org web tools
+(package! org-web-tools)

@@ -423,9 +423,10 @@
   ("C-c n g" . consult-org-roam-search))
 
 ;; Location for my custom emacs files.
+;; Add journal to agenda
 (use-package! vm-agenda
   :load-path "/Users/vikmishra/.doom.d/lisp")
-
+; (setq org-agenda-files (append (directory-files-recursively "~/Documents/OrgNotes/journal/" "\\.org$") org-agenda-files))
 
 ;; Super agenda - this looks neat.
 ;; Can be optimized further. But we will live with this for the moment.
@@ -522,6 +523,7 @@
   :hook (org-mode . org-appear-mode)
   :config (setq
            org-appear-autolinks t
+           org-hide-emphasis-markers t
            org-appear-autoentities t
            org-appear-autosubmarkers t ))
 
@@ -689,3 +691,31 @@
 (map! (:after dired
               (:map dired-mode-map
                :desc "Open File Externally" "E" #'dired-open-externally)))
+
+
+;; Use bash for the emacs commands.
+(setq shell-file-name (executable-find "bash"))
+(setq-default vterm-shell (executable-find "fish"))
+(setq-default explicit-shell-file-name (executable-find "fish"))
+
+
+(use-package! org-journal
+  :after org
+  :config
+  (setq org-journal-date-format "%A, %d %B %Y"
+        org-journal-time-format "%I:%M %p"
+        org-journal-file-type 'monthly))
+
+;; Set the default apps for opening type of files.
+(setq org-file-apps
+      '((remote . emacs)
+        (auto-mode . emacs)
+        (directory . emacs)
+        ("\\.mm\\'" . default)
+        ("\\.x?html?\\'" . default)
+        ("\\.png\\'" . default)
+        ("\\.jpg\\'" . default)
+        ("\\.pdf\\'" . default)))
+
+;; Enable org-web-tools
+(use-package! org-web-tools)
