@@ -664,22 +664,6 @@
 ;; To toggle hiding
 (add-hook 'dired-mode-hook #'my-dired-mode-hook)
 
-
-;; Open files in dired mode using 'open'
-;; (defun embark-open-externally (file)
-;;   "Open FILE externally using the default application of the system."
-;;   (interactive "fOpen externally: ")
-;;   (if (and (eq system-type 'windows-nt)
-;;            (fboundp 'w32-shell-execute))
-;;       (w32-shell-execute "open" file)
-;;     (call-process (pcase system-type
-;;                     ('darwin "open")
-;;                     ('cygwin "cygstart")
-;;                     (_ "xdg-open"))
-;;                   nil 0 nil
-;;                   (expand-file-name file))))
-
-
 (use-package! embark)
 (after! embark
   (defun dired-open-externally (&optional arg)
@@ -692,12 +676,10 @@
               (:map dired-mode-map
                :desc "Open File Externally" "E" #'dired-open-externally)))
 
-
 ;; Use bash for the emacs commands.
 (setq shell-file-name (executable-find "bash"))
 (setq-default vterm-shell (executable-find "fish"))
 (setq-default explicit-shell-file-name (executable-find "fish"))
-
 
 (use-package! org-journal
   :after org
@@ -716,6 +698,3 @@
         ("\\.png\\'" . default)
         ("\\.jpg\\'" . default)
         ("\\.pdf\\'" . default)))
-
-;; Enable org-web-tools
-(use-package! org-web-tools)
