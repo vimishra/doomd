@@ -424,11 +424,13 @@
 
 ;; Location for my custom emacs files.
 ;; Add journal to agenda
-(use-package! vm-agenda
-  :load-path "/Users/vikmishra/.doom.d/lisp")
+;(use-package! vm-agenda
+;  :load-path "/Users/vikmishra/.doom.d/lisp")
+
 (use-package! gogolink
   :load-path "/Users/vikmishra/.doom.d/lisp")
-; (setq org-agenda-files (append (directory-files-recursively "~/Documents/OrgNotes/journal/" "\\.org$") org-agenda-files))
+
+(setq org-agenda-files (append '("~/Documents/OrgNotes/" "~/Documents/OrgNotes/roam/" "~/Documents/OrgNotes/journal/")))
 
 ;; Super agenda - this looks neat.
 ;; Can be optimized further. But we will live with this for the moment.
@@ -686,7 +688,10 @@
 (use-package! org-journal
   :after org
   :config
-  (setq org-journal-date-format "%A, %d %B %Y"
+  (setq org-journal-dir "~/Documents/OrgNotes/journal/"
+        org-journal-enable-agenda-integration t
+        org-element-use-cache nil
+        org-journal-date-format "%A, %d %B %Y"
         org-journal-time-format "%I:%M %p"
         org-journal-file-type 'monthly))
 

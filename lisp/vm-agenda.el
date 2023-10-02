@@ -65,7 +65,7 @@ tasks."
                            (lambda (x)
                              (string-match (regexp-quote ".#") x))
                            (directory-files org-directory t "org$"))
-                          (vulpea-project-files))))
+                          (vulpea-project-files) org-agenda-files)))
 
 
 (add-hook 'find-file-hook #'vulpea-project-update-tag)
