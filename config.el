@@ -238,6 +238,7 @@
                            (company-mode -1)
                            (setq fill-column 120)
                            (visual-fill-column-mode)
+                           (org-unicode)
                            (setq display-line-numbers nil)))
 
 (defvar +org-roam-open-buffer-on-find-file t)
@@ -426,10 +427,8 @@
 ;; Add journal to agenda
 ;(use-package! vm-agenda
 ;  :load-path "/Users/vikmishra/.doom.d/lisp")
-
 (use-package! gogolink
   :load-path "/Users/vikmishra/.doom.d/lisp")
-
 (setq org-agenda-files (append '("~/Documents/OrgNotes/" "~/Documents/OrgNotes/roam/" "~/Documents/OrgNotes/journal/")))
 
 ;; Super agenda - this looks neat.
