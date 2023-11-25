@@ -82,3 +82,4 @@
 (package! dired-hide-dotfiles)
 (package! org-drill)
 
+(package! wrap-region)

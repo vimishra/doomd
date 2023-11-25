@@ -23,6 +23,7 @@
 ;; accept. For example:
 ;;
 (setq doom-font (font-spec :family "CaskaydiaCove Nerd Font" :size 19 )
+      doom-unicode-font (font-spec :family "CaskaydiaCove Nerd Font" :size 19 )
       doom-variable-pitch-font (font-spec :family "Bear Sans UI" :size 18))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
@@ -180,7 +181,7 @@
       :desc "Create ID for current entry"       "n r o" #'org-id-get-create
       ;; Add a tag
       :desc "Add tags to the Node"              "n r A" #'org-roam-tag-add
-      :desc "Use avy-goto-char-2 to jump"       ";"     #'avy-goto-char-2
+      :desc "Use avy-goto-char-2 to jump"       "'"     #'avy-goto-char-2
       )
 
 (map! "s-t" 'org-roam-dailies-goto-today)
@@ -234,10 +235,35 @@
 ;; ===================================================
 (setq ispell-personal-dictionary "~/.doom.d/vikas.pws")
 
+(defun vm-org-faces ()
+  (set-face-attribute 'org-level-1 nil :height 1.25)
+  (set-face-attribute 'org-level-2 nil :height 1.15)
+  (set-face-attribute 'org-level-3 nil :height 1.1))
+
+;; Use electric pair mode for Org mode
+(electric-pair-mode 1)
+; (defvar org-electric-pairs '((?\* . ?\*) (?/ . ?/) (?= . ?=)
+;                             (?\_ . ?\_) (?~ . ?~) (?+ . ?+)) "Electric pairs for org-mode.")
+
+;(defun org-add-electric-pairs ()
+;  (setq-local electric-pair-pairs (append electric-pair-pairs org-electric-pairs))
+;  (setq-local electric-pair-text-pairs electric-pair-pairs))
+;
+(require 'wrap-region)
+(add-hook 'org-mode-hook #'wrap-region-mode)
+
+(wrap-region-add-wrapper "=" "=" nil 'org-mode) ; select region, hit = then region -> =region= in org-mode
+(wrap-region-add-wrapper "~" "~" nil 'org-mode) ; select region, hit ~ then region -> ~region~ in org-mode
+(wrap-region-add-wrapper "*" "*" nil 'org-mode) ; select region, hit * then region -> *region* in org-mode
+(wrap-region-add-wrapper "/" "/" nil 'org-mode) ; select region, hit / then region -> /region/ in org-mode
+(wrap-region-add-wrapper "_" "_" nil 'org-mode) ; select region, hit _ then region -> _region_ in org-mode
+(wrap-region-add-wrapper "+" "+" nil 'org-mode) ; select region, hit + then region -> +region+ in org-mode
+
 (add-hook 'org-mode-hook (lambda ()
-                           (company-mode -1)
                            (setq fill-column 120)
                            (visual-fill-column-mode)
+                           ;(org-add-electric-pairs)
+                           (vm-org-faces)
                            (setq display-line-numbers nil)))
 
 (defvar +org-roam-open-buffer-on-find-file t)
@@ -314,6 +340,11 @@
           ("j" "Journal" entry
            (file+olp+datetree +org-capture-journal-file)
            "* %U %?\n%i\n%a" :prepend t))))
+
+(map! :after org :map org-mode-map "M-n" #'org-forward-heading-same-level)
+(map! :after org :map org-mode-map "M-p" #'org-backward-heading-same-level)
+
+
 
 ;; Set some registers for critical files
 (set-register ?t (cons 'file "~/Documents/OrgNotes/todo.org"))
@@ -424,11 +455,11 @@
 
 ;; Location for my custom emacs files.
 ;; Add journal to agenda
-;(use-package! vm-agenda
-;  :load-path "/Users/vikmishra/.doom.d/lisp")
+(use-package! vm-agenda
+  :load-path "/Users/vikmishra/.doom.d/lisp")
 (use-package! gogolink
   :load-path "/Users/vikmishra/.doom.d/lisp")
-(setq org-agenda-files (append '("~/Documents/OrgNotes/" "~/Documents/OrgNotes/roam/" "~/Documents/OrgNotes/journal/")))
+;(setq org-agenda-files (append '("~/Documents/OrgNotes/" "~/Documents/OrgNotes/roam/" "~/Documents/OrgNotes/journal/")))
 
 ;; Super agenda - this looks neat.
 ;; Can be optimized further. But we will live with this for the moment.
@@ -683,16 +714,6 @@
 (setq-default vterm-shell (executable-find "fish"))
 (setq-default explicit-shell-file-name (executable-find "fish"))
 
-(use-package! org-journal
-  :after org
-  :config
-  (setq org-journal-dir "~/Documents/OrgNotes/journal/"
-        org-journal-enable-agenda-integration t
-        org-element-use-cache nil
-        org-journal-date-format "%A, %d %B %Y"
-        org-journal-time-format "%I:%M %p"
-        org-journal-file-type 'monthly))
-
 ;; Set the default apps for opening type of files.
 (setq org-file-apps
       '((remote . emacs)
@@ -703,3 +724,8 @@
         ("\\.png\\'" . default)
         ("\\.jpg\\'" . default)
         ("\\.pdf\\'" . default)))
+
+(after! unicode-fonts
+  (push "Symbola" (cadr (assoc "Miscellaneous Symbols" unicode-fonts-block-font-mapping))))
+
+(setq deft-directory "~/Documents/OrgNotes/")
