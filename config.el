@@ -24,7 +24,8 @@
 ;;
 (setq doom-font (font-spec :family "CaskaydiaCove NF" :size 19 )
       doom-unicode-font (font-spec :family "CaskaydiaCove NF" :size 19 )
-      doom-variable-pitch-font (font-spec :family "Bear Sans UI" :size 18))
+      doom-variable-pitch-font (font-spec :family "Google Sans" :size 10 :weight 'regular))
+;;       doom-variable-pitch-font (font-spec :family "Bear Sans UI" :size 18 :weight 'medium))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -34,7 +35,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-tomorrow-day)
+(setq doom-theme 'doom-tomorrow-night)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -252,6 +253,7 @@
 (require 'wrap-region)
 (add-hook 'org-mode-hook #'wrap-region-mode)
 
+;; Wrap the region in markup chars
 (wrap-region-add-wrapper "=" "=" nil 'org-mode) ; select region, hit = then region -> =region= in org-mode
 (wrap-region-add-wrapper "~" "~" nil 'org-mode) ; select region, hit ~ then region -> ~region~ in org-mode
 (wrap-region-add-wrapper "*" "*" nil 'org-mode) ; select region, hit * then region -> *region* in org-mode
@@ -259,11 +261,28 @@
 (wrap-region-add-wrapper "_" "_" nil 'org-mode) ; select region, hit _ then region -> _region_ in org-mode
 (wrap-region-add-wrapper "+" "+" nil 'org-mode) ; select region, hit + then region -> +region+ in org-mode
 
+;; Prettify symbols list
+(defun my/org-mode/load-prettify-symbols ()
+  (interactive)
+  (setq prettify-symbols-alist
+        '(("lambda" . "λ")
+          ("|>" . "▷")
+          ("<|" . "◁")
+          ("->>" . "↠")
+          ("->" . "→")
+          ("<-" . "←")
+          ("=>" . "⇒")
+          ("<=" . "≤")
+          (">=" . "≥")))
+  (prettify-symbols-mode 1))
+
+; Org mode hooks
 (add-hook 'org-mode-hook (lambda ()
                            (setq fill-column 120)
                            (visual-fill-column-mode)
                            ;(org-add-electric-pairs)
                            (vm-org-faces)
+                           (my/org-mode/load-prettify-symbols)
                            (setq display-line-numbers nil)))
 
 (defvar +org-roam-open-buffer-on-find-file t)
@@ -274,6 +293,16 @@
 
   ;; I want to log when I mark a task as done
   (setq org-log-done 'time)
+
+  ;; I don't want to export the below while exporting
+  (setq org-export-with-tags nil)
+  (setq org-export-with-author nil)
+  (setq org-export-with-title nil)
+  (setq org-pretty-entities t)
+  (setq org-use-sub-superscripts "{}")
+
+
+  ;;
 
   ;; Set my sequence of todo things
   (setq org-todo-keywords
@@ -459,6 +488,8 @@
   :load-path "/Users/vikmishra/.doom.d/lisp")
 (use-package! gogolink
   :load-path "/Users/vikmishra/.doom.d/lisp")
+;(use-package! org-roam-filter-entries
+;  :load-path "/Users/vikmishra/.doom.d/lisp")
 ;(setq org-agenda-files (append '("~/Documents/OrgNotes/" "~/Documents/OrgNotes/roam/" "~/Documents/OrgNotes/journal/")))
 
 ;; Super agenda - this looks neat.
@@ -729,3 +760,48 @@
   (push "Symbola" (cadr (assoc "Miscellaneous Symbols" unicode-fonts-block-font-mapping))))
 
 (setq deft-directory "~/Documents/OrgNotes/")
+
+;; Org modern setup
+(use-package org-modern
+  :ensure t
+  :after org
+  :hook
+  (org-mode . org-modern-mode)
+  (org-agenda-finalize . org-modern-agenda)
+  :custom
+  (org-modern-block-fringe 10)
+  (org-ellipsis "…")
+  (org-pretty-entities t)
+  (org-hide-emphasis-markers t)
+  (org-auto-align-tags nil)
+  (org-tags-column 0)
+  (org-catch-invisible-edits 'show-and-error)
+  (org-special-ctrl-a/e t)
+  (org-modern-tag t)
+  (org-modern-todo nil)
+  (org-modern-timestamp nil)
+  (org-modern-table nil)
+  (org-insert-heading-respect-content t)
+  :custom-face
+  (org-modern-label
+   ((t :height 1.0 :weight semi-bold
+       :underline nil :inherit default))))
+
+;(use-package! mixed-pitch
+;  :hook
+  ;; If you want it in all text modes:
+;  (org-mode . mixed-pitch-mode))
+
+;; Copilot - accept completion from copilot and fallback to company
+(use-package! copilot
+  :hook (python-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("<tab>" . 'copilot-accept-completion)
+              ("TAB" . 'copilot-accept-completion)
+              ("C-TAB" . 'copilot-accept-completion-by-word)
+              ("C-<tab>" . 'copilot-accept-completion-by-word)))
+;; ob-mermaid
+(use-package! ob-mermaid
+  :config
+  (setq ob-mermaid-cli-path "/opt/homebrew/bin/mmdc"))
+
