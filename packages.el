@@ -92,3 +92,5 @@
 
 ;; Ob mermaid
 (package! ob-mermaid)
+
+(package! org-ql)

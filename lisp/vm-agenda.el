@@ -177,7 +177,7 @@ If nil it defaults to `split-string-default-separators', normally
 ;; https://d12frosted.io/posts/2020-06-24-task-management-with-roam-vol2.html
  (setq org-agenda-prefix-format
       '((agenda . " %i %-12(vulpea-agenda-category 20)%?-12t% s")
-        (todo . " %i %-12(vulpea-agenda-category 20) %-22(org-entry-get nil \"DEADLINE\") % s ")
+        (todo . " %i %-12(vulpea-agenda-category 20) %-22(org-entry-get nil \"SCHEDULED\") %-22(org-entry-get nil \"DEADLINE\") % s ")
         (tags . " %i %-12(vulpea-agenda-category 20) % s")
         (search . " %i %-12(vulpea-agenda-category 20) % s")))
 

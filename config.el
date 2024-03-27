@@ -325,6 +325,7 @@
                         ("Malibu" . ?n)
                         ("Meeting". ?m)
                         ("Personal" . ?p)
+                        ("LaJolla" . ?j)
 
                         ;; Work Log Tags
                         ("accomplishment" . ?a)
@@ -335,7 +336,7 @@
         '(
           ("Team"  . (:foreground "mediumPurple1" :weight bold))
           ("Laguna"   . (:foreground "royalblue1"    :weight bold))
-          ("Redondo"  . (:foreground "Dark green"  :weight bold))
+          ("LaJolla"  . (:foreground "Dark green"  :weight bold))
           ("Malibu"        . (:foreground "lightSalmon1"        :weight bold))
           ("Meeting"   . (:foreground "yellow1"       :weight bold))
           ("Personal" . (:foreground "Orange" :weight bold))
@@ -350,16 +351,16 @@
           ("l" "Laguna Todos" entry
            (file+headline "~/Documents/OrgNotes/Laguna_TODO.org" "Laguna TODOs")
            "* TODO %?\n%i\n%a" :prepend t)
-          ("r" "Redondo Todos" entry
-           (file+headline "~/Documents/OrgNotes/Redondo_TODO.org" "Redondo TODOs")
+          ("j" "LaJolla Todos" entry
+           (file+headline "~/Documents/OrgNotes/LaJolla_TODO.org" "LaJolla TODOs")
            "* TODO %?\n%i\n%a" :prepend t)
-          ("n" "Malibu Todos" entry
+          ("m" "Malibu Todos" entry
            (file+headline "~/Documents/OrgNotes/Malibu_TODO.org" "Malibu TODOs")
            "* TODO %?\n%i\n%a" :prepend t)
           ("i" "IP Team Todos" entry
            (file+headline "~/Documents/OrgNotes/Team_TODO.org" "Team TODOs")
            "* TODO %?\n%i\n%a" :prepend t)
-          ("m" "Meeting"
+          ("n" "Meeting"
            entry (file+datetree "~/Documents/OrgNotes/Meetings.org")
            "* %? :meeting:%^g \n:Created: %T\n** Attendees\n+ \n** Notes\n+ \n** Action Items\n*** TODO "
            :tree-type week
@@ -377,8 +378,7 @@
 
 ;; Set some registers for critical files
 (set-register ?t (cons 'file "~/Documents/OrgNotes/todo.org"))
-(set-register ?l (cons 'file "~/Documents/OrgNotes/Laguna_TODO.org"))
-(set-register ?r (cons 'file "~/Documents/OrgNotes/Redondo_TODO.org"))
+(set-register ?l (cons 'file "~/Documents/OrgNotes/LaJolla_TODO.org"))
 (set-register ?m (cons 'file "~/Documents/OrgNotes/Malibu_TODO.org"))
 (set-register ?i (cons 'file "~/Documents/OrgNotes/Team_TODO.org"))
 
@@ -488,99 +488,12 @@
   :load-path "/Users/vikmishra/.doom.d/lisp")
 (use-package! gogolink
   :load-path "/Users/vikmishra/.doom.d/lisp")
+(use-package! bsv-mode
+  :load-path "/Users/vikmishra/.doom.d/lisp")
 ;(use-package! org-roam-filter-entries
 ;  :load-path "/Users/vikmishra/.doom.d/lisp")
 ;(setq org-agenda-files (append '("~/Documents/OrgNotes/" "~/Documents/OrgNotes/roam/" "~/Documents/OrgNotes/journal/")))
 
-;; Super agenda - this looks neat.
-;; Can be optimized further. But we will live with this for the moment.
-(use-package! org-super-agenda
-  :after org-agenda
-  :init
-  (setq org-agenda-skip-scheduled-if-done t
-        org-agenda-skip-deadline-if-done t
-        org-agenda-include-deadlines t
-        ;; org-agenda-span week
-        org-agenda-start-on-weekday 1)
-  (setq org-agenda-custom-commands
-        '(;; other commands here
-          ("l" "PROG / TODO / WAIT /SOMEDAY"
-           ((todo "PROG" nil)
-            (todo "TODO" nil)
-            (todo "WAIT" nil)
-            (todo "SOMEDAY" nil)
-            )
-           nil)
-          ("w" "My Workday"
-           ((agenda "" ((org-agenda-overriding-header "")
-                        (org-super-agenda-groups
-                         '((:name "Today"
-                            :time-grid t
-                            :date today
-                            :order 1)))))
-            (todo "" ((org-agenda-overriding-header "Overview")
-                      (org-super-agenda-groups
-                       '((:log t)
-                         (:name "NEXT \n ===="
-                          :todo "NEXT"
-                          :face (:background "chocolate3")
-                          :order 1)
-                         (:name "Due Today \n ========="
-                          :deadline today
-                          :order 2)
-                         (:name "Due this week \n ============="
-                          :deadline 7
-                          :order 3)
-                         (:name "Ongoing \n ======="
-                          :scheduled t
-                          :order 4)
-                         (:name "Overdue \n ======="
-                          :deadline past
-                          :order 5)
-                         (:name "Tasks with Due Dates \n ===================="
-                          :deadline future
-                          :order 6)
-                         (:name "Tasks without Due Dates \n ========================"
-                          :deadline nil
-                          :order 7)
-                         (:name "Laguna \n ======"
-                          :tag "Laguna"
-                          :order 8)
-                         (:name "Malibu \n ======"
-                          :tag "Malibu"
-                          :order 9)
-                         (:name "SSWRP and IP Team \n ================="
-                          :tag "Team"
-                          :order 10)
-                         (:name "My ToDos \n ========"
-                          :tag "Personal"
-                          :order 11)
-                         (:discard (:anything t))))))))
-          ("k" "Kategories"
-           ((agenda "" ((org-agenda-overriding-header "")
-                        (org-super-agenda-groups
-                         '((:name "Today"
-                            :time-grid t
-                            :date today
-                            :order 1)))))
-            (todo "" ((org-agenda-overriding-header "Overview")
-                      (org-super-agenda-groups
-                       '((:log t)
-                         (:name "Laguna \n ======"
-                          :tag "Laguna"
-                          :order 1)
-                         (:name "Malibu \n ======"
-                          :tag "Malibu"
-                          :order 2)
-                         (:name "SSWRP and IP Team \n ================="
-                          :tag "Team"
-                          :order 3)
-                         (:name "My ToDos \n ========"
-                          :tag "Personal"
-                          :order 4)
-                         (:discard (:anything t))))))))))
-  :config
-  (org-super-agenda-mode))
 
 (use-package! org-appear
   :after org
@@ -770,14 +683,14 @@
   (org-agenda-finalize . org-modern-agenda)
   :custom
   (org-modern-block-fringe 10)
-  (org-ellipsis "…")
+  (org-ellipsis "↴")
   (org-pretty-entities t)
   (org-hide-emphasis-markers t)
   (org-auto-align-tags nil)
   (org-tags-column 0)
   (org-catch-invisible-edits 'show-and-error)
   (org-special-ctrl-a/e t)
-  (org-modern-tag t)
+  (org-modern-tag nil)
   (org-modern-todo nil)
   (org-modern-timestamp nil)
   (org-modern-table nil)
@@ -786,6 +699,97 @@
   (org-modern-label
    ((t :height 1.0 :weight semi-bold
        :underline nil :inherit default))))
+
+(defun date-one-week-from-today ()
+  (interactive)
+  "Returns the date one week from today as a string."
+  (let ((one-week-from-today (time-add (current-time) (days-to-time 7))))
+    (format-time-string "%Y-%m-%d" one-week-from-today)))
+
+;; Super agenda - this looks neat.
+;; Can be optimized further. But we will live with this for the moment.
+(use-package! org-super-agenda
+  :after org-agenda
+  :init
+  (setq org-agenda-skip-scheduled-if-done t
+        org-agenda-skip-deadline-if-done t
+        org-agenda-include-deadlines t
+        ;; org-agenda-span week
+        org-agenda-start-on-weekday 1)
+  (setq org-agenda-custom-commands
+        '(;; other commands here
+          ("w" "My Workday"
+           ((agenda "" ((org-agenda-overriding-header "")
+                        (org-agenda-overriding-columns-format "%25ITEM %SCHEDULED %TAGS")
+                        (org-super-agenda-groups
+                         '((:name "Today"
+                            :time-grid t
+                            :date today
+                            :order 1)))))
+            (todo "" ((org-agenda-overriding-header "Overview")
+                      (org-agenda-overriding-columns-format "%25ITEM %SCHEDULED %TAGS")
+                      (org-agenda-sorting-strategy '(scheduled-up))
+                      (org-super-agenda-groups
+                       '((:log t)
+                         (:name "Overdue \n ======="
+                          :deadline past
+                          :order 1)
+                         (:name "NEXT \n ===="
+                          :todo "NEXT"
+                          :face (:background "chocolate3")
+                          :order 2)
+                         (:name "Due Today \n ========="
+                          :deadline today
+                          :order 3)
+                         ;; (:name "Due this week \n ============="
+                         ;;  :deadline (before "2024-04-02")
+                         ;;  :order 3)
+                         (:name "Tasks with Due Dates \n ===================="
+                          :deadline future
+                          :order 4)                         ;;
+                         (:name "Scheduled Soon \n =============="
+                          :scheduled future
+                          :order 5)
+                         (:name "Tasks without Due Dates \n ========================"
+                          :deadline nil
+                          :scheduled nil
+                          :order 7)
+                         (:discard (:anything t))))))))
+          ("l" "Task List"
+           ((todo "" ((org-agenda-overriding-header "Overview")
+                      (org-agenda-overriding-columns-format "%25ITEM %SCHEDULED %TAGS")
+                      (org-agenda-sorting-strategy '(scheduled-up))
+                      (org-super-agenda-groups
+                       '((:log t)
+                         (:name "Overdue"
+                          :deadline past
+                          :face (:background "DarkOrchid4" :foregroun "black")
+                          :order 1)
+                         (:name "NEXT"
+                          :todo "NEXT"
+                          :face (:background "chocolate3")
+                          :order 2)
+                         (:name "Due Today"
+                          :deadline today
+                          :order 3)
+                         ;; (:name "Due this week \n ============="
+                         ;;  :deadline (before "2024-04-02")
+                         ;;  :order 3)
+                         (:name "Tasks with Due Dates"
+                          :deadline future
+                          :order 4)                         ;;
+                         (:name "Scheduled Soon"
+                          :scheduled future
+                          :order 5)
+                         (:name "Tasks without Due Dates"
+                          :deadline nil
+                          :scheduled nil
+                          :order 7)
+                         (:discard (:anything t))))))))
+          ))
+  :config
+  (org-super-agenda-mode))
+
 
 ;(use-package! mixed-pitch
 ;  :hook
