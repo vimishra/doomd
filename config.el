@@ -243,13 +243,13 @@
 
 ;; Use electric pair mode for Org mode
 (electric-pair-mode 1)
-; (defvar org-electric-pairs '((?\* . ?\*) (?/ . ?/) (?= . ?=)
-;                             (?\_ . ?\_) (?~ . ?~) (?+ . ?+)) "Electric pairs for org-mode.")
+                                        ; (defvar org-electric-pairs '((?\* . ?\*) (?/ . ?/) (?= . ?=)
+                                        ;                             (?\_ . ?\_) (?~ . ?~) (?+ . ?+)) "Electric pairs for org-mode.")
 
-;(defun org-add-electric-pairs ()
-;  (setq-local electric-pair-pairs (append electric-pair-pairs org-electric-pairs))
-;  (setq-local electric-pair-text-pairs electric-pair-pairs))
-;
+                                        ;(defun org-add-electric-pairs ()
+                                        ;  (setq-local electric-pair-pairs (append electric-pair-pairs org-electric-pairs))
+                                        ;  (setq-local electric-pair-text-pairs electric-pair-pairs))
+                                        ;
 (require 'wrap-region)
 (add-hook 'org-mode-hook #'wrap-region-mode)
 
@@ -276,11 +276,11 @@
           (">=" . "≥")))
   (prettify-symbols-mode 1))
 
-; Org mode hooks
+                                        ; Org mode hooks
 (add-hook 'org-mode-hook (lambda ()
                            (setq fill-column 120)
                            (visual-fill-column-mode)
-                           ;(org-add-electric-pairs)
+                                        ;(org-add-electric-pairs)
                            (vm-org-faces)
                            (my/org-mode/load-prettify-symbols)
                            (setq display-line-numbers nil)))
@@ -343,25 +343,22 @@
           ("CRITICAL"  . (:foreground "red1"          :weight bold))
           )
         )
-  ;; My org-capture templates
+  (setq +org-capture-todo-file "~/Documents/OrgNotes/roam/20240728160335-my_todos.org")
   (setq org-capture-templates
-        '(("t" "Personal todo" entry
+        '(("i" "Personal todo" entry
            (file+headline +org-capture-todo-file "Inbox")
            "* TODO %?\n%i\n%a" :prepend t)
-          ("l" "Laguna Todos" entry
-           (file+headline "~/Documents/OrgNotes/Laguna_TODO.org" "Laguna TODOs")
-           "* TODO %?\n%i\n%a" :prepend t)
-          ("j" "LaJolla Todos" entry
-           (file+headline "~/Documents/OrgNotes/LaJolla_TODO.org" "LaJolla TODOs")
+          ("l" "LaJolla Todos" entry
+           (file+headline "/Users/vikmishra/Documents/OrgNotes/roam/20240728150920-lajolla_todo.org" "LaJolla TODOs")
            "* TODO %?\n%i\n%a" :prepend t)
           ("m" "Malibu Todos" entry
-           (file+headline "~/Documents/OrgNotes/Malibu_TODO.org" "Malibu TODOs")
+           (file+headline "/Users/vikmishra/Documents/OrgNotes/roam/20240728151300-malibu_todos.org" "Malibu TODOs")
            "* TODO %?\n%i\n%a" :prepend t)
-          ("i" "IP Team Todos" entry
-           (file+headline "~/Documents/OrgNotes/Team_TODO.org" "Team TODOs")
+          ("t" "Team Todos" entry
+           (file+headline "/Users/vikmishra/Documents/OrgNotes/roam/20240728151544-team_todos.org" "Team TODOs")
            "* TODO %?\n%i\n%a" :prepend t)
           ("n" "Meeting"
-           entry (file+datetree "~/Documents/OrgNotes/Meetings.org")
+           entry (file+datetree "/Users/vikmishra/Documents/OrgNotes/roam/20240728151824-meetings.org")
            "* %? :meeting:%^g \n:Created: %T\n** Attendees\n+ \n** Notes\n+ \n** Action Items\n*** TODO "
            :tree-type week
            :clock-in t
@@ -371,16 +368,17 @@
            (file+olp+datetree +org-capture-journal-file)
            "* %U %?\n%i\n%a" :prepend t))))
 
+
 (map! :after org :map org-mode-map "M-n" #'org-forward-heading-same-level)
 (map! :after org :map org-mode-map "M-p" #'org-backward-heading-same-level)
 
 
 
 ;; Set some registers for critical files
-(set-register ?t (cons 'file "~/Documents/OrgNotes/todo.org"))
-(set-register ?l (cons 'file "~/Documents/OrgNotes/LaJolla_TODO.org"))
-(set-register ?m (cons 'file "~/Documents/OrgNotes/Malibu_TODO.org"))
-(set-register ?i (cons 'file "~/Documents/OrgNotes/Team_TODO.org"))
+(set-register ?t (cons 'file "~/Documents/OrgNotes/roam/20240728151544-team_todos.org"))
+(set-register ?l (cons 'file "~/Documents/OrgNotes/roam/20240728150920-lajolla_todo.org"))
+(set-register ?m (cons 'file "~/Documents/OrgNotes/roam/20240728151300-malibu_todos.org"))
+(set-register ?i (cons 'file "~/Documents/OrgNotes/roam/20240728160335-my_todos.org"))
 
 ;; Org Roam Custom Setup
 (after! org-roam
@@ -490,9 +488,9 @@
   :load-path "/Users/vikmishra/.doom.d/lisp")
 (use-package! bsv-mode
   :load-path "/Users/vikmishra/.doom.d/lisp")
-;(use-package! org-roam-filter-entries
-;  :load-path "/Users/vikmishra/.doom.d/lisp")
-;(setq org-agenda-files (append '("~/Documents/OrgNotes/" "~/Documents/OrgNotes/roam/" "~/Documents/OrgNotes/journal/")))
+                                        ;(use-package! org-roam-filter-entries
+                                        ;  :load-path "/Users/vikmishra/.doom.d/lisp")
+                                        ;(setq org-agenda-files (append '("~/Documents/OrgNotes/" "~/Documents/OrgNotes/roam/" "~/Documents/OrgNotes/journal/")))
 
 
 (use-package! org-appear
@@ -786,15 +784,21 @@
                           :scheduled nil
                           :order 7)
                          (:discard (:anything t))))))))
+          ("p" "Project View"
+           ((todo "" ((org-agenda-overriding-header "Overview")
+                      (org-agenda-overriding-columns-format "%25ITEM %SCHEDULED %TAGS")
+                      (org-agenda-sorting-strategy '(scheduled-up))
+                      (org-super-agenda-groups
+                       '((:auto-group t)))))))
           ))
   :config
   (org-super-agenda-mode))
 
 
-;(use-package! mixed-pitch
-;  :hook
-  ;; If you want it in all text modes:
-;  (org-mode . mixed-pitch-mode))
+                                        ;(use-package! mixed-pitch
+                                        ;  :hook
+;; If you want it in all text modes:
+                                        ;  (org-mode . mixed-pitch-mode))
 
 ;; Copilot - accept completion from copilot and fallback to company
 (use-package! copilot
