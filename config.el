@@ -704,6 +704,12 @@
   (let ((one-week-from-today (time-add (current-time) (days-to-time 7))))
     (format-time-string "%Y-%m-%d" one-week-from-today)))
 
+;; Org sorting priorities
+(setq org-agenda-sorting-strategy
+      '((agenda time-up category-keep priority-down)
+        (todo priority-down scheduled-up)
+        (tags priority-down)))
+
 ;; Super agenda - this looks neat.
 ;; Can be optimized further. But we will live with this for the moment.
 (use-package! org-super-agenda
@@ -726,7 +732,6 @@
                             :order 1)))))
             (todo "" ((org-agenda-overriding-header "Overview")
                       (org-agenda-overriding-columns-format "%25ITEM %SCHEDULED %TAGS")
-                      (org-agenda-sorting-strategy '(scheduled-up))
                       (org-super-agenda-groups
                        '((:log t)
                          (:name "Overdue \n ======="
@@ -753,10 +758,15 @@
                           :scheduled nil
                           :order 7)
                          (:discard (:anything t))))))))
+          ("n" "My Weekly Agenda"
+           ((agenda "" nil)
+            (todo "PROG" nil)
+            (todo "TODO" nil)
+            (todo "DONE" nil))
+           nil)
           ("l" "Task List"
            ((todo "" ((org-agenda-overriding-header "Overview")
                       (org-agenda-overriding-columns-format "%25ITEM %SCHEDULED %TAGS")
-                      (org-agenda-sorting-strategy '(scheduled-up))
                       (org-super-agenda-groups
                        '((:log t)
                          (:name "Overdue"
@@ -787,7 +797,7 @@
           ("p" "Project View"
            ((todo "" ((org-agenda-overriding-header "Overview")
                       (org-agenda-overriding-columns-format "%25ITEM %SCHEDULED %TAGS")
-                      (org-agenda-sorting-strategy '(scheduled-up))
+                      (org-agenda-sorting-strategy '(priority-down scheduled-up))
                       (org-super-agenda-groups
                        '((:auto-group t)))))))
           ))
