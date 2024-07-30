@@ -355,7 +355,7 @@
            (file+headline "/Users/vikmishra/Documents/OrgNotes/roam/20240728151300-malibu_todos.org" "Malibu TODOs")
            "* TODO %?\n%i\n%a" :prepend t)
           ("t" "Team Todos" entry
-           (file+headline "/Users/vikmishra/Documents/OrgNotes/roam/20240728151544-team_todos.org" "Team TODOs")
+           (file+headline "/Users/vikmishra/Documents/OrgNotes/roam/20240729153639-team_todos.org" "Team TODOs")
            "* TODO %?\n%i\n%a" :prepend t)
           ("n" "Meeting"
            entry (file+datetree "/Users/vikmishra/Documents/OrgNotes/roam/20240728151824-meetings.org")
@@ -709,6 +709,13 @@
       '((agenda time-up category-keep priority-down)
         (todo priority-down scheduled-up)
         (tags priority-down)))
+
+;; Custom color for PROG status
+(setq org-todo-keyword-faces
+      '(("PROG" . (:foreground "plum" :weight bold))))
+;; Hide the deadline prewarning prior to scheduled date.
+(setq org-agenda-skip-deadline-prewarning-if-scheduled 'pre-scheduled)
+
 
 ;; Super agenda - this looks neat.
 ;; Can be optimized further. But we will live with this for the moment.
