@@ -24,8 +24,8 @@
 ;;
 (setq doom-font (font-spec :family "CaskaydiaCove NF" :size 19 )
       doom-unicode-font (font-spec :family "CaskaydiaCove NF" :size 19 )
-      doom-variable-pitch-font (font-spec :family "Google Sans" :size 10 :weight 'regular))
-;;       doom-variable-pitch-font (font-spec :family "Bear Sans UI" :size 18 :weight 'medium))
+      doom-variable-pitch-font (font-spec :family "Google Sans" :size 10 :weight 'regular)
+       doom-variable-pitch-font (font-spec :family "Bear Sans UI" :size 18 :weight 'medium))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -35,7 +35,10 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-tomorrow-night)
+; (setq doom-theme 'doom-tomorrow-night)
+(use-package! vm-modus-custom
+  :load-path "/Users/vikmishra/.doom.d/lisp")
+(setq doom-theme 'modus-vivendi)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -829,4 +832,13 @@
 (use-package! ob-mermaid
   :config
   (setq ob-mermaid-cli-path "/opt/homebrew/bin/mmdc"))
+
+
+;; Setting up the modus-vivendi theme
+;; (setq modus-themes-headings
+;;       '((1 . (variable-pitch 1.35))
+;;         (2 . (1.2))
+;;         (agenda-date . (1.1))
+;;         (agenda-structure . (1.1))
+;;         (t . (1.1))))
 

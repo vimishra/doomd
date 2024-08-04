@@ -94,3 +94,5 @@
 (package! ob-mermaid)
 
 (package! org-ql)
+
+(package! modus-themes)
