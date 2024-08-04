@@ -52,7 +52,7 @@
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/Documents/OrgNotes/")
 (setq org-roam-directory "~/Documents/OrgNotes/roam/")
-
+(setq org-agenda-files (directory-files-recursively org-directory "\\.org$"))
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -485,7 +485,7 @@
 
 ;; Location for my custom emacs files.
 ;; Add journal to agenda
-(use-package! vm-agenda
+(use-package! vm-simple-agenda
   :load-path "/Users/vikmishra/.doom.d/lisp")
 (use-package! gogolink
   :load-path "/Users/vikmishra/.doom.d/lisp")
@@ -493,8 +493,6 @@
   :load-path "/Users/vikmishra/.doom.d/lisp")
                                         ;(use-package! org-roam-filter-entries
                                         ;  :load-path "/Users/vikmishra/.doom.d/lisp")
-                                        ;(setq org-agenda-files (append '("~/Documents/OrgNotes/" "~/Documents/OrgNotes/roam/" "~/Documents/OrgNotes/journal/")))
-
 
 (use-package! org-appear
   :after org
@@ -658,6 +656,7 @@
 (setq shell-file-name (executable-find "bash"))
 (setq-default vterm-shell (executable-find "fish"))
 (setq-default explicit-shell-file-name (executable-find "fish"))
+(exec-path-from-shell-initialize)
 
 ;; Set the default apps for opening type of files.
 (setq org-file-apps
