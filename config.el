@@ -25,7 +25,7 @@
 (setq doom-font (font-spec :family "CaskaydiaCove NF" :size 19 )
       doom-unicode-font (font-spec :family "CaskaydiaCove NF" :size 19 )
       doom-variable-pitch-font (font-spec :family "Google Sans" :size 10 :weight 'regular)
-       doom-variable-pitch-font (font-spec :family "Bear Sans UI" :size 18 :weight 'medium))
+      doom-variable-pitch-font (font-spec :family "Bear Sans UI" :size 18 :weight 'medium))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -52,7 +52,6 @@
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/Documents/OrgNotes/")
 (setq org-roam-directory "~/Documents/OrgNotes/roam/")
-(setq org-agenda-files (directory-files-recursively org-directory "\\.org$"))
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -281,10 +280,10 @@
 
                                         ; Org mode hooks
 (add-hook 'org-mode-hook (lambda ()
-                           (setq fill-column 120)
+                           (setq fill-column 140)
                            (visual-fill-column-mode)
                                         ;(org-add-electric-pairs)
-                           (vm-org-faces)
+                           ; (vm-org-faces)
                            (my/org-mode/load-prettify-symbols)
                            (setq display-line-numbers nil)))
 
@@ -352,16 +351,16 @@
            (file+headline +org-capture-todo-file "Inbox")
            "* TODO %?\n%i\n%a" :prepend t)
           ("l" "LaJolla Todos" entry
-           (file+headline "/Users/vikmishra/Documents/OrgNotes/roam/20240728150920-lajolla_todo.org" "LaJolla TODOs")
+           (file+headline "~/Documents/OrgNotes/roam/20240728150920-lajolla_todo.org" "LaJolla TODOs")
            "* TODO %?\n%i\n%a" :prepend t)
           ("m" "Malibu Todos" entry
-           (file+headline "/Users/vikmishra/Documents/OrgNotes/roam/20240728151300-malibu_todos.org" "Malibu TODOs")
+           (file+headline "~/Documents/OrgNotes/roam/20240728151300-malibu_todos.org" "Malibu TODOs")
            "* TODO %?\n%i\n%a" :prepend t)
           ("t" "Team Todos" entry
-           (file+headline "/Users/vikmishra/Documents/OrgNotes/roam/20240729153639-team_todos.org" "Team TODOs")
+           (file+headline "~/Documents/OrgNotes/roam/20240729153639-team_todos.org" "Team TODOs")
            "* TODO %?\n%i\n%a" :prepend t)
           ("n" "Meeting"
-           entry (file+datetree "/Users/vikmishra/Documents/OrgNotes/roam/20240728151824-meetings.org")
+           entry (file+datetree "~/Documents/OrgNotes/roam/20240728151824-meetings.org")
            "* %? :meeting:%^g \n:Created: %T\n** Attendees\n+ \n** Notes\n+ \n** Action Items\n*** TODO "
            :tree-type week
            :clock-in t
@@ -378,7 +377,7 @@
 
 
 ;; Set some registers for critical files
-(set-register ?t (cons 'file "~/Documents/OrgNotes/roam/20240728151544-team_todos.org"))
+(set-register ?t (cons 'file "~/Documents/OrgNotes/roam/20240729153639-team_todos.org"))
 (set-register ?l (cons 'file "~/Documents/OrgNotes/roam/20240728150920-lajolla_todo.org"))
 (set-register ?m (cons 'file "~/Documents/OrgNotes/roam/20240728151300-malibu_todos.org"))
 (set-register ?i (cons 'file "~/Documents/OrgNotes/roam/20240728160335-my_todos.org"))
@@ -485,7 +484,7 @@
 
 ;; Location for my custom emacs files.
 ;; Add journal to agenda
-(use-package! vm-simple-agenda
+(use-package! vm-agenda
   :load-path "/Users/vikmishra/.doom.d/lisp")
 (use-package! gogolink
   :load-path "/Users/vikmishra/.doom.d/lisp")
@@ -831,13 +830,3 @@
 (use-package! ob-mermaid
   :config
   (setq ob-mermaid-cli-path "/opt/homebrew/bin/mmdc"))
-
-
-;; Setting up the modus-vivendi theme
-;; (setq modus-themes-headings
-;;       '((1 . (variable-pitch 1.35))
-;;         (2 . (1.2))
-;;         (agenda-date . (1.1))
-;;         (agenda-structure . (1.1))
-;;         (t . (1.1))))
-

@@ -1,8 +1,4 @@
 ;;; lisp/vm-modus-custom.el -*- lexical-binding: t; -*-
-
-(setq modus-themes-common-palette-overrides
-      '((bg-region bg-active)
-        (fg-region unspecified)))
 (setq modus-themes-mode-line '(accented))
 ;; Make the Org agenda use faint colors.
 (setq modus-themes-common-palette-overrides
@@ -49,5 +45,8 @@
         ("=" org-verbatim verbatim)
         ("~" org-code verbatim)
         ("+" my-org-emphasis-strike-through)))
+(setq modus-themes-common-palette-overrides
+      '((bg-region bg-active)
+        (fg-region unspecified)))
 
 (provide 'vm-modus-custom)
