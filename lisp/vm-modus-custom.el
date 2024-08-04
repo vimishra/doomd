@@ -10,7 +10,10 @@
         (date-scheduled yellow-faint)
         (date-weekday fg-alt)
         (date-weekend fg-dim)
-        (fg-heading-1 blue-warmer)))
+        (fg-heading-1 blue-warmer)
+        (bg-region bg-active)
+        (fg-region unspecified)
+        ))
 (defface my-org-emphasis-bold
   '((default :inherit bold)
     (((class color) (min-colors 88) (background light))
@@ -45,8 +48,4 @@
         ("=" org-verbatim verbatim)
         ("~" org-code verbatim)
         ("+" my-org-emphasis-strike-through)))
-(setq modus-themes-common-palette-overrides
-      '((bg-region bg-active)
-        (fg-region unspecified)))
-
 (provide 'vm-modus-custom)
