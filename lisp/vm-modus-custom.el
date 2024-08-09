@@ -48,4 +48,9 @@
         ("=" org-verbatim verbatim)
         ("~" org-code verbatim)
         ("+" my-org-emphasis-strike-through)))
+;; (setq modus-themes-headings
+;;       '((1 . (rainbow overline background 1.4))
+;;         (2 . (rainbow background 1.3))
+;;         (3 . (rainbow bold 1.2))
+;;         (t . (semilight 1.1))))
 (provide 'vm-modus-custom)

@@ -38,7 +38,7 @@
 ; (setq doom-theme 'doom-tomorrow-night)
 (use-package! vm-modus-custom
   :load-path "/Users/vikmishra/.doom.d/lisp")
-(setq doom-theme 'modus-vivendi)
+(setq doom-theme 'modus-operandi)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -190,6 +190,7 @@
 (map! "s-t" 'org-roam-dailies-goto-today)
 (map! "s-d" 'org-roam-dailies-find-date)
 (map! "s-u" 'consult-org-roam-search)
+(map! "s-c" 'org-capture)
 
 ;; Add icon to doom modeline
 (use-package! doom-modeline
@@ -303,9 +304,6 @@
   (setq org-pretty-entities t)
   (setq org-use-sub-superscripts "{}")
 
-
-  ;;
-
   ;; Set my sequence of todo things
   (setq org-todo-keywords
         '((sequence
@@ -370,11 +368,8 @@
            (file+olp+datetree +org-capture-journal-file)
            "* %U %?\n%i\n%a" :prepend t))))
 
-
 (map! :after org :map org-mode-map "M-n" #'org-forward-heading-same-level)
 (map! :after org :map org-mode-map "M-p" #'org-backward-heading-same-level)
-
-
 
 ;; Set some registers for critical files
 (set-register ?t (cons 'file "~/Documents/OrgNotes/roam/20240729153639-team_todos.org"))
@@ -490,6 +485,9 @@
   :load-path "/Users/vikmishra/.doom.d/lisp")
 (use-package! bsv-mode
   :load-path "/Users/vikmishra/.doom.d/lisp")
+(use-package! vm-custom-functions
+  :load-path "/Users/vikmishra/.doom.d/lisp")
+
                                         ;(use-package! org-roam-filter-entries
                                         ;  :load-path "/Users/vikmishra/.doom.d/lisp")
 
@@ -624,8 +622,6 @@
          ("\\subsection{%s}" . "\\subsection*{%s}")
          ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
 
-(use-package! vm-custom-functions
-  :load-path "/Users/vikmishra/.doom.d/lisp")
 
 (map! "C-c n C-d" 'insert-current-date-time)
 (map! "C-c n C-t" 'insert-current-time-for-journal)
@@ -717,7 +713,6 @@
 ;; Hide the deadline prewarning prior to scheduled date.
 (setq org-agenda-skip-deadline-prewarning-if-scheduled 'pre-scheduled)
 
-
 ;; Super agenda - this looks neat.
 ;; Can be optimized further. But we will live with this for the moment.
 (use-package! org-super-agenda
@@ -772,6 +767,11 @@
             (todo "TODO" nil)
             (todo "DONE" nil))
            nil)
+          ("q" "Quick Agenda"
+           ((todo "PROG" nil)
+            (todo "TODO" nil)
+            (todo "DONE" nil))
+           nil)
           ("l" "Task List"
            ((todo "" ((org-agenda-overriding-header "Overview")
                       (org-agenda-overriding-columns-format "%25ITEM %SCHEDULED %TAGS")
@@ -812,12 +812,6 @@
   :config
   (org-super-agenda-mode))
 
-
-                                        ;(use-package! mixed-pitch
-                                        ;  :hook
-;; If you want it in all text modes:
-                                        ;  (org-mode . mixed-pitch-mode))
-
 ;; Copilot - accept completion from copilot and fallback to company
 (use-package! copilot
   :hook (python-mode . copilot-mode)
@@ -830,3 +824,6 @@
 (use-package! ob-mermaid
   :config
   (setq ob-mermaid-cli-path "/opt/homebrew/bin/mmdc"))
+
+
+(use-package! org-roam-export)

@@ -141,5 +141,16 @@ Uses `current-date-time-format' for the formatting the date/time."
   (insert " - ")
   )
 
+(defun vm/show-agenda ()
+  (let ((agenda-frame (make-frame-command)))
+    (select-frame agenda-frame)
+    (org-agenda nil "n")
+    (x-focus-frame agenda-frame)))
+
+(defun vm/search-org-roam ()
+  (let ((search-frame (make-frame-command)))
+    (select-frame search-frame)
+    (consult-org-roam-search)
+    (x-focus-frame search-frame)))
 
 (provide 'vm-custom-functions)

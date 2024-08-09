@@ -90,9 +90,13 @@
 (package! copilot
   :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
 
+;; Org mode packages
 ;; Ob mermaid
 (package! ob-mermaid)
-
+;; Quicklook package to search using quicklook - need to learn it.
 (package! org-ql)
+;; Org side tree
+(package! org-side-tree)
 
+;; Modus Themes
 (package! modus-themes)
