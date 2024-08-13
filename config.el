@@ -447,6 +447,9 @@
 (use-package! websocket
   :after org-roam)
 
+(after! org
+  (setq org-M-RET-may-split-line '((default . t))))
+
 (use-package! org-roam-ui
   :after org-roam ;; or :after org
   ;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have

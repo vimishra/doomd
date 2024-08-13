@@ -1,4 +1,4 @@
-personal_ws-1.1 en 213 
+personal_ws-1.1 en 215 
 CPUACC
 LGA
 SSWrp
@@ -36,6 +36,7 @@ config
 costa
 csrs
 customizations
+decommit
 defacto
 desinghu
 desinghu's
@@ -186,6 +187,7 @@ thakur
 todo
 todos
 townhall
+trainings
 tummala
 uarch
 uarchitect
