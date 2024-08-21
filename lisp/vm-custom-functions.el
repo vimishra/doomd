@@ -147,6 +147,12 @@ Uses `current-date-time-format' for the formatting the date/time."
     (org-agenda nil "n")
     (x-focus-frame agenda-frame)))
 
+(defun vm/org-roam-daily-note ()
+  (let ((daily-note-frame (make-frame-command)))
+    (select-frame daily-note-frame)
+    (org-roam-dailies-goto-today)
+    (x-focus-frame daily-note-frame)))
+
 (defun vm/search-org-roam ()
   (let ((search-frame (make-frame-command)))
     (select-frame search-frame)

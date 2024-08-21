@@ -828,5 +828,40 @@
   :config
   (setq ob-mermaid-cli-path "/opt/homebrew/bin/mmdc"))
 
-
 (use-package! org-roam-export)
+
+;; Setup deft
+(setq deft-extensions '("org" "txt" "md"))
+(setq deft-directory "~/Documents/OrgNotes/roam")
+
+(defun my-deft-parse-title-skip-properties (orig-func title contents)
+  (funcall orig-func title
+           (with-temp-buffer
+             (insert contents)
+             (goto-char (point-min))
+             (when (looking-at org-property-drawer-re)
+               (goto-char (1+ (match-end 0))))
+             (buffer-substring (point) (point-max)))))
+
+(advice-add 'deft-parse-title :around #'my-deft-parse-title-skip-properties)
+
+(defun my-deft-parse-summary-skip-properties (orig-func contents title)
+  (funcall orig-func (with-temp-buffer
+                       (insert contents)
+                       (goto-char (point-min))
+                       (when (looking-at org-property-drawer-re)
+                         (goto-char (1+ (match-end 0))))
+                       (when (looking-at "#\\+title: ")
+                         (forward-line))
+                       (buffer-substring (point) (point-max)))
+           title))
+
+(advice-add 'deft-parse-summary :around #'my-deft-parse-summary-skip-properties)
+
+;; SLIME for Common Lisp
+(setq inferior-lisp-program "sbcl")
+
+;; Quarto mode setup.
+;; Or, with use-package:
+(use-package! quarto-mode
+  :mode (("\\.qmd" . poly-quarto-mode)))

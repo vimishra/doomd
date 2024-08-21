@@ -100,3 +100,6 @@
 
 ;; Modus Themes
 (package! modus-themes)
+
+;; Quarto mode
+(package! quarto-mode)
