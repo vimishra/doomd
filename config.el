@@ -36,9 +36,9 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 ; (setq doom-theme 'doom-tomorrow-night)
-(use-package! vm-modus-custom
-  :load-path "/Users/vikmishra/.doom.d/lisp")
-(setq doom-theme 'modus-operandi)
+;(use-package! vm-modus-custom
+;  :load-path "/Users/vikmishra/.doom.d/lisp")
+(setq doom-theme 'doom-tomorrow-night)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -867,3 +867,5 @@
 ;; Or, with use-package:
 (use-package! quarto-mode
   :mode (("\\.qmd" . poly-quarto-mode)))
+
+

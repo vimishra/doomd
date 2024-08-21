@@ -17,11 +17,11 @@
 (doom! :input
 
        :completion
-       (company +childframe +tng)          ; the ultimate code completion backend
-       ;;helm                              ; the *other* search engine for love and life
+       (company +tng)          ; the ultimate code completion backend
+       ;(helm +childframe +fuzzy + icons) ; the *other* search engine for love and life
        ;;ido                               ; the other *other* search engine...
-       ;(ivy +icons +prescient)            ; a search engine for love and life
-       (vertico +childframe +icons)                    ; the search engine of the future
+       ;(ivy +icons +prescient +fuzzy +prescient +childframe)            ; a search engine for love and life
+       (vertico +icons)                    ; the search engine of the future
 
        :ui
        deft              ; notational velocity for Emacs
