@@ -303,6 +303,8 @@
   (setq org-export-with-title nil)
   (setq org-pretty-entities t)
   (setq org-use-sub-superscripts "{}")
+  (setq org-image-actual-width t)
+  (setq org-image-max-width 800)
 
   ;; Set my sequence of todo things
   (setq org-todo-keywords
