@@ -103,3 +103,4 @@
 
 ;; Quarto mode
 (package! quarto-mode)
+(package! color-theme-sanityinc-tomorrow)

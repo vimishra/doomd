@@ -35,10 +35,10 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-; (setq doom-theme 'doom-tomorrow-night)
+(setq doom-theme 'doom-tomorrow-night)
 ;(use-package! vm-modus-custom
 ;  :load-path "/Users/vikmishra/.doom.d/lisp")
-(setq doom-theme 'doom-tomorrow-night)
+;(setq doom-theme 'modus-operandi)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -868,4 +868,13 @@
 (use-package! quarto-mode
   :mode (("\\.qmd" . poly-quarto-mode)))
 
-
+(custom-theme-set-faces!
+'doom-tomorrow-night
+'(org-level-3 :inherit outline-3 :height 1.1)
+'(org-level-2 :inherit outline-2 :height 1.15)
+'(org-level-1 :inherit outline-1 :height 1.2)
+'(org-document-title  :height 1.25 :underline nil)
+'(default :background "#101010" :foreground "#d5d8d6")
+'(bold :foreground "plum1" :weight bold)
+'(italic :foreground "light green" :slant italic)
+'(underline :foreground "bisque1" :underline t))
