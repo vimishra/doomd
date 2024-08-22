@@ -38,7 +38,7 @@
 (setq doom-theme 'doom-tomorrow-night)
 ;(use-package! vm-modus-custom
 ;  :load-path "/Users/vikmishra/.doom.d/lisp")
-;(setq doom-theme 'modus-operandi)
+; (setq doom-theme 'modus-operandi)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
