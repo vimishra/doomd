@@ -232,8 +232,6 @@
        :desc "Add to personal directory" "a" #'+spell/add-word
        :desc "Google Linkify" "l" #'linkify))
 
-
-
 ;; ===================================================
 ;; Configuration for org mode and other allied modes
 ;; ===================================================
@@ -298,6 +296,7 @@
   (setq org-log-done 'time)
 
   ;; I don't want to export the below while exporting
+  ;; While exporting org-roam, we need to use org-roam-export
   (setq org-export-with-tags nil)
   (setq org-export-with-author nil)
   (setq org-export-with-title nil)
