@@ -103,3 +103,9 @@
 
 ;; Quarto mode
 (package! quarto-mode)
+
+;; Enable Hydra
+(package! hydra)
+
+;; Dired filter
+(package! dired-filter)

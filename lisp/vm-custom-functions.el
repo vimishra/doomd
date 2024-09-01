@@ -159,4 +159,15 @@ Uses `current-date-time-format' for the formatting the date/time."
     (consult-org-roam-search)
     (x-focus-frame search-frame)))
 
+(defun vm/org-roam-capture-daily-note ()
+  (let ((daily-note-frame (make-frame-command)))
+    (select-frame daily-note-frame)
+    (org-roam-dailies-capture-today)
+    (x-focus-frame daily-note-frame)))
+
+;; Function to show only the last hierarchy
+;;
+
+
+
 (provide 'vm-custom-functions)

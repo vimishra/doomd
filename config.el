@@ -22,8 +22,8 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "CaskaydiaCove NF" :size 19 )
-      doom-unicode-font (font-spec :family "CaskaydiaCove NF" :size 19 )
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 19 )
+      doom-unicode-font (font-spec :family "JetBrainsMono Nerd Font" :size 19 )
       doom-variable-pitch-font (font-spec :family "Google Sans" :size 10 :weight 'regular)
       doom-variable-pitch-font (font-spec :family "Bear Sans UI" :size 18 :weight 'medium))
 ;;
@@ -437,11 +437,9 @@
 (after! org-roam-dailies
   (setq org-roam-dailies-directory "")
   (setq org-roam-dailies-capture-templates
-        '(("d" "default" entry "\n** %<%I:%M %p> - %?"
-           :target (file+head+olp "%<%Y-%m-%d>.org"
-                                  "#+TITLE: %<%Y-%m-%d>\n#+FILETAGS: daily\n\n* Focus\n\n* Tasks\n\n* Journal"
-                                  ("Journal"))
-           :unnarrowed t))))
+      '(("d" "default" entry
+         "* %?"
+         :target (file+datetree "journal_2024.org" week)))))
 
 ;;
 ;; Enable org-roam-ui
@@ -877,3 +875,5 @@
 '(bold :foreground "plum1" :weight bold)
 '(italic :foreground "light green" :slant italic)
 '(underline :foreground "bisque1" :underline t))
+;; Dired Filter
+(use-package! dired-filter)
