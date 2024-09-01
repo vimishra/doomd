@@ -877,3 +877,6 @@
 '(underline :foreground "bisque1" :underline t))
 ;; Dired Filter
 (use-package! dired-filter)
+
+;; In corfu, use M-Shift-SPC to do orderless completion
+(map! :after corfu :map corfu-map "M-S-SPC" #'corfu-insert-separator)
