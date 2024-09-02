@@ -109,3 +109,9 @@
 
 ;; Dired filter
 (package! dired-filter)
+
+;; Dumbjump
+(package! dumb-jump)
+
+;; Magit Delta
+(package! magit-delta)

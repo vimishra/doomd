@@ -880,3 +880,12 @@
 
 ;; In corfu, use M-Shift-SPC to do orderless completion
 (map! :after corfu :map corfu-map "M-S-SPC" #'corfu-insert-separator)
+
+;; Configure dumb-jump
+(use-package! dumb-jump)
+(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+
+;; Configure magit-delta
+(use-package! magit-delta
+  :defer t
+  :hook (magit-mode . (lambda () (magit-delta-mode +1))))
