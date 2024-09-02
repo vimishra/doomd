@@ -37,7 +37,7 @@
 - Use =+= for creating a new directory
 - Use =d= to mark the files for deletion, press =x= to delete.
 - Use =M= to change permissions
-- Use =o= to sort by modes.
+o- Use =o= to sort by modes.
 - Use =O= to change the owner.
 - Use =m= to mark and =u= to unmark files or directories.
 - =U= to unselect all

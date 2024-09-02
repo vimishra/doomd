@@ -872,6 +872,7 @@
 '(org-level-1 :inherit outline-1 :height 1.2)
 '(org-document-title  :height 1.25 :underline nil)
 '(default :background "#101010" :foreground "#d5d8d6")
+'(ctrlf-highlight-passive :background "#383838")
 '(bold :foreground "plum1" :weight bold)
 '(italic :foreground "light green" :slant italic)
 '(underline :foreground "bisque1" :underline t))
@@ -889,3 +890,14 @@
 (use-package! magit-delta
   :defer t
   :hook (magit-mode . (lambda () (magit-delta-mode +1))))
+
+;; Set up avy
+(map! "M-g f" 'avy-goto-line)
+(map! "M-g w" 'avy-goto-word-1)
+
+
+;; Devdocs
+(use-package! devdocs
+  :hook (python-mode . (lambda ()
+                         (setq-local devdocs-current-docs '("python~3.12"))))
+  :bind (("C-h D" . devdocs-lookup)))

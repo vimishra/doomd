@@ -115,3 +115,9 @@
 
 ;; Magit Delta
 (package! magit-delta)
+
+;; Try as a package
+(package! try)
+
+;; Devdocs for loading the document from devdocs.
+(package! devdocs)
