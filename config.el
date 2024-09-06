@@ -37,7 +37,7 @@
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-tomorrow-night)
 ;(use-package! vm-modus-custom
-;  :load-path "/Users/vikmishra/.doom.d/lisp")
+;  :load-path "~/.doom.d/lisp")
 ; (setq doom-theme 'modus-operandi)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
@@ -482,16 +482,16 @@
 ;; Location for my custom emacs files.
 ;; Add journal to agenda
 (use-package! vm-agenda
-  :load-path "/Users/vikmishra/.doom.d/lisp")
+  :load-path "~/.doom.d/lisp")
 (use-package! gogolink
-  :load-path "/Users/vikmishra/.doom.d/lisp")
+  :load-path "~/.doom.d/lisp")
 (use-package! bsv-mode
-  :load-path "/Users/vikmishra/.doom.d/lisp")
+  :load-path "~/.doom.d/lisp")
 (use-package! vm-custom-functions
-  :load-path "/Users/vikmishra/.doom.d/lisp")
+  :load-path "~/.doom.d/lisp")
 
                                         ;(use-package! org-roam-filter-entries
-                                        ;  :load-path "/Users/vikmishra/.doom.d/lisp")
+                                        ;  :load-path "~/.doom.d/lisp")
 
 (use-package! org-appear
   :after org
