@@ -901,3 +901,12 @@
   :hook (python-mode . (lambda ()
                          (setq-local devdocs-current-docs '("python~3.12"))))
   :bind (("C-h D" . devdocs-lookup)))
+
+;; For fixing the very poor experience on GCD
+(setq mac-command-modifier 'meta)
+(setq mac-option-modifier 'super)
+(setq  x-meta-keysym 'super
+    x-super-keysym 'meta)
+
+(map! "C-c C-e" 'end-of-buffer)
+(map! "C-c C-a" 'beginning-of-buffer)
