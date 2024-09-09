@@ -22,8 +22,8 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 19 )
-      doom-unicode-font (font-spec :family "JetBrainsMono Nerd Font" :size 19 )
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 22 )
+      doom-unicode-font (font-spec :family "JetBrainsMono Nerd Font" :size 22 )
       doom-variable-pitch-font (font-spec :family "Google Sans" :size 10 :weight 'regular)
       doom-variable-pitch-font (font-spec :family "Bear Sans UI" :size 18 :weight 'medium))
 ;;
@@ -652,6 +652,7 @@
 ;; Use bash for the emacs commands.
 (setq shell-file-name (executable-find "bash"))
 (setq-default vterm-shell (executable-find "fish"))
+(setq vterm-buffer-name-string "vterm: %s")
 (setq-default explicit-shell-file-name (executable-find "fish"))
 (exec-path-from-shell-initialize)
 
@@ -909,3 +910,13 @@
 ;       x-super-keysym 'meta)
 ; (map! "C-c C-e" 'end-of-buffer)
 ; (map! "C-c C-a" 'beginning-of-buffer)
+
+
+;; accept completion from copilot and fallback to company
+(use-package! copilot
+  :hook (prog-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("<tab>" . 'copilot-accept-completion)
+              ("TAB" . 'copilot-accept-completion)
+              ("C-TAB" . 'copilot-accept-completion-by-word)
+              ("C-<tab>" . 'copilot-accept-completion-by-word)))

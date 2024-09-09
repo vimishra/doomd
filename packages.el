@@ -121,3 +121,7 @@
 
 ;; Devdocs for loading the document from devdocs.
 (package! devdocs)
+
+;; Enable copilot
+(package! copilot
+  :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))

@@ -1,4 +1,4 @@
-personal_ws-1.1 en 229 
+personal_ws-1.1 en 232 
 CPUACC
 LGA
 SSWrp
@@ -98,6 +98,7 @@ mempath
 minibuffer
 mins
 mishra
+modeline
 mohammed
 mohan
 monthwise
@@ -221,10 +222,12 @@ vikas's
 vinay
 vinu
 vscode
+vterm
 vyagrhee
 wearables
 webpage
 workgroup
+workspaces
 xfunc
 xfw
 yashas
