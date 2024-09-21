@@ -6,6 +6,8 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
+;; (setq user-full-name "John Doe"
+;;       user-mail-address "john@doe.com")
 (setq user-full-name "Vikas Mishra"
       user-mail-address "vikas.mishra@hey.com")
 
@@ -16,16 +18,19 @@
 ;; - `doom-variable-pitch-font' -- a non-monospace font (where applicable)
 ;; - `doom-big-font' -- used for `doom-big-font-mode'; use this for
 ;;   presentations or streaming.
-;; - `doom-unicode-font' -- for unicode glyphs
+;; - `doom-symbol-font' -- for symbols
 ;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 22 )
+      doom-unicode-font (font-spec :family "JetBrainsMono Nerd Font" :size 22 )
+      doom-variable-pitch-font (font-spec :family "Google Sans" :size 10 :weight 'regular))
+
+
 ;;
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 22 )
-      doom-unicode-font (font-spec :family "JetBrainsMono Nerd Font" :size 22 )
-      doom-variable-pitch-font (font-spec :family "Google Sans" :size 10 :weight 'regular)
-      doom-variable-pitch-font (font-spec :family "Bear Sans UI" :size 18 :weight 'medium))
+;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
+;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -36,9 +41,6 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-tomorrow-night)
-;(use-package! vm-modus-custom
-;  :load-path "~/.doom.d/lisp")
-; (setq doom-theme 'modus-operandi)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -47,11 +49,11 @@
 ;; Doom's scratch buffer mode
 (setq-default doom-scratch-initial-major-mode 'lisp-interaction-mode)
 
-
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/Documents/OrgNotes/")
-(setq org-roam-directory "~/Documents/OrgNotes/roam/")
+(setq org-directory "~/Documents/OrgNotes")
+(setq org-roam-directory "~/Documents/OrgNotes/roam")
+
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -84,7 +86,8 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
-;; Some basic configurations
+
+;; My configuration starts
 (setq-default delete-by-moving-to-trash t               ; Delete files to trash
               window-combination-resize t)              ; take new window space from all other windows (not just current)
 
@@ -105,44 +108,16 @@
 ;; Use C-x C-m as M-x command
 (map! "C-x C-m" #'execute-extended-command)
 
-;; Unmap some of doom's keysmaps. I use S-l for LSP
-(map! "s-l" nil)
+; LSP configuration and Debugger configuration
+; Need to figure out how to debug pythonPath
+; Use debugpy for python debugging
+; (after! dap-mode
+;  (setq dap-python-debugger 'debugpy))
 
-;; LSP configuration and Debugger configuration
-;; Use debugpy for python debugging
-(after! dap-mode
-  (setq dap-python-debugger 'debugpy))
-
-(use-package lsp-mode
-  :defer t
-  :hook (lsp-mode . (lambda ()
-                      (let ((lsp-keymap-prefix "s-l"))
-                        (lsp-enable-which-key-integration))))
-  :init
-  (setq lsp-keep-workspace-alive nil
-        lsp-signature-doc-lines 5
-        lsp-idle-delay 0.5
-        lsp-prefer-capf t
-        lsp-client-packages nil
-        lsp-ui-sideline-enable t
-        lsp-ui-sideline-update-mode 'line
-        lsp-ui-sideline-show-code-actions t
-        lsp-ui-sideline-show-hover nil
-        lsp-ui-doc-enable t
-        lsp-ui-doc-include-signature t
-        lsp-eldoc-enable-hover t ; Disable eldoc displays in minibuffer
-        lsp-ui-imenu-enable t
-        lsp-ui-peek-always-show t
-        lsp-ui-sideline-ignore-duplicate t
-        lsp-headerline-breadcrumb-enable t)
-  :config
-  (define-key lsp-mode-map (kbd "s-l") lsp-command-map))
-
-;; Set which-key-idle-delay
+;; Set which-key-idle-delay. Don't take a lot of time before you pop up the
+;; keymap
 (setq which-key-idle-delay 0.4)
 (setq which-key-idle-secondary-delay 0.01)
-(with-eval-after-load 'lsp-mode
-  (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration))
 
 ;; Winum for switching between windows easily
 (with-eval-after-load 'winum
@@ -167,6 +142,7 @@
   :config
   (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 
+;; Custom Keyboard commands
 ;; Make some keys equivalent to the evil mode.
 ;; C-c SPC to open file in project
 (map! :leader
@@ -185,12 +161,10 @@
       ;; Add a tag
       :desc "Add tags to the Node"              "n r A" #'org-roam-tag-add
       :desc "Use avy-goto-char-2 to jump"       "'"     #'avy-goto-char-2
-      )
+      (:prefix-map ("m" . "My Custom Shortcuts")
+       :desc "Add to personal directory" "a" #'+spell/add-word
+       :desc "Google Linkify" "l" #'linkify))
 
-(map! "s-t" 'org-roam-dailies-goto-today)
-(map! "s-d" 'org-roam-dailies-find-date)
-(map! "s-u" 'consult-org-roam-search)
-(map! "s-c" 'org-capture)
 
 ;; Add icon to doom modeline
 (use-package! doom-modeline
@@ -200,37 +174,14 @@
 
 ;; Goto line preview
 (global-set-key [remap goto-line] 'goto-line-preview)
-
 ;; Configure zop-to-char
 (global-set-key [remap zap-to-char] 'zop-to-char)
-
-;;; Scrolling.
-;; Good speed and allow scrolling through large images (pixel-scroll).
-;; Note: Scroll lags when point must be moved but increasing the number
-;;       of lines that point moves in pixel-scroll.el ruins large image
-;;       scrolling. So unfortunately I think we'll just have to live with
-;;       this.
-(pixel-scroll-precision-mode)
-(setq pixel-dead-time 0) ; Never go back to the old scrolling behaviour.
-(setq pixel-resolution-fine-flag t) ; Scroll by number of pixels instead of lines (t = frame-char-height pixels).
-(setq mouse-wheel-scroll-amount '(1)) ; Distance in pixel-resolution to scroll each mouse wheel event.
-(setq mouse-wheel-progressive-speed nil) ; Progressive speed is too fast for me.
-
 
 ;; Try a better search package
 (use-package! ctrlf
   :hook
   (after-init . ctrlf-mode))
 
-;; Create google link for what I need.
-(defalias 'linkify
-  (kmacro "C-w [ [ h t t p : C-y C-/ / / C-y C-f [ C-y C-e SPC"))
-
-;; My custom keyboard shortcuts
-(map! :leader
-      (:prefix-map ("m" . "My Custom Shortcuts")
-       :desc "Add to personal directory" "a" #'+spell/add-word
-       :desc "Google Linkify" "l" #'linkify))
 
 ;; ===================================================
 ;; Configuration for org mode and other allied modes
@@ -244,13 +195,7 @@
 
 ;; Use electric pair mode for Org mode
 (electric-pair-mode 1)
-                                        ; (defvar org-electric-pairs '((?\* . ?\*) (?/ . ?/) (?= . ?=)
-                                        ;                             (?\_ . ?\_) (?~ . ?~) (?+ . ?+)) "Electric pairs for org-mode.")
 
-                                        ;(defun org-add-electric-pairs ()
-                                        ;  (setq-local electric-pair-pairs (append electric-pair-pairs org-electric-pairs))
-                                        ;  (setq-local electric-pair-text-pairs electric-pair-pairs))
-                                        ;
 (require 'wrap-region)
 (add-hook 'org-mode-hook #'wrap-region-mode)
 
@@ -276,13 +221,12 @@
           ("<=" . "≤")
           (">=" . "≥")))
   (prettify-symbols-mode 1))
-
                                         ; Org mode hooks
 (add-hook 'org-mode-hook (lambda ()
                            (setq fill-column 140)
                            (visual-fill-column-mode)
                                         ;(org-add-electric-pairs)
-                           ; (vm-org-faces)
+                                        ; (vm-org-faces)
                            (my/org-mode/load-prettify-symbols)
                            (setq display-line-numbers nil)))
 
@@ -304,7 +248,7 @@
   (setq org-use-sub-superscripts "{}")
   (setq org-image-actual-width t)
   (setq org-image-max-width 800)
-
+  (setq org-M-RET-may-split-line '((default . t)))
   ;; Set my sequence of todo things
   (setq org-todo-keywords
         '((sequence
@@ -437,17 +381,14 @@
 (after! org-roam-dailies
   (setq org-roam-dailies-directory "")
   (setq org-roam-dailies-capture-templates
-      '(("d" "default" entry
-         "* %?"
-         :target (file+datetree "journal_2024.org" week)))))
+        '(("d" "default" entry
+           "* %?"
+           :target (file+datetree "journal_2024.org" week)))))
 
 ;;
 ;; Enable org-roam-ui
 (use-package! websocket
   :after org-roam)
-
-(after! org
-  (setq org-M-RET-may-split-line '((default . t))))
 
 (use-package! org-roam-ui
   :after org-roam ;; or :after org
@@ -478,20 +419,6 @@
   ("C-c n e" . consult-org-roam-file-find)
   ("C-c n b" . consult-org-roam-backlinks)
   ("C-c n g" . consult-org-roam-search))
-
-;; Location for my custom emacs files.
-;; Add journal to agenda
-(use-package! vm-agenda
-  :load-path "~/.doom.d/lisp")
-(use-package! gogolink
-  :load-path "~/.doom.d/lisp")
-(use-package! bsv-mode
-  :load-path "~/.doom.d/lisp")
-(use-package! vm-custom-functions
-  :load-path "~/.doom.d/lisp")
-
-                                        ;(use-package! org-roam-filter-entries
-                                        ;  :load-path "~/.doom.d/lisp")
 
 (use-package! org-appear
   :after org
@@ -628,34 +555,6 @@
 (map! "C-c n C-d" 'insert-current-date-time)
 (map! "C-c n C-t" 'insert-current-time-for-journal)
 
-;; Dired Dotfiles hide
-(defun my-dired-mode-hook ()
-  "My `dired' mode hook."
-  ;; To hide dot-files by default
-  (dired-hide-dotfiles-mode))
-
-;; To toggle hiding
-(add-hook 'dired-mode-hook #'my-dired-mode-hook)
-
-(use-package! embark)
-(after! embark
-  (defun dired-open-externally (&optional arg)
-    "Open marked or current file in operating system's default application."
-    (interactive "P")
-    (dired-map-over-marks
-     (embark-open-externally (dired-get-filename)) arg)))
-
-(map! (:after dired
-              (:map dired-mode-map
-               :desc "Open File Externally" "E" #'dired-open-externally)))
-
-;; Use bash for the emacs commands.
-(setq shell-file-name (executable-find "bash"))
-(setq-default vterm-shell (executable-find "fish"))
-(setq vterm-buffer-name-string "vterm: %s")
-(setq-default explicit-shell-file-name (executable-find "fish"))
-(exec-path-from-shell-initialize)
-
 ;; Set the default apps for opening type of files.
 (setq org-file-apps
       '((remote . emacs)
@@ -670,33 +569,25 @@
 (after! unicode-fonts
   (push "Symbola" (cadr (assoc "Miscellaneous Symbols" unicode-fonts-block-font-mapping))))
 
-(setq deft-directory "~/Documents/OrgNotes/")
-
 ;; Org modern setup
-(use-package org-modern
+(use-package! org-modern
   :ensure t
   :after org
   :hook
   (org-mode . org-modern-mode)
   (org-agenda-finalize . org-modern-agenda)
   :custom
+  (org-modern-star '("◉" "○" "◈" "◇" "*"))
   (org-modern-block-fringe 10)
-  (org-ellipsis "↴")
-  (org-pretty-entities t)
-  (org-hide-emphasis-markers t)
-  (org-auto-align-tags nil)
-  (org-tags-column 0)
-  (org-catch-invisible-edits 'show-and-error)
-  (org-special-ctrl-a/e t)
-  (org-modern-tag nil)
-  (org-modern-todo nil)
-  (org-modern-timestamp nil)
   (org-modern-table nil)
-  (org-insert-heading-respect-content t)
+  (org-modern-timestamp nil)
+  (org-modern-todo nil)
+  (org-ellipsis "↴")
   :custom-face
   (org-modern-label
    ((t :height 1.0 :weight semi-bold
        :underline nil :inherit default))))
+(global-org-modern-mode)
 
 (defun date-one-week-from-today ()
   (interactive)
@@ -815,14 +706,6 @@
   :config
   (org-super-agenda-mode))
 
-;; Copilot - accept completion from copilot and fallback to company
-(use-package! copilot
-  :hook (python-mode . copilot-mode)
-  :bind (:map copilot-completion-map
-              ("<tab>" . 'copilot-accept-completion)
-              ("TAB" . 'copilot-accept-completion)
-              ("C-TAB" . 'copilot-accept-completion-by-word)
-              ("C-<tab>" . 'copilot-accept-completion-by-word)))
 ;; ob-mermaid
 (use-package! ob-mermaid
   :config
@@ -830,62 +713,63 @@
 
 (use-package! org-roam-export)
 
-;; Setup deft
-(setq deft-extensions '("org" "txt" "md"))
-(setq deft-directory "~/Documents/OrgNotes/roam")
 
-(defun my-deft-parse-title-skip-properties (orig-func title contents)
-  (funcall orig-func title
-           (with-temp-buffer
-             (insert contents)
-             (goto-char (point-min))
-             (when (looking-at org-property-drawer-re)
-               (goto-char (1+ (match-end 0))))
-             (buffer-substring (point) (point-max)))))
+;; Location for my custom emacs files.
+;; Add journal to agenda
+(use-package! vm-agenda
+  :load-path "~/.doom.d/lisp")
+(use-package! gogolink
+  :load-path "~/.doom.d/lisp")
+(use-package! bsv-mode
+  :load-path "~/.doom.d/lisp")
+(use-package! vm-custom-functions
+  :load-path "~/.doom.d/lisp")
 
-(advice-add 'deft-parse-title :around #'my-deft-parse-title-skip-properties)
+;; Dired Dotfiles hide
+(defun my-dired-mode-hook ()
+  "My `dired' mode hook."
+  ;; To hide dot-files by default
+  (dired-hide-dotfiles-mode))
+;; To toggle hiding
+(add-hook 'dired-mode-hook #'my-dired-mode-hook)
+(use-package! embark)
+(after! embark
+  (defun dired-open-externally (&optional arg)
+    "Open marked or current file in operating system's default application."
+    (interactive "P")
+    (dired-map-over-marks
+     (embark-open-externally (dired-get-filename)) arg)))
 
-(defun my-deft-parse-summary-skip-properties (orig-func contents title)
-  (funcall orig-func (with-temp-buffer
-                       (insert contents)
-                       (goto-char (point-min))
-                       (when (looking-at org-property-drawer-re)
-                         (goto-char (1+ (match-end 0))))
-                       (when (looking-at "#\\+title: ")
-                         (forward-line))
-                       (buffer-substring (point) (point-max)))
-           title))
+(map! (:after dired
+              (:map dired-mode-map
+               :desc "Open File Externally" "E" #'dired-open-externally)))
 
-(advice-add 'deft-parse-summary :around #'my-deft-parse-summary-skip-properties)
+;; Use bash for the emacs commands.
+(setq shell-file-name (executable-find "bash"))
+(setq-default vterm-shell (executable-find "fish"))
+(setq vterm-buffer-name-string "vterm: %s")
+(setq-default explicit-shell-file-name (executable-find "fish"))
+(exec-path-from-shell-initialize)
 
 ;; SLIME for Common Lisp
 (setq inferior-lisp-program "sbcl")
 
-;; Quarto mode setup.
-;; Or, with use-package:
-(use-package! quarto-mode
-  :mode (("\\.qmd" . poly-quarto-mode)))
-
 (custom-theme-set-faces!
-'doom-tomorrow-night
-'(org-level-3 :inherit outline-3 :height 1.1)
-'(org-level-2 :inherit outline-2 :height 1.15)
-'(org-level-1 :inherit outline-1 :height 1.2)
-'(org-document-title  :height 1.25 :underline nil)
-'(default :background "#101010" :foreground "#d5d8d6")
-'(ctrlf-highlight-passive :background "#383838")
-'(bold :foreground "plum1" :weight bold)
-'(italic :foreground "light green" :slant italic)
-'(underline :foreground "bisque1" :underline t))
+  'doom-tomorrow-night
+  '(org-level-3 :inherit outline-3 :height 1.1)
+  '(org-level-2 :inherit outline-2 :height 1.15)
+  '(org-level-1 :inherit outline-1 :height 1.2)
+  '(org-document-title  :height 1.25 :underline nil)
+  '(default :background "#101010" :foreground "#d5d8d6")
+  '(ctrlf-highlight-passive :background "#383838")
+  '(bold :foreground "plum1" :weight bold)
+  '(italic :foreground "light green" :slant italic)
+  '(underline :foreground "bisque1" :underline t))
 ;; Dired Filter
 (use-package! dired-filter)
 
 ;; In corfu, use M-Shift-SPC to do orderless completion
 (map! :after corfu :map corfu-map "M-S-SPC" #'corfu-insert-separator)
-
-;; Configure dumb-jump
-(use-package! dumb-jump)
-(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
 
 ;; Configure magit-delta
 (use-package! magit-delta
@@ -896,22 +780,13 @@
 (map! "M-g f" 'avy-goto-line)
 (map! "M-g w" 'avy-goto-word-1)
 
-
-;; Devdocs
-(use-package! devdocs
-  :hook (python-mode . (lambda ()
-                         (setq-local devdocs-current-docs '("python~3.12"))))
-  :bind (("C-h D" . devdocs-lookup)))
-
 ;; For fixing the very poor experience on GCD
-; (setq mac-command-modifier 'meta)
-; (setq mac-option-modifier 'super)
-; (setq  x-meta-keysym 'super
-;       x-super-keysym 'meta)
-; (map! "C-c C-e" 'end-of-buffer)
-; (map! "C-c C-a" 'beginning-of-buffer)
-
-
+                                        ; (setq mac-command-modifier 'meta)
+                                        ; (setq mac-option-modifier 'super)
+                                        ; (setq  x-meta-keysym 'super
+                                        ;       x-super-keysym 'meta)
+                                        ; (map! "C-c C-e" 'end-of-buffer)
+                                        ; (map! "C-c C-a" 'beginning-of-buffer)
 ;; accept completion from copilot and fallback to company
 (use-package! copilot
   :hook (prog-mode . copilot-mode)
@@ -919,5 +794,28 @@
               ("<tab>" . 'copilot-accept-completion)
               ("TAB" . 'copilot-accept-completion)
               ("C-TAB" . 'copilot-accept-completion-by-word)
-              ("C-<tab>" . 'copilot-accept-completion-by-word)))
+             ("C-<tab>" . 'copilot-accept-completion-by-word)))
 
+(use-package! lsp-mode
+  :defer t
+  :hook (lsp-mode . (lambda ()
+                      (let ((lsp-keymap-prefix "s-l"))
+                        (lsp-enable-which-key-integration))))
+  :init
+  (setq lsp-keep-workspace-alive nil
+        lsp-signature-doc-lines 5
+        lsp-idle-delay 0.5
+        ;lsp-client-packages nil
+        lsp-ui-sideline-enable t
+        lsp-ui-sideline-update-mode 'line
+        lsp-ui-sideline-show-code-actions t
+        lsp-ui-sideline-show-hover nil
+        lsp-ui-doc-enable t
+        lsp-ui-doc-include-signature t
+        lsp-eldoc-enable-hover t ; Disable eldoc displays in minibuffer
+        lsp-ui-imenu-enable t
+        lsp-ui-peek-always-show t
+        lsp-ui-sideline-ignore-duplicate t
+        lsp-headerline-breadcrumb-enable t)
+  :config
+  (define-key lsp-mode-map (kbd "s-l") lsp-command-map))
