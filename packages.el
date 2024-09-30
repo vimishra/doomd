@@ -57,6 +57,7 @@
 (package! org-super-agenda)
 (package! org-modern)
 (package! ob-mermaid)
+(package! org-make-toc)
 ; (package! consult-notes)
 (package! org-contrib
   :recipe (:host nil :repo "https://git.sr.ht/~bzg/org-contrib"
@@ -85,3 +86,5 @@
 ;; Using copilot
 (package! copilot
   :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
+
+(package! try)

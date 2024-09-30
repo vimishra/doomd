@@ -10,6 +10,16 @@ Here is the key configuration in init.el
 
 ** Listing stuff that I want to remember.
 
+*** Undo and Redo
+Remember the below commands for undo and redo
+| Keybind | Description |
+|---------+-------------|
+| =C-_=     | Undo only   |
+| =M-_=     | Redo only   |
+|---------+-------------|
+| =C-z=     | Undo only   |
+| =C-S-z=   | Redo only   |
+
 *** Snippets
 
 Support is provided by yasnippets. Need to still figure out how it works in Doom

@@ -20,9 +20,14 @@
 ;;   presentations or streaming.
 ;; - `doom-symbol-font' -- for symbols
 ;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 22 )
-      doom-unicode-font (font-spec :family "JetBrainsMono Nerd Font" :size 22 )
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 20 )
+      doom-unicode-font (font-spec :family "JetBrainsMono Nerd Font" :size 20 )
       doom-variable-pitch-font (font-spec :family "Google Sans" :size 10 :weight 'regular))
+
+;; Setup the doom modeline
+(setq doom-modeline-hud nil)
+(setq doom-modeline-support-imenu t)
+
 
 
 ;;
@@ -165,7 +170,7 @@
        :desc "Add to personal directory" "a" #'+spell/add-word
        :desc "Google Linkify" "l" #'linkify))
 
-
+(setq byte-compile-warnings nil)
 ;; Add icon to doom modeline
 (use-package! doom-modeline
   :config
@@ -198,6 +203,8 @@
 
 (require 'wrap-region)
 (add-hook 'org-mode-hook #'wrap-region-mode)
+(add-hook 'org-mode-hook #'org-make-toc-mode)
+
 
 ;; Wrap the region in markup chars
 (wrap-region-add-wrapper "=" "=" nil 'org-mode) ; select region, hit = then region -> =region= in org-mode
@@ -247,6 +254,7 @@
   (setq org-pretty-entities t)
   (setq org-use-sub-superscripts "{}")
   (setq org-image-actual-width t)
+  (setq org-export-with-sub-superscripts nil)
   (setq org-image-max-width 800)
   (setq org-M-RET-may-split-line '((default . t)))
   ;; Set my sequence of todo things
@@ -794,7 +802,16 @@
               ("<tab>" . 'copilot-accept-completion)
               ("TAB" . 'copilot-accept-completion)
               ("C-TAB" . 'copilot-accept-completion-by-word)
-             ("C-<tab>" . 'copilot-accept-completion-by-word)))
+              ("C-<tab>" . 'copilot-accept-completion-by-word)
+              ("C-n" . 'copilot-next-completion)
+              ("C-p" . 'copilot-previous-completion))
+
+  :config
+  (add-to-list 'copilot-indentation-alist '(prog-mode 2))
+  (add-to-list 'copilot-indentation-alist '(org-mode 2))
+  (add-to-list 'copilot-indentation-alist '(text-mode 2))
+  (add-to-list 'copilot-indentation-alist '(closure-mode 2))
+  (add-to-list 'copilot-indentation-alist '(emacs-lisp-mode 2)))
 
 (use-package! lsp-mode
   :defer t
@@ -819,3 +836,11 @@
         lsp-headerline-breadcrumb-enable t)
   :config
   (define-key lsp-mode-map (kbd "s-l") lsp-command-map))
+
+;; Enable more rememberable and easy keys for undo.
+(global-unset-key (kbd "C-z"))
+(map! "C-z" 'undo-fu-only-undo :desc "Undo the last change")
+(map! "C-S-z" 'undo-fu-only-redo :desc "Redo the last change")
+
+;; Use org-make-toc
+(use-package! org-make-toc)
