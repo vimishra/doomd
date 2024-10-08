@@ -12,8 +12,8 @@
         (date-weekend fg-dim)
         (fg-heading-1 blue-warmer)
         (bg-region bg-active)
-        (fg-region unspecified)
-        ))
+        (fg-region unspecified)))
+
 (defface my-org-emphasis-bold
   '((default :inherit bold)
     (((class color) (min-colors 88) (background light))
@@ -48,9 +48,25 @@
         ("=" org-verbatim verbatim)
         ("~" org-code verbatim)
         ("+" my-org-emphasis-strike-through)))
-;; (setq modus-themes-headings
-;;       '((1 . (rainbow overline background 1.4))
-;;         (2 . (rainbow background 1.3))
-;;         (3 . (rainbow bold 1.2))
-;;         (t . (semilight 1.1))))
+(setq modus-themes-headings
+      '((1 . (rainbow overline background 1.2))
+        (2 . (rainbow background 1.15))
+        (3 . (rainbow bold 1.1))
+        (t . (semilight 1.0))))
+;; Keep the border but make it the same color as the background of the
+;; mode line (thus appearing borderless).  The difference with the
+;; above is that this version is a bit thicker because the border are
+;; still there.
+(setq modus-themes-common-palette-overrides
+      '((border-mode-line-active bg-mode-line-active)
+        (border-mode-line-inactive bg-mode-line-inactive)))
+;; Like the above, but the current tab has a colorful background and
+;; the inactive tabs have a slightly more noticeable gray background.
+(setq modus-themes-common-palette-overrides
+      '((bg-tab-bar bg-main)
+        (bg-tab-current bg-cyan-intense)
+        (bg-tab-other bg-inactive)))
+;; Make the fringe more intense
+(setq modus-themes-common-palette-overrides
+      '((fringe bg-active)))
 (provide 'vm-modus-custom)

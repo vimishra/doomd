@@ -20,9 +20,9 @@
 ;;   presentations or streaming.
 ;; - `doom-symbol-font' -- for symbols
 ;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 20 )
-      doom-unicode-font (font-spec :family "JetBrainsMono Nerd Font" :size 20 )
-      doom-variable-pitch-font (font-spec :family "Google Sans" :size 10 :weight 'regular))
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 20)
+      doom-unicode-font (font-spec :family "JetBrainsMono Nerd Font" :size 20)
+      doom-variable-pitch-font (font-spec :family "Google Sans" :size 25 :weight 'regular))
 
 ;; Setup the doom modeline
 (setq doom-modeline-hud nil)
@@ -45,7 +45,9 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-tomorrow-night)
+(use-package! vm-modus-custom
+  :load-path "~/.doom.d/lisp")
+(setq doom-theme 'modus-vivendi)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -58,7 +60,6 @@
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/Documents/OrgNotes")
 (setq org-roam-directory "~/Documents/OrgNotes/roam")
-
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -98,8 +99,8 @@
 
 (setq truncate-string-ellipsis "…"                      ; Unicode ellipsis looks better
       auto-save-default t                               ; Save files by default
-      scroll-margin  2                                  ; Save some margin while scrolling up/down.
-      )
+      scroll-margin  2)                                  ; Save some margin while scrolling up/down.
+
 (setq-default line-spacing 5)
 (display-time-mode 1)                                   ; Show time in the modeline
 (add-to-list 'default-frame-alist '(height . 48))
@@ -136,8 +137,8 @@
   (define-key winum-keymap (kbd "M-7") 'winum-select-window-7)
   (define-key winum-keymap (kbd "M-8") 'winum-select-window-8)
   (define-key winum-keymap (kbd "M-9") 'winum-select-window-9)
-  (define-key winum-keymap (kbd "C-`") 'winum-select-window-by-number)
-  )
+  (define-key winum-keymap (kbd "C-`") 'winum-select-window-by-number))
+
 
 ;; Treesitter makes the packages look much better
 ;; Enable tree-sitter
@@ -174,8 +175,8 @@
 ;; Add icon to doom modeline
 (use-package! doom-modeline
   :config
-  (setq doom-modeline-major-mode-icon t)
-  )
+  (setq doom-modeline-major-mode-icon t))
+
 
 ;; Goto line preview
 (global-set-key [remap goto-line] 'goto-line-preview)
@@ -267,8 +268,8 @@
            "SOMEDAY(s)" ; Someday
            "|"
            "DONE(d)"  ; Task successfully completed
-           "KILL(k)") ; Task was cancelled, aborted or is no longer applicable
-          ))
+           "KILL(k)"))) ; Task was cancelled, aborted or is no longer applicable
+
 
   ;; Org Tags
   (setq org-tag-alist '(
@@ -281,8 +282,8 @@
                         ("LaJolla" . ?j)
 
                         ;; Work Log Tags
-                        ("accomplishment" . ?a)
-                        ))
+                        ("accomplishment" . ?a)))
+
 
   ;; Tag colors
   (setq org-tag-faces
@@ -293,9 +294,9 @@
           ("Malibu"        . (:foreground "lightSalmon1"        :weight bold))
           ("Meeting"   . (:foreground "yellow1"       :weight bold))
           ("Personal" . (:foreground "Orange" :weight bold))
-          ("CRITICAL"  . (:foreground "red1"          :weight bold))
-          )
-        )
+          ("CRITICAL"  . (:foreground "red1"          :weight bold))))
+
+
   (setq +org-capture-todo-file "~/Documents/OrgNotes/roam/20240728160335-my_todos.org")
   (setq org-capture-templates
         '(("i" "Personal todo" entry
@@ -381,9 +382,9 @@
   (add-to-list 'org-after-todo-state-change-hook
                (lambda ()
                  (when (equal org-state "DONE")
-                   (my/org-roam-copy-todo-to-today))))
+                   (my/org-roam-copy-todo-to-today)))))
 
-  )
+
 
 ;; Org Roam Dailies
 (after! org-roam-dailies
@@ -435,7 +436,7 @@
            org-appear-autolinks t
            org-hide-emphasis-markers t
            org-appear-autoentities t
-           org-appear-autosubmarkers t ))
+           org-appear-autosubmarkers t))
 
 (use-package! ox-pandoc
   :config
@@ -709,8 +710,8 @@
                       (org-agenda-overriding-columns-format "%25ITEM %SCHEDULED %TAGS")
                       (org-agenda-sorting-strategy '(priority-down scheduled-up))
                       (org-super-agenda-groups
-                       '((:auto-group t)))))))
-          ))
+                       '((:auto-group t)))))))))
+
   :config
   (org-super-agenda-mode))
 
@@ -762,17 +763,25 @@
 ;; SLIME for Common Lisp
 (setq inferior-lisp-program "sbcl")
 
+;; (custom-theme-set-faces!
+;;   'doom-tomorrow-night
+;;   '(org-level-3 :inherit outline-3 :height 1.1)
+;;   '(org-level-2 :inherit outline-2 :height 1.15)
+;;   '(org-level-1 :inherit outline-1 :height 1.2)
+;;   '(org-document-title  :height 1.25 :underline nil)
+;;   '(default :background "#101010" :foreground "#d5d8d6")
+;;   '(ctrlf-highlight-passive :background "#383838")
+;;   '(bold :foreground "plum1" :weight bold)
+;;   '(italic :foreground "light green" :slant italic)
+;;   '(underline :foreground "bisque1" :underline t))
+
 (custom-theme-set-faces!
-  'doom-tomorrow-night
-  '(org-level-3 :inherit outline-3 :height 1.1)
-  '(org-level-2 :inherit outline-2 :height 1.15)
-  '(org-level-1 :inherit outline-1 :height 1.2)
-  '(org-document-title  :height 1.25 :underline nil)
+  'modus-vivendi
   '(default :background "#101010" :foreground "#d5d8d6")
-  '(ctrlf-highlight-passive :background "#383838")
-  '(bold :foreground "plum1" :weight bold)
-  '(italic :foreground "light green" :slant italic)
-  '(underline :foreground "bisque1" :underline t))
+  '(git-gutter-fr:added ((,c :foreground ,bg-added-intense)))
+  '(git-gutter-fr:deleted ((,c :foreground ,bg-removed-intense)))
+  '(git-gutter-fr:modified ((,c :foreground ,bg-changed-intense))))
+
 ;; Dired Filter
 (use-package! dired-filter)
 
@@ -844,3 +853,6 @@
 
 ;; Use org-make-toc
 (use-package! org-make-toc)
+
+;; Add info path
+(add-to-list 'Info-directory-list "/opt/homebrew/share/info/emacs")
