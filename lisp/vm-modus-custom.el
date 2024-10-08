@@ -66,7 +66,25 @@
       '((bg-tab-bar bg-main)
         (bg-tab-current bg-cyan-intense)
         (bg-tab-other bg-inactive)))
-;; Make the fringe more intense
+;; Make the fringe invisible
 (setq modus-themes-common-palette-overrides
-      '((fringe bg-active)))
+      '((fringe unspecified)))
+
+
+(defun my-modus-themes-custom-faces (&rest _)
+  (modus-themes-with-colors
+    (custom-set-faces
+     ;; Make foreground the same as background for a uniform bar on
+     ;; Doom Emacs.
+     ;;
+     ;; Doom should not be implementing such hacks because themes
+     ;; cannot support them:
+     ;; <https://protesilaos.com/codelog/2022-08-04-doom-git-gutter-modus-themes/>.
+     `(git-gutter-fr:added ((,c :foreground ,green-fringe-bg)))
+     `(git-gutter-fr:deleted ((,c :foreground ,red-fringe-bg)))
+     `(git-gutter-fr:modified ((,c :foreground ,yellow-fringe-bg))))))
+
+(add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-custom-faces)
+
 (provide 'vm-modus-custom)
+;;; vm-modus-custom.el ends here

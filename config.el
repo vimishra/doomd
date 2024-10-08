@@ -28,8 +28,6 @@
 (setq doom-modeline-hud nil)
 (setq doom-modeline-support-imenu t)
 
-
-
 ;;
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
@@ -765,22 +763,23 @@
 
 ;; (custom-theme-set-faces!
 ;;   'doom-tomorrow-night
-;;   '(org-level-3 :inherit outline-3 :height 1.1)
-;;   '(org-level-2 :inherit outline-2 :height 1.15)
+;;   '(org-level-4 :inherit outline-4 :height 1.0 :foreground "#FEACD0")
+;;   '(org-level-3 :inherit outline-3 :height 1.1 :foreground "#82B0EC")
+;;   '(org-level-2 :inherit outline-2 :height 1.15 :foreground "#82B0EC")
 ;;   '(org-level-1 :inherit outline-1 :height 1.2)
 ;;   '(org-document-title  :height 1.25 :underline nil)
 ;;   '(default :background "#101010" :foreground "#d5d8d6")
 ;;   '(ctrlf-highlight-passive :background "#383838")
-;;   '(bold :foreground "plum1" :weight bold)
+;;   '(bold :foreground "#FF8058" :weight bold)
 ;;   '(italic :foreground "light green" :slant italic)
 ;;   '(underline :foreground "bisque1" :underline t))
 
 (custom-theme-set-faces!
-  'modus-vivendi
-  '(default :background "#101010" :foreground "#d5d8d6")
-  '(git-gutter-fr:added ((,c :foreground ,bg-added-intense)))
-  '(git-gutter-fr:deleted ((,c :foreground ,bg-removed-intense)))
-  '(git-gutter-fr:modified ((,c :foreground ,bg-changed-intense))))
+   'modus-vivendi
+   '(default :background "#101010" :foreground "#d5d8d6")
+   '(git-gutter-fr:added  :foreground ,green-fringe-bg)
+   '(git-gutter-fr:deleted :foreground ,red-fringe-intense)
+   '(git-gutter-fr:modified :foreground ,yellow-fringe-intense))
 
 ;; Dired Filter
 (use-package! dired-filter)
