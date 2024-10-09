@@ -3,14 +3,12 @@
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
-
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
 ;; (setq user-full-name "John Doe"
 ;;       user-mail-address "john@doe.com")
 (setq user-full-name "Vikas Mishra"
       user-mail-address "vikas.mishra@hey.com")
-
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
@@ -43,9 +41,11 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(use-package! vm-modus-custom
-  :load-path "~/.doom.d/lisp")
-(setq doom-theme 'modus-vivendi)
+(setq doom-theme 'doom-vikas)
+;; Uncomment the below two lines after commenting the one above if you want to
+;; use the modus theme
+;; (use-package! vm-modus-custom
+;; 	:load-path "~/.doom.d/lisp")
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -101,8 +101,7 @@
 
 (setq-default line-spacing 5)
 (display-time-mode 1)                                   ; Show time in the modeline
-(add-to-list 'default-frame-alist '(height . 48))
-(add-to-list 'default-frame-alist '(width . 160))
+
 
 ;; Directory for my customizations
 (setq-default custom-file (expand-file-name ".custom.el" doom-private-dir))
@@ -170,11 +169,11 @@
        :desc "Google Linkify" "l" #'linkify))
 
 (setq byte-compile-warnings nil)
+
 ;; Add icon to doom modeline
 (use-package! doom-modeline
   :config
   (setq doom-modeline-major-mode-icon t))
-
 
 ;; Goto line preview
 (global-set-key [remap goto-line] 'goto-line-preview)
@@ -191,11 +190,6 @@
 ;; Configuration for org mode and other allied modes
 ;; ===================================================
 (setq ispell-personal-dictionary "~/.doom.d/vikas.pws")
-
-(defun vm-org-faces ()
-  (set-face-attribute 'org-level-1 nil :height 1.25)
-  (set-face-attribute 'org-level-2 nil :height 1.15)
-  (set-face-attribute 'org-level-3 nil :height 1.1))
 
 ;; Use electric pair mode for Org mode
 (electric-pair-mode 1)
@@ -231,8 +225,6 @@
 (add-hook 'org-mode-hook (lambda ()
                            (setq fill-column 140)
                            (visual-fill-column-mode)
-                                        ;(org-add-electric-pairs)
-                                        ; (vm-org-faces)
                            (my/org-mode/load-prettify-symbols)
                            (setq display-line-numbers nil)))
 
@@ -761,25 +753,25 @@
 ;; SLIME for Common Lisp
 (setq inferior-lisp-program "sbcl")
 
-;; (custom-theme-set-faces!
-;;   'doom-tomorrow-night
-;;   '(org-level-4 :inherit outline-4 :height 1.0 :foreground "#FEACD0")
-;;   '(org-level-3 :inherit outline-3 :height 1.1 :foreground "#82B0EC")
-;;   '(org-level-2 :inherit outline-2 :height 1.15 :foreground "#82B0EC")
-;;   '(org-level-1 :inherit outline-1 :height 1.2)
-;;   '(org-document-title  :height 1.25 :underline nil)
-;;   '(default :background "#101010" :foreground "#d5d8d6")
-;;   '(ctrlf-highlight-passive :background "#383838")
-;;   '(bold :foreground "#FF8058" :weight bold)
-;;   '(italic :foreground "light green" :slant italic)
-;;   '(underline :foreground "bisque1" :underline t))
-
 (custom-theme-set-faces!
-   'modus-vivendi
-   '(default :background "#101010" :foreground "#d5d8d6")
-   '(git-gutter-fr:added  :foreground ,green-fringe-bg)
-   '(git-gutter-fr:deleted :foreground ,red-fringe-intense)
-   '(git-gutter-fr:modified :foreground ,yellow-fringe-intense))
+  'doom-vikas
+  '(org-level-1 :inherit outline-1 :height 1.25)
+  '(org-level-2 :inherit outline-2 :height 1.15 :foreground "#D2B57F")
+  '(org-level-3 :inherit outline-3 :height 1.1 :weight normal :foreground "#82B0EC")
+  '(org-level-4 :inherit outline-4 :height 1.0 :weight normal :foreground "#FEABCF")
+  '(org-document-title  :height 1.25 :underline nil)
+  '(default :background "#101010" :foreground "#d5d8d6")
+  '(ctrlf-highlight-passive :background "#383838")
+  '(bold :foreground "#FF8058" :weight bold)
+  '(italic :foreground "light green" :slant italic)
+  '(underline :foreground "bisque1" :underline t))
+
+;; (custom-theme-set-faces!
+;;    'modus-vivendi
+;;    '(default :background "#101010" :foreground "#d5d8d6")
+;;    '(git-gutter-fr:added  :foreground ,green-fringe-bg)
+;;    '(git-gutter-fr:deleted :foreground ,red-fringe-intense)
+;;    '(git-gutter-fr:modified :foreground ,yellow-fringe-intense))
 
 ;; Dired Filter
 (use-package! dired-filter)
